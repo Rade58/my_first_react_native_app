@@ -65,3 +65,7 @@ DODAO SAM OVAJ SCRIPT
 ```json
 "lint": "eslint ."
 ```
+
+MOZES I DA ISPROBAS OVAJ SCRIPT
+
+- `yarn lint`

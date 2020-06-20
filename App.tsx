@@ -11,8 +11,6 @@ const styles = StyleSheet.create({
 });
 
 const App: FunctionComponent = () => {
-  const a: number = 4;
-
   return (
     <View style={styles.container}>
       <Text>Ovo je Moj Prvi React Native App</Text>
