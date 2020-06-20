@@ -57,3 +57,11 @@ MOZDA MOZES DA PROBAS I SA TIM SETTINGSIMA
 TAKO JE, MOGUCE JE
 
 **SAMO SAM U `package.json` I U `.eslintrc.js` *DEFINISAO DA SE KORISTI UPRAVO `'@react-native-community'` UMESTO `'universe/native'`***
+
+# SADA CU DODATI ESLINT ZA RUNNING SCRIPT  U `package.json` FAJLU
+
+DODAO SAM OVAJ SCRIPT
+
+```json
+"lint": "eslint ."
+```
