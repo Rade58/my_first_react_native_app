@@ -30,6 +30,6 @@
   },
   "private": true,
   "eslintConfig": {
-    "extends": "universe/native"
+    "extends": "@react-native-community"
   }
 }
