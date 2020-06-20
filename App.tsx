@@ -11,9 +11,11 @@ const styles = StyleSheet.create({
 });
 
 const App: FunctionComponent = () => {
+  console.log('Rade develop-uje ovaj app');
+
   return (
     <View style={styles.container}>
-      <Text>Ovo je Moj Prvi React Native App</Text>
+      <Text>Ovo je Moj Prvi React Native Projekat</Text>
     </View>
   );
 };
