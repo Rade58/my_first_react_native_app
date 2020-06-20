@@ -1,16 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-const App: FunctionComponent = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Ovo je Moj Prvi React Native App</Text>
-    </View>
-  );
-};
-
-export default App;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -19,3 +9,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+const App: FunctionComponent = () => {
+  const a: number = 4;
+
+  return (
+    <View style={styles.container}>
+      <Text>Ovo je Moj Prvi React Native App</Text>
+    </View>
+  );
+};
+
+export default App;
