@@ -1,23 +1,22 @@
 import React, { FunctionComponent } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
-const styles = StyleSheet.create({
-  container: {
+import { View, Text, SafeAreaView, StyleSheet, Platform } from 'react-native';
+
+// DEFINISEM STILOVE OVAKO (O OVOME CE JOS BITI RECI)
+const globalStyles = StyleSheet.create({
+  droidSafeArea: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: Platform.OS === 'android' ? 25 : 0, // DAKLE OBICNI TERNARRY
   },
 });
 
-const App: FunctionComponent = () => {
-  console.log('Rade develop-uje ovaj app');
-
-  return (
-    <View style={styles.container}>
-      <Text>Ovo je Moj Prvi React Native Projekat</Text>
+const App: FunctionComponent = () => (
+  // I SADA SAMO NAVEDEM STILOVE U SAFE AREA KOMPONENTI
+  <SafeAreaView style={globalStyles.droidSafeArea}>
+    <View>
+      <Text>Moj Prvi app</Text>
     </View>
-  );
-};
+  </SafeAreaView>
+);
 
 export default App;

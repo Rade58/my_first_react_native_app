@@ -22,7 +22,7 @@ STO SE TIVE <View></View> O NJIMA MOGU RAZMISLJATI KAO O EKVIVALENTIMA div-A NA 
 
 DAKEL U SUTINI View SLUZE SLUZI ZA ANYTHING, ZA CONTAINING THINGS, ZA POSITIONING
 
-`AKO SI NA PRIMER OSTAVIO VISE NESTED View-OVA, KOJI NEMAJU NISTA, NEGO DRUGI View U SEBI, REACT NATIVE CE IH COMPRESS-OVATI U JEDAN View , TAK ODA MOZDA NE MORAS DA BRINES O TOME`
+`AKO SI NA PRIMER OSTAVIO VISE NESTED View-OVA, KOJI NEMAJU NISTA (ODNOSNO NEMAJU VISIBLE STYLES), NEGO DRUGI View U SEBI, REACT NATIVE CE IH COMPRESS-OVATI U JEDAN View , TAK ODA MOZDA NE MORAS DA BRINES O TOME`
 
 # :three: ScrollView
 
@@ -31,3 +31,102 @@ TO JE U SUSTINI View KOJ ISE MOZE SCROLL-OVATI
 STRANICE SE NE SCROLL-UJU PO DEFAULT-U, STO NIJE SLUCAJ SA WEB-OM KAO STO ZNAS
 
 U REACT NATIVE-U AK OZELIS DA IMAS SCROLLING MORAS KORISTITI, POMENUTU KOMPONENTU
+
+# :four: SafeAreaView MI USTVARI PRAVI ODREDJENO POZICIONIRANJE, A VIDECU I KOJE
+
+DA BIH SAZNAO CEMU SLUZI OVA KOMPONENTA, NAJBOLJE BI BILO DA OBRISES SAV CODE `App.tsx`-A, I DA ONDA 
+
+NAPISACU ONDA OVAKO NESTO, U Z KORISCENJE KOMPONENTI KOJE SAM OBJASNIO (NE KORISTIM NI `StyleShee.create` (TO JE TU BILO KAO DEO ONOGA STA JE DOSLO SA EXPO-OVIM STARTTING-OM))
+
+```tsx
+import React, { FunctionComponent } from 'react';
+
+import { View, Text } from 'react-native';
+
+const App: FunctionComponent = () => (
+  <View>
+    <Text>Moj Prvi app</Text>
+  </View>
+);
+
+export default App;
+
+```
+
+**PRIMETICES DA TI JE TEKST USTVARI RENDERED PREKO SAMOG NOTIFICATION BAR-A U SAMOM VRHU**
+
+MOZES BITI TEMPTED DA DODAS PADDING AT THE TOP OF THE SCREEN ALI NE MOJ TO RADITI
+
+**`E PA ZATO CU KORISTITI`**
+
+- `SafeAreaView` KOMPONENTU
+
+WRAPP-OVACU SVE U NJU
+
+```tsx
+import React, { FunctionComponent } from 'react';
+
+import { View, Text, SafeAreaView } from 'react-native';
+
+const App: FunctionComponent = () => (
+  <SafeAreaView>
+    <View>
+      <Text>Moj Prvi app</Text>
+    </View>
+  </SafeAreaView>
+);
+
+export default App;
+
+```
+
+***
+
+**`!!!!`**
+
+**ALI OVO USTVARI NIJE RADILO U MOM APP-U** **IAPAK SE ZA ANDROID MORA DEFINISATI PADDING**
+
+**`!!!!`**
+
+***
+
+# RESENJE PREDHODNOG PROBLEMA (OVERLAPPING-A TEXT-A PREKO ONOG BARA KOJI SE NALAZI ON THE TOP NA ANDROIDU)
+
+KADA LJUDI GOVORE O OVOME PROBLEMU SPOMINJU NESTO STO SE ZOVE [NOTCHED DISPLAY](https://www.pcworld.idg.com.au/article/656506/smartphone-notches-explained/) (O CEMU MOZES PROCITITI)
+
+***
+
+MORAO SAM IPAK DA PRIBEGNEM KORISCENJU `StyleSheet` I `Platform` OBJEKTIMA
+
+***
+
+EVO KAKO SAM RESIO PROBLEM
+
+```tsx
+import React, { FunctionComponent } from 'react';
+
+import { View, Text, SafeAreaView, StyleSheet, Platform } from 'react-native';
+
+// DEFINISEM STILOVE OVAKO (O OVOME CE JOS BITI RECI)
+const globalStyles = StyleSheet.create({
+  droidSafeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? 25 : 0, // DAKLE OBICNI TERNARRY
+  },
+});
+
+const App: FunctionComponent = () => (
+  // I SADA SAMO NAVEDEM STILOVE U SAFE AREA KOMPONENTI
+  <SafeAreaView style={globalStyles.droidSafeArea}>
+    <View>
+      <Text>Moj Prvi app</Text>
+    </View>
+  </SafeAreaView>
+);
+
+export default App;
+
+```
+
+
+
