@@ -26,6 +26,10 @@ const App: FunctionComponent = () => {
         <Text style={textExplain}>
           Evo ih neki element i stilizovani su kao što vidiš
         </Text>
+        {/* DA, NISTA TE NE SPRECAVA DA IMAS NESTED MULTIPLE VIEWS */}
+        <View>
+          <Text>Malo sam se poigrao</Text>
+        </View>
       </View>
       <View style={[otherStyles, container]}>
         <Text style={textOne}>Prvi Cont</Text>
