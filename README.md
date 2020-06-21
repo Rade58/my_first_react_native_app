@@ -1,122 +1,23 @@
-# UPOZNACU SE SA OSNOVNIM React Native KOMPONENTAMA
+# STYLING
 
-NARACNO PRATIM OVO: <https://kadikraman.github.io/react-native-v2/intro-to-react>
+U REACT NATIVE-U, SAV STYLING SE **`OBAVLJA INLINE`**
 
-## ZA POCETAK NAJLAKSE JE DA PRIMETIS RAZLIKU IZMEDJU REACTA I REACT NATIVE, TAKO STO CES POGLEDATI `App.tsx` U SVOM PROJEKTU
+DAKLE NE POSTOJI NI CASCADE NI SPECIFICITI, O TOME MOGU DA ZABORAVIM U REACT NATIVE-U
 
-ONO STO VIDIS KAO JEDINU RAZLIKU JESTE DA SE IZ `"react-native"` PAKETA UVOZE KOMPONENTE `Text` I `View`
+# DA BIH KRIRAO STILOVE, KORISTIM `StyleSheet` ELEMNT, KOJI SAM TI VEC POKAZAO
 
-I U App KOMPONENTI RETURNED JE JSX KOJI JE SASTAVLJAEN OD React ELEMENATA, KOJI REPREZENTUJU UPRAVO POMENUTE KOMPONENTE
+# ONDA MOZES DA KREIRAS STYLES OBJEKAT, UZ POMOC POMENUTOG ELEMENTA, ODNONO OBJEKTA
 
-U REACT-U NA WEB-U KORISTE SE div ILI input ILI NESTO SLICNO, A KOJI SU BILI AVAILABLE GLOBALY (E PA TO NIJE SLUCAJ SA REACT NATIVE-OM JER NE DEVELOP-UJEM ZA BROWSER)
+KONVENCIJA JE DA SE TO RADI ODMAH BEFORE `export`
 
-**U REACT NATIVE-U SVE MORA DA BUDE UVEZENO** KAO STO SAM UVEZAO View I Text KOMPONENTE
-
-# :one: Text 
-
-U React Native BILO KOJI TEKST KOJI ZELI MDA RENDER-UJEM MORA BITI WRAPPED U `<Text></Text>` INACE CU IMATI ERROR
-
-# :two: View
-
-STO SE TIVE <View></View> O NJIMA MOGU RAZMISLJATI KAO O EKVIVALENTIMA div-A NA WEB-U
-
-DAKEL U SUTINI View SLUZE SLUZI ZA ANYTHING, ZA CONTAINING THINGS, ZA POSITIONING
-
-`AKO SI NA PRIMER OSTAVIO VISE NESTED View-OVA, KOJI NEMAJU NISTA (ODNOSNO NEMAJU VISIBLE STYLES), NEGO DRUGI View U SEBI, REACT NATIVE CE IH COMPRESS-OVATI U JEDAN View , TAK ODA MOZDA NE MORAS DA BRINES O TOME`
-
-# :three: ScrollView
-
-TO JE U SUSTINI View KOJ ISE MOZE SCROLL-OVATI
-
-STRANICE SE NE SCROLL-UJU PO DEFAULT-U, STO NIJE SLUCAJ SA WEB-OM KAO STO ZNAS
-
-U REACT NATIVE-U AK OZELIS DA IMAS SCROLLING MORAS KORISTITI, POMENUTU KOMPONENTU
-
-# :four: SafeAreaView MI USTVARI PRAVI ODREDJENO POZICIONIRANJE, A VIDECU I KOJE
-
-DA BIH SAZNAO CEMU SLUZI OVA KOMPONENTA, NAJBOLJE BI BILO DA OBRISES SAV CODE `App.tsx`-A, I DA ONDA 
-
-NAPISACU ONDA OVAKO NESTO, U Z KORISCENJE KOMPONENTI KOJE SAM OBJASNIO (NE KORISTIM NI `StyleShee.create` (TO JE TU BILO KAO DEO ONOGA STA JE DOSLO SA EXPO-OVIM STARTTING-OM))
-
-```tsx
-import React, { FunctionComponent } from 'react';
-
-import { View, Text } from 'react-native';
-
-const App: FunctionComponent = () => (
-  <View>
-    <Text>Moj Prvi app</Text>
-  </View>
-);
-
-export default App;
-
-```
-
-**PRIMETICES DA TI JE TEKST USTVARI RENDERED PREKO SAMOG NOTIFICATION BAR-A U SAMOM VRHU**
-
-MOZES BITI TEMPTED DA DODAS PADDING AT THE TOP OF THE SCREEN ALI NE MOJ TO RADITI
-
-**`E PA ZATO CU KORISTITI`**
-
-- `SafeAreaView` KOMPONENTU
-
-WRAPP-OVACU SVE U NJU
-
-```tsx
-import React, { FunctionComponent } from 'react';
-
-import { View, Text, SafeAreaView } from 'react-native';
-
-const App: FunctionComponent = () => (
-  <SafeAreaView>
-    <View>
-      <Text>Moj Prvi app</Text>
-    </View>
-  </SafeAreaView>
-);
-
-export default App;
-
-```
-
-***
-
-**`!!!!`**
-
-**ALI OVO USTVARI NIJE RADILO U MOM APP-U** **IAPAK SE ZA ANDROID MORA DEFINISATI PADDING**
-
-**`!!!!`**
-
-***
-
-# RESENJE PREDHODNOG PROBLEMA (OVERLAPPING-A TEXT-A PREKO ONOG BARA KOJI SE NALAZI ON THE TOP NA ANDROIDU)
-
-KADA LJUDI GOVORE O OVOME PROBLEMU SPOMINJU NESTO STO SE ZOVE [NOTCHED DISPLAY](https://www.pcworld.idg.com.au/article/656506/smartphone-notches-explained/) (O CEMU MOZES PROCITITI)
-
-***
-
-MORAO SAM IPAK DA PRIBEGNEM KORISCENJU `StyleSheet` I `Platform` OBJEKTIMA
-
-***
-
-EVO KAKO SAM RESIO PROBLEM
+OVAKO NA PRIMER
 
 ```tsx
 import React, { FunctionComponent } from 'react';
 
 import { View, Text, SafeAreaView, StyleSheet, Platform } from 'react-native';
 
-// DEFINISEM STILOVE OVAKO (O OVOME CE JOS BITI RECI)
-const globalStyles = StyleSheet.create({
-  droidSafeArea: {
-    flex: 1,
-    paddingTop: Platform.OS === 'android' ? 25 : 0, // DAKLE OBICNI TERNARRY
-  },
-});
-
 const App: FunctionComponent = () => (
-  // I SADA SAMO NAVEDEM STILOVE U SAFE AREA KOMPONENTI
   <SafeAreaView style={globalStyles.droidSafeArea}>
     <View>
       <Text>Moj Prvi app</Text>
@@ -124,9 +25,196 @@ const App: FunctionComponent = () => (
   </SafeAreaView>
 );
 
+const globalStyles = StyleSheet.create({
+  droidSafeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? 25 : 0,
+  },
+});
+
 export default App;
 
 ```
 
+# SADA CU MALO DA STILIZUJEM, A PRVO CU STILIZOVATI `container`
 
+NARAVNO UVEK MOZES DA KORISTIS  `Ctrl` + `Space`, DA VIDIS STA SVE MOZES STILIZOVATI, KROZ POMENUTI OBJEKAT 
+
+```tsx
+import React, { FunctionComponent } from 'react';
+
+import { View, Text, SafeAreaView, StyleSheet, Platform } from 'react-native';
+
+const App: FunctionComponent = () => (
+  <SafeAreaView style={globalStyles.droidSafeArea}>
+    {/* POSTO ZELIM DA MI OVAJ SLEDECI View BUDE CONTAINER, UPRAVO CU MU ZADATI
+    STILOVE KOJE SAM DEFINISAO ZA CONTINER DOLE */}
+    <View style={globalStyles.container}>
+      <Text>Moj Prvi React Native App</Text>
+    </View>
+  </SafeAreaView>
+);
+
+const globalStyles = StyleSheet.create({
+  // OVA IMENA KAO STO SAM OVOM ZDAO container, SU PROIZVOLJNO ZDATA
+  //  DAKLE JA SAM IH SMISLIO, JEDINO JE BITNO DA SE OVAJ OBJEKAT REFERENCIRA KADA DEFINISES STILOVE ODREDJENOG
+  // REACT ELEMENT-A
+  container: {
+    margin: 10,
+    borderWidth: 2,
+    borderLeftColor: 'tomato',
+    paddingTop: 12,
+    backgroundColor: 'crimson',
+  },
+  // OVO OVDE SAM PODESIO RANIJE STA SAM I OBKASNIO
+  // U CILJU DA NEUTRALIZUJEM PROBLEM PO KOJEM MI JE TEKST APP ISAO PO TOP
+  // BANNER-U UREDJAJA
+  droidSafeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? 25 : 0,
+  },
+});
+
+export default App;
+
+```
+
+# ALI NEMOJ DA UPADNES U ZAMKU I POMISLIS DA JE STILIZOVANJE POTPUNO ISTO KAO U CSS
+
+VEC ZNAS DA NEMA CASCADE-A I NEMA SPECIFICIRTY-JA, STO JE SJAJNO
+
+ALI POSTOJI JOS STVARI PO KOJIMA SE STILIZOVANJE RAZLIKUJE SA ONIM NA WEB-U
+
+*SECAS SE SHORTHAND-OVA U CSS, KOJI SU TI OMOGUCILI DA DEFINISES MARGIN NA SLEDECI NACIN*?
+
+```css
+.tag{
+  margin: 10 2;   
+}
+/* E PA , OVAKVO NESTO NIJE MOGUCE U NATIVE-U */
+
+```
+
+**ALI ZATO IMAS MOGUCNOST KORISENJA PROPERTIJA KOJI SE ONDOSE NA VERTIKALNO, ODNOSNO HORIZONTALNO STANJE**
+
+NA PRIMER IMAS **`marginVertical`**
+
+```tsx
+import React, { FunctionComponent } from 'react';
+
+import { View, Text, SafeAreaView, StyleSheet, Platform } from 'react-native';
+
+const App: FunctionComponent = () => (
+  <SafeAreaView style={globalStyles.droidSafeArea}>
+    <View style={globalStyles.container}>
+      <Text>Moj Prvi React Native App</Text>
+    </View>
+  </SafeAreaView>
+);
+
+const globalStyles = StyleSheet.create({
+  container: {
+    borderWidth: 2,
+    borderLeftColor: 'tomato',
+    paddingTop: 12,
+    backgroundColor: 'crimson',
+    // EVO VIDIS KAK OSAM DEFINISAO VERTIKALNU MARGINU
+    marginVertical: 60,
+  },
+  droidSafeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? 25 : 0,
+  },
+});
+
+export default App;
+```
+
+# ONO STO MOZES DA PRIMETIS JESTE DA `NEMA JEDINICA`; KAKO VIDIS NIGDE NISI STAVLJAO PIKSELE
+
+NATIVE STYLES NEMAJU NIKAKVE JEDINICE
+
+ONE CORRESPOND DO **`DENCITY INDEPENDENT PIXELS`**
+
+# DOKUMENTACIJA ZA RAZLICITE VRSTE PROPS-A
+
+KADI JE BILA LJUBAZNA I OSTAVILA LINKOVE
+
+[View STYLING PROPS](https://reactnative.dev/docs/view-style-props)
+
+[Text STYLING PROPS](https://reactnative.dev/docs/text-style-props)
+
+[Image STYLING PROPS](https://reactnative.dev/docs/image-style-props)
+
+LISTA NIJE COMPREHENSIVE, ODNOSNO NIJE OBIMNA
+
+# SVAKO POZICIONIRANJE U NATIVU KORISTI FLEXBOX
+
+AKO HOCES DA PROVEZBAS FLEXBOX MOZES D KORISTIS OVU CONVINIENT APLIKACIJU
+
+[FLEXBOX FROGGY](https://flexboxfroggy.com/)
+
+PO DEFAULTU SVI ELEMNTI U NATIVU SU DISPLAYED AS FLEX
+
+SADA CU SVE U CONTAINER-U KOJI IMAM U MOM APP-U DA POZICIONIRAM, KORISCENJEM FLEX PROPERTIJA
+
+```tsx
+import React, { FunctionComponent } from 'react';
+
+import { View, Text, SafeAreaView, StyleSheet, Platform } from 'react-native';
+
+const App: FunctionComponent = () => (
+  <SafeAreaView style={globalStyles.droidSafeArea}>
+    <View style={globalStyles.container}>
+      <Text>Moj Prvi React Native App</Text>
+    </View>
+  </SafeAreaView>
+);
+
+const globalStyles = StyleSheet.create({
+  container: {
+    borderWidth: 2,
+    borderLeftColor: 'olive',
+    paddingTop: 12,
+    backgroundColor: 'blanchedalmond',
+    // marginVertical: 18,
+    // POZICIONIRANJE (ZAPAMTI DA JE DISPLAYED FLEX PO DEFAULT-U)
+    flex: 1, // POGLEDAJ STA SAM DOLE REKAO O OVOME
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  // === !== === !==
+  droidSafeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? 25 : 0,
+  },
+});
+
+export default App;
+
+```
+
+# PRIMECUJES DA SAM GORE KORISTIO `flex: 1`
+
+**TO UPRAVO ZNACI DA ELEMENT ZAUZME PROSTOS SVOG CONTAINER-A**
+
+A TO JE U MOM SLUCAJU BIO `SafeAreaView` KOJI ISTO IMA flex VREDNOST 1 ,STO ZNACI DA ON ZAUZIMA DOSTUPAN PROSTOR UREDJAJA, ODNONO EKRANA
+
+# !! TI MOZES KORISTITI DIREKTNONAPISATI style OBJEKAT U TAG-U, ALI TO NIJE RECOMMENDED !!
+
+DAKLE IPAK TI KORISTI StyleSheet.create PA OBJEKAT KOJI PROILAZI IZ TOGA REFERENCIRAJ NA REACT ELEMENT-U
+
+TO JE ZATO STO SE KORISCENJEM POMENUTOGA PROPERTIJI USTVARI CACHE-UJU I OPTIMIZIRAJ
+
+ALI NEKADA KADA ZELIS DA IMAS DINAMICKE STILOVE TI MOZES PISATI DIREKTNO OVJEKAT NA style PROP-U KOMPONENTE
+
+# MOGUCE JE PROSLEDJIVANJE I ARAY-A OF STYLES
+
+TO JE AKO IMAM MULTIPLE STYLES, I ZELI MDA IH APLICIRAM BEZ TOGA DA SVE KOMBINUJEM U JEDAN OBJEKAT
+
+AKO NA PRIMER IMA SHARED STYLES ODNON OSHARED STYLESHEETS
+
+# RANIJE SI GOVORIO DA NE POSTOJI CASCADE IL ISPECIFICITY, ALI IPAK POSTOJI NESTO DRUGO
+
+POKAZACU TI STA CE OVERRIDE-OVATI STA U OVOM SLUCAJU
 
