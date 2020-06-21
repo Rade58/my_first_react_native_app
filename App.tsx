@@ -4,20 +4,23 @@ import { View, Text, SafeAreaView, StyleSheet, Platform } from 'react-native';
 
 const App: FunctionComponent = () => (
   <SafeAreaView style={globalStyles.droidSafeArea}>
-    <View style={globalStyles.container}>
+    {/* EVO VIDIS SADA SAM ZADAO NIZ STYLESHEET-OVA */}
+    <View style={[globalStyles.container, globalStyles.otherStyles]}>
       <Text>Moj Prvi React Native App</Text>
     </View>
   </SafeAreaView>
 );
 
 const globalStyles = StyleSheet.create({
+  otherStyles: {
+    backgroundColor: 'blanchedalmond',
+  },
+  // === !== === !==
   container: {
+    backgroundColor: 'teal',
     borderWidth: 2,
     borderLeftColor: 'olive',
     paddingTop: 12,
-    backgroundColor: 'blanchedalmond',
-    // marginVertical: 18,
-    // POZICIONIRANJE (ZAPAMTI DA JE DISPLAYED FLEX PO DEFAULT-U)
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
