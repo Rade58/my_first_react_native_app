@@ -1,33 +1,93 @@
-# U PREDHODNIM BRANCH-EVIMA, SAZNAO SAM O NEKIM OSNOVNIM KOMPONENTAMA I UPOTREBIO SAM NEKE OSNOVNE KOMPONENTE, A I STILIZOVAO SAM IH; A SADA ZELIM DA VIDIM KAKO JA MOGU DA PRAVIM KOMPONENTE
+# LISTE
 
-DOBRO JE PROCITATI [OVO STO MI GOVORI KADI](https://kadikraman.github.io/react-native-v2/components)
+***
 
-ALI KOLIKO I SAM MOGU DA VIDIM, NEMA TU NEKE VELIKE RAZLIKE SA REACT-OM NA WEB-U
+!!!!
+**VAZNO VAZNO VAZNO VAZNO**
+!!!!
 
-SVE ONE KOMPONENTE, KAO STO SU View-OVI, Text-OVI, MOGU COMPOSEO-OVATI U MADE BY ME KOMPONENTE, ISTO KAO I U SLUCAJU REACT-A NA WEB-U
+OVO JE JAKO BITNA STVAR, POGOTOVO AKO *IMAS PREDPOSTAVKU DA MOZES KORITITI ARRAY NECEGA I NA NJEMU PRIMENITI map*
 
-# I KAO STO JE I SAMA KADI URADILA, U SLUCAJU PRVO APP-A KOJI DEVELOP-UJEMO, I JA CU VIDETI STA BIH TO MOGAO ENCAPSULATE-OVATI U KOMPONENTU, KOJU CU NAPRAVITI
+TO OBICNO RADIS NA WEB-U
 
-NAPRAVICU KOMPONENTU BOX, KOJOJ CU ONDA STILOVE DODAVATI KROZ PROPS-E
+**`ALI U SLUCAJU NATIVE APLIKACIJE map-ING ACROSS NEKOG NIZA JE -- NESTO STO NIKADA NE RADI ZBOG UTICAJA NA PERFORMACES --`**
 
-- `mkdir components`
+EVO STA JE [KADI REKLA O TOME](https://kadikraman.github.io/react-native-v2/lists):
 
-- `touch components/Box.tsx`
+`What if instead of 4 colors, we had 10 or even 100? How would we display them then? If you're already familiar with React, you might be tempted to add all the colors in an array and .map over them. This is a very common mistake for newcomers to React Native. While it may be fine to do on the web, in React Native you should avoid using map in the render. This is because mapping over an array is not optimized. React Native will attempt to render every single element in the array all at once, regardless of whether they are visible on the screen or not.`
 
-DAKLE ZELI MDA KREIRAM REUSABLE CODE DA IMAM SMALL COMPONENTS KOJE MOGU UKLAPATI KAO LEGO I DA TE KOMPONENTE BUDU LAKE ZA UNIT TESTING JER SE SMALL COMPONENTS LAKSE UNIT TESTIRAJU
+***
 
-KAKO SAM SVE DEVELOP-OVAO MOZES VIDETI U SAMMIMFAJLOVIMA KOJE IMAM
+# ZATO SE ZA RENDERING LISTE, KORISTE SPECIJALNE KOMPONENTE
 
-KADI JE MOZDA DRUGACIJE URADILEA NEKE STVARI: 'ONA JE DEFINISALA MULTIPLE STYLESHEETS'
+ONE SE ZOVU
 
-JA SAM DEFINISAO SAMO JEDAN STLESHEET U PROSLOM BRANCHU I IZ NJEGA SAM KORISTIO VRENOSTI (OBJEKTE), KOJE SAM PROSLEDJIVAO KAO PROPSE REACT ELEMENTIMA, KOJE REPREZENTUJE KOMPONENTA MADE BY ME
+- **`FlatList`**
 
-## ZA SAV OSTALI INFO, POGLEDAJ VIDEO
+- **`SectionList`**
 
-ZASTO NISAM OSTAVLJAO TAJ INFO
+KAD GOD IMAS ARRAY OF DATA, KOJE TREBAS DA RENDER-UJES, NAJVEROVATNIJE TREBA DA KORISTIS JEDNU OD POMENUTIH STVARI
 
-PA ZATO STO POZNAJEM TE STVARI OD RANIJE, JER SU REACT SPECIFIC (RACT ON WEB SPAECIFIC), A KORISTE SE I U REACT NATIVE-U
+ISTO TAKO KADI UVEK POSEZE ZA DOKUMENTACIJOM ZA [FlatList](https://reactnative.dev/docs/flatlist) I [SectionList](https://reactnative.dev/docs/sectionlist)
 
-I U SLEDECIM BRANCH-OVIMA CU NA ISTI NACIN OBJASNJAVATI
+TAMO JE SVE OBJASNJENO (SVI PROPERTIJI)
 
-GLEDACU SAMO DA OBJASNIM ONO STO JE NOVO SAZNANJE VEZANO ZA REACT NATIVE, A KOJE NE ZNAM OD RANIJE IZ REACT-A NA WEB-U
+# `FlatList`
+
+IMA MNOGI KONFIGURACIJSKIH OPCIJA, ALI TRI PROPA SU NAJVAZNIJA
+
+- **`data`** (ARRAY OF DATA INTENDED FOR RENDER)
+
+- **`renderItem`** (FUNKCIJA KOJA GOVORI FLAT LISTI DA RENDERUJE EACH INDIVIDUAL ITEM)
+
+- **`keyExtractor`** (FUNKCIJA KOJA SLUZI DA SE DEFINISE UNIQUE KEY FOR EACH ITEM)
+
+[EVO OVDE IMAS PRIMER](https://snack.expo.io/@kadikraman/flatlist-example)
+
+KOJI SAM JA TRANSFORMISAO U TYPESCRIPT I KOJI SAM IZKOMENTARISAO
+
+```jsx
+import React from 'react';
+import { Text, View, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+
+const Food = props => {
+  return (
+    <View style={styles.food}>
+      <Text style={styles.text}>{props.name}</Text>
+    </View>
+  );
+}
+
+const FOODS = [
+  'Apples',
+  'Broccoli',
+  'Cookies',
+  'Doritos',
+  'Eclairs'
+];
+
+const App = () => {
+  return (
+    <FlatList
+      data={FOODS}
+      keyExtractor={item => item}
+      renderItem={({ item }) => <Food name={item} />}
+    />
+  );
+}
+
+const styles = StyleSheet.create({
+  food: {
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: 'teal',
+    marginBottom: 10,
+  },
+  text: {
+    color: 'white',
+    fontWeight: 'bold'
+  },
+});
+
+export default App;
+```
