@@ -2,10 +2,12 @@ import React, { FunctionComponent } from 'react';
 
 import { View, Text, SafeAreaView, StyleSheet, Platform } from 'react-native';
 
+import Box from './components/Box';
+
 const App: FunctionComponent = () => {
   const {
     first,
-    container,
+    third,
     fourth,
     droidSafeArea,
     second,
@@ -31,23 +33,36 @@ const App: FunctionComponent = () => {
           <Text>Malo sam se poigrao</Text>
         </View>
       </View>
-      <View style={[otherStyles, container]}>
-        <Text style={textOne}>Prvi Cont</Text>
-      </View>
-      <View style={[otherStyles, first]}>
-        <Text style={textTwo}>Drugi Cont</Text>
-      </View>
-      <View style={[otherStyles, second]}>
-        <Text style={textThree}>Treci Cont</Text>
-      </View>
-      <View style={[otherStyles, fourth]}>
-        <Text style={textFour}>Cetvrti Cont</Text>
-      </View>
+
+      <Box
+        no={1}
+        boxStyles={first}
+        otherStyles={otherStyles}
+        textStyles={textOne}
+      />
+      <Box
+        no={2}
+        boxStyles={second}
+        otherStyles={otherStyles}
+        textStyles={textTwo}
+      />
+      <Box
+        no={3}
+        boxStyles={third}
+        otherStyles={otherStyles}
+        textStyles={textThree}
+      />
+      <Box
+        no={4}
+        boxStyles={fourth}
+        otherStyles={otherStyles}
+        textStyles={textFour}
+      />
     </SafeAreaView>
   );
 };
 
-const globalStyles = StyleSheet.create({
+export const globalStyles = StyleSheet.create({
   explain: {
     margin: 28,
   },
@@ -77,7 +92,7 @@ const globalStyles = StyleSheet.create({
     backgroundColor: 'tomato',
   },
   // === !== === !==
-  container: {
+  third: {
     backgroundColor: 'teal',
   },
   // === !== === !==
