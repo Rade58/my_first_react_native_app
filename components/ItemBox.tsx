@@ -19,7 +19,7 @@ const itemBoxStyles = StyleSheet.create({
     marginRight: 'auto',
 
     borderWidth: 2,
-    borderColor: 'crimson',
+    borderColor: 'aqua',
   },
   boxStyles: {
     borderColor: 'blanchedalmond',
