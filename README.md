@@ -366,9 +366,7 @@ NAPRAVICU KOMPONENTU, KOJA BI TREBALA DA SE RENDER-UJE KAO ITEM LISTE
 import React, { FunctionComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const ItemBox: FunctionComponent<{ itemName: string }> = (
-  props
-) => {
+const ItemBox: FunctionComponent<{ itemName: string }> = (props) => {
   const { itemName } = props;
 
   return (
@@ -380,14 +378,24 @@ const ItemBox: FunctionComponent<{ itemName: string }> = (
 };
 
 const itemBoxStyles = StyleSheet.create({
-  textStyles: { color: '#fff' },
+  textStyles: {
+    color: 'crimson',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+
+    borderWidth: 2,
+    borderColor: 'crimson',
+  },
   boxStyles: {
     borderColor: 'blanchedalmond',
     borderWidth: 2,
+    margin: 8,
+    textAlign: 'center',
   },
 });
 
 export default ItemBox;
+
 
 
 ```
@@ -557,6 +565,7 @@ export default App;
 
 ```
 
+PRIMER SAM USPESNO DEFINISAO ALI POSTOJI JOS NEKE PROPSI KOJE BIH MOGAO DA DEFINISEM
 
 ***
 

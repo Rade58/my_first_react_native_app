@@ -13,10 +13,19 @@ const ItemBox: FunctionComponent<{ itemName: string }> = (props) => {
 };
 
 const itemBoxStyles = StyleSheet.create({
-  textStyles: { color: '#fff' },
+  textStyles: {
+    color: 'crimson',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+
+    borderWidth: 2,
+    borderColor: 'crimson',
+  },
   boxStyles: {
     borderColor: 'blanchedalmond',
     borderWidth: 2,
+    margin: 8,
+    textAlign: 'center',
   },
 });
 
