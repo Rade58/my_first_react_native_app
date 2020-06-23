@@ -50,7 +50,7 @@ KOJI SAM JA TRANSFORMISAO U TYPESCRIPT I KOJI SAM IZKOMENTARISAO
 import React, {FunctionComponent} from 'react';
 import { Text, View, StyleSheet, FlatList } from 'react-native';
 
-const Food: FunctionComponent = props => {
+const Food: FunctionComponent<{name: string;}> = props => {
   // STILOVI SU OVDE DEFINISANI (SAMO PRAVIM OBSERVATION)
   
   // I JEDINO STO SE IZ PROPS-A KORISTI JESTE       name
@@ -76,7 +76,10 @@ const App: FunctionComponent = () => {
       // EVO KAO STO VIDIS PROSLEDJEN JE ARRAY, KAO DATA
       data={FOODS}
       // U OVOM SLUCAJU key CE BITI SAMI ITEM FROM    FOODS     ARRAY
-      keyExtractor={item => item}
+      // NARAVNO, DA JE NIZ SASTAVLJEN OD OBJECT ITEM-A, I DA JE NESTO DRUGO INTENDED FOR KEY, SIGRNO BIH TO KORISTIO IZ POMENUTOG OBJEKTA
+      keyExtractor={(item, index) => item}  // A AK ONEMAS NISTA UNIQUE (AKO NEKAD IMAS DVA ISTA ITEM-A U NIZU), PA MOZES DA KORISTIS INDEX
+      //                                                                                                          KOJI TI JE TAKODJE DOSTUPAN
+
       // A OVA FUNKCIJA DAKLE DEFINISE KOJI CE SE REACT ELEMENT RENDER-OVATI
       //  I KOJI CE MU VREDNOST ZA PROP BITI PROSLEDJEN-A
       renderItem={({ item }) => <Food name={item} />}
@@ -104,3 +107,98 @@ MISLIM DA NIJE TESKO ZAPAMTITI KAKO SE RENDER-UJE NESTO UZ POMOC `FlatList`-A
 
 ALI UVEK MI JE DOSTUPNA DOKUMENTACIJA, CIJI SAM LINK OSTAVIO
 
+KAKO KADI KAZE:
+
+"` If you have 1,000 elements in your array, it actually only renders the ones that your user can see`"
+
+A DAKLE NAJBITNIJE DA ZNAM DA SE MAPING NE KORISTI ZBOG PERFORMANCES
+
+**DAKLE NE ZELIM DA SE LISTA SVAKI PUT RERENDER-UJE KAO STO JE TO SLUCAJ NA WEB-U** UPRAVO ZATO SE KORISTI POMENUTA KOMPONENTA ILI SE KORISTI SectionList KOMPONENTA, O KOJOJ CU U NASTAVKU GOVORITI
+
+# `SectionList`
+
+VIDIM DA JE JEDINA RAZLIKA TO STO SE MOZE DODADATI SECTION HEADER
+
+NAJBOLJE JE POSMATRATI PRIMER
+
+```tsx
+import React, {FunctionComponent} from 'react';
+import { Text, View, StyleSheet, SectionList } from 'react-native';
+
+const Food: FunctionComponent<{name: string;}> = props => {
+  return (
+    <View style={styles.food}>
+      <Text style={styles.text}>{props.name}</Text>
+    </View>
+  );
+}
+
+// EVO, TI SDA IMAS NIZ ALI NIZ TI JE SASTAVLJEN OD OBJEKATA
+const FOODS = [
+  // I JOS JEDNA KARAKTERISTICNA STVAR JE STO SE U OBJEKTU NALAZI NIZ ITEM-A
+  { title: 'Healthy', data: ['Apples', 'Broccoli']},
+
+  //  OVDE JE DAKE BITNO DA LISTA MORA BITI UNER    data   (F=DAKLE MORA POSTOJATI NIZ CIJE JE IME data)
+  // A STO SE TICE    title     TU JE USTVARI MOGLO DA STOJI BILO STA
+  { title: 'Not so Healthy', data: ['Cookies', 'Doritos', 'Eclairs']},
+];
+
+//    title   CES TI I ONAKO REFERENCIRATI, ZATO I NE MORA DA BUDE title
+
+// DOK data ARRAY MORA TU DA POSTOJI      
+
+
+
+// GORE KAO STO VIDIZ     title     REPREZENT-UJE KATEGORIJU ILI SEKCIJU
+
+
+// E TI UPRAVO MOZES RENDER-OVATI LISTU NA TAKAV NACIN DA CE BITI
+// RENDERED I IME KATEGORIJE
+
+const App: FunctionComponent = () => {
+  return (
+    <SectionList
+      //    EVO OVDE PROSLEDJUJES CEO OBJEKAT KOJI JE U FORMATU KOJI SAM OBJASNIO  
+      sections={FOODS}
+      // DAKLE OVO JE ITEM IZ     data    ARRAY-A
+      keyExtractor={(item, index) => item}
+      // OVDE JE BITNO ZAPAMTITI DA MORAS KORISTITI PROPERTI    item
+      renderItem={data => <Food name={data.item} />}
+
+      // E OVDE DEFINISES KAKO I GDE SE RENDER-UJE SECTION HEADER
+      renderSectionHeader={({ section }) => (
+        //  IKAO STO VIDIS ZISTA SE REFERENCIRA ZELJENI PROPERTI, U OVOM SLUCAJU JEDINO STO JE APPROPRIATE
+        // USTVARI JEDINO STA I POSTOJI JESTE     title
+        <Text style={styles.header}>{section.title}</Text>
+      )}
+    />
+  );
+}
+
+const styles = StyleSheet.create({
+  food: {
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: 'teal',
+    marginBottom: 10,
+  },
+  text: {
+    color: 'white',
+    fontWeight: 'bold'
+  },
+  header: {
+    fontSize: 18,
+    marginBottom: 5
+  }
+});
+
+export default App;
+```
+
+***
+
+KADI KAZE DA SEKCIJE JESU STICKY
+
+`Now, SectionList has had these because if you use it on the actual device, the sections actually get sticky, so they stay on the screen until you parse the section`
+
+***
