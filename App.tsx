@@ -8,31 +8,54 @@ import {
   Platform,
   // UVESCU I       SectionList
   SectionList,
+  //
+  FlatList,
 } from 'react-native';
 
-// UVESXU I ItemBox KOMPONENTU KOJ USAM MALOCAS NAPRAVIO I NIZ KOJI SAM NAPRAVIO
+// === !== === !== === !== === !== === !== ===
 import ItemBox from './components/ItemBox';
 import dataArray from './fetchedData';
-// === !== === !== === !==
 
-import Box from './components/Box';
+const COLORS = [
+  { colorName: 'Base03', hexCode: '#002b36' },
+  { colorName: 'Base02', hexCode: '#073642' },
+  { colorName: 'Base01', hexCode: '#586e75' },
+  { colorName: 'Base00', hexCode: '#657b83' },
+  { colorName: 'Base0', hexCode: '#839496' },
+  { colorName: 'Base1', hexCode: '#93a1a1' },
+  { colorName: 'Base2', hexCode: '#eee8d5' },
+  { colorName: 'Base3', hexCode: '#fdf6e3' },
+  { colorName: 'Yellow', hexCode: '#b58900' },
+  { colorName: 'Orange', hexCode: '#cb4b16' },
+  { colorName: 'Red', hexCode: '#dc322f' },
+  { colorName: 'Magenta', hexCode: '#d33682' },
+  { colorName: 'Violet', hexCode: '#6c71c4' },
+  { colorName: 'Blue', hexCode: '#268bd2' },
+  { colorName: 'Cyan', hexCode: '#2aa198' },
+  { colorName: 'Green', hexCode: '#859900' },
+];
+
+// === !== === !== === !== === !== === !== ===
+
+// import Box from './components/Box';
 
 const App: FunctionComponent = () => {
   const {
-    first,
+    /* first,
     third,
-    fourth,
+    fourth, */
     droidSafeArea,
-    second,
+    /*  second,
     otherStyles,
     //
     textOne,
     textTwo,
     textThree,
-    textFour,
+    textFour, */
     //
     explain,
     textExplain,
+    flatListBox,
   } = globalStyles;
 
   return (
@@ -41,10 +64,6 @@ const App: FunctionComponent = () => {
         <Text style={textExplain}>
           Evo ih neki element i stilizovani su kao što vidiš
         </Text>
-        {/* DA, NISTA TE NE SPRECAVA DA IMAS NESTED MULTIPLE VIEWS */}
-        <View>
-          <Text>Malo sam se poigrao</Text>
-        </View>
       </View>
       {/* comment-ujem ih out da bi mi bilo lakse da vidim    sECTIONlIST */}
       {/* <Box
@@ -71,18 +90,24 @@ const App: FunctionComponent = () => {
         otherStyles={otherStyles}
         textStyles={textFour}
       /> */}
-      {/* EVO OVDE CU DA RENDERUJEM     SectionList */}
+      {/* --------------------------*/}
       <Text>Fake Header</Text>
-      <SectionList
-        sections={dataArray}
+      <FlatList
+        style={flatListBox}
+        // sections={dataArray}  // NE KORISTIM OVO IZ MOG STAROG PRIMERA
         // sections={[]}     // VAZNO ZA ListEmptyComponent
-        keyExtractor={(item, index) => item}
-        renderItem={(data) => <ItemBox itemName={data.item} />}
-        renderSectionHeader={({ section }) => (
+        // KORISTICU OVAJ COLOR NIZ
+        data={COLORS}
+        // keyExtractor={(item, index) => item}
+        keyExtractor={(item) => item.hexCode}
+        renderItem={({ item }) => (
+          <ItemBox itemName={item.colorName} boxColor={item.hexCode} />
+        )}
+        /* renderSectionHeader={({ section }) => (
           <View style={{ backgroundColor: section.color }}>
             <Text>{section.title}</Text>
           </View>
-        )}
+        )} */
         // OVO MOGU DA BUDU REACT ELEMENTI IL IDA BUDU FUNKCIJE KOJE RETURN-UJEU REACT ELEMENTE
         ListHeaderComponent={<Text>Neki Header</Text>}
         ListFooterComponent={<Text>Neki Footer</Text>}
@@ -96,6 +121,12 @@ const App: FunctionComponent = () => {
 };
 
 export const globalStyles = StyleSheet.create({
+  flatListBox: {
+    borderColor: 'crimson',
+    borderWidth: 2,
+    marginHorizontal: 8,
+  },
+
   explain: {
     margin: 28,
   },

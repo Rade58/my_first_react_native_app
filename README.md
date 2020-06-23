@@ -1,34 +1,41 @@
-# FORMULA KOJ UMOGU KORISTITI DA NADJEM CONTRAST
-
-***
-
-OVO MOZDA NIJE TEMA ALI JE HELPFUL PRILIKOM DISPLAYINGA ZELEJNE BOJE TEKSTA, KADA JE ELEMENT SVETAO IL ITAMAN
-
-***
-
-[OVDE JE KADI OSTAVILA FORMULU](https://kadikraman.github.io/react-native-v2/lists-exercise-solution)
+# SADA CU SE POZABAVITI NAVIGATION-OM
 
 
-```js
-// OVO JE PROSLEDJEN HEX CODE KAO PROP U KOMPONENTU
-parseInt(props.hexCode.replace('#', ''), 16) > 0xffffff / 1.1
+# PRE NEGO STO POCNEM DA RADIM PRIMER ZA NAVIGATION, MORAM URADITI NEKOLIKO STVARI
+
+U PREDHODNOM PRIMERU NISAM SE BAS DRZAO CIRCULUM JER SAM SAM EXPLORE-OVAO REACT NATIVE DO ODREDJENOG NIVOA
+
+ZATO NISAM IMPLEMENTIRAO OVO
+
+```ts
+const COLORS = [
+  { colorName: 'Base03', hexCode: '#002b36' },
+  { colorName: 'Base02', hexCode: '#073642' },
+  { colorName: 'Base01', hexCode: '#586e75' },
+  { colorName: 'Base00', hexCode: '#657b83' },
+  { colorName: 'Base0', hexCode: '#839496' },
+  { colorName: 'Base1', hexCode: '#93a1a1' },
+  { colorName: 'Base2', hexCode: '#eee8d5' },
+  { colorName: 'Base3', hexCode: '#fdf6e3' },
+  { colorName: 'Yellow', hexCode: '#b58900' },
+  { colorName: 'Orange', hexCode: '#cb4b16' },
+  { colorName: 'Red', hexCode: '#dc322f' },
+  { colorName: 'Magenta', hexCode: '#d33682' },
+  { colorName: 'Violet', hexCode: '#6c71c4' },
+  { colorName: 'Blue', hexCode: '#268bd2' },
+  { colorName: 'Cyan', hexCode: '#2aa198' },
+  { colorName: 'Green', hexCode: '#859900' },
+];
 ```
 
-U SUTINI MORA SE KORISTITI HEX CODE
+NAIME JA IMAM ITEM-E A TREBAO SAM IH OBOJITI OVIM BOJAMA
 
-## AK ODOBIJES VREDNOST MANJU OD 10% TREBAO BI DA TEKST BUDE TAMNIJI
+TO CU SADA URADITI
 
-```js
-const textColor = 
-  parseInt(props.hexCode.replace('#', ''), 16) > 0xffffff / 1.1
-  ?
-  "black"
-  :
-  "white"
-```
+A ZASTO?
 
-## KAO STO VIDIS GORE JE ZDATA VREDNOST `1.1`
+**`IDEJA JE DA ZA OVAJ PRIMER NAVIGATION, JA USTVARI IMAM OBOJENE ELEMENTE I DA SE ONDA TOUCH-OM NA ELEMENT USTVARI ODLAZI NA SEPARATE PAGE UPRAVO TE BOJE NA KOJU SI TOUCH-OVAO`**
 
-TI MOZES STAVITI NESTO VISE IZNAD ILI MOZES STAVITI `2`, AKO TI TAK OVISE ODGOVARA
+ZATO MALO KORIGUJEM PRIMER I UVODIM OVAJ NIZ U PRIMER
 
-## KADI KORISTI `1.1` VREDNOST
+**TAKODJE OVO IZISKUJE UPOTREBU `FlatList` A NE `SectionList`-A**

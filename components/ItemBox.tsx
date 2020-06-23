@@ -1,13 +1,22 @@
 import React, { FunctionComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const ItemBox: FunctionComponent<{ itemName: string }> = (props) => {
-  const { itemName } = props;
+const ItemBox: FunctionComponent<{ itemName: string; boxColor: string }> = (
+  props
+) => {
+  const { itemName, boxColor } = props;
+
+  const textColor =
+    parseInt(boxColor.replace('#', ''), 16) > 0xffffff / 1.1
+      ? 'black'
+      : 'white';
 
   return (
-    <View style={itemBoxStyles.boxStyles}>
+    <View style={[itemBoxStyles.boxStyles, { backgroundColor: boxColor }]}>
       {/* OVDE JE DAKLE BITAN   itemNAME   */}
-      <Text style={itemBoxStyles.textStyles}>{itemName}</Text>
+      <Text style={[itemBoxStyles.textStyles, { color: textColor }]}>
+        {itemName}
+      </Text>
     </View>
   );
 };
@@ -26,6 +35,7 @@ const itemBoxStyles = StyleSheet.create({
     borderWidth: 2,
     margin: 8,
     textAlign: 'center',
+    padding: 8,
   },
 });
 
