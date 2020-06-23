@@ -72,6 +72,7 @@ const App: FunctionComponent = () => {
         textStyles={textFour}
       /> */}
       {/* EVO OVDE CU DA RENDERUJEM     SectionList */}
+      <Text>Fake Header</Text>
       <SectionList
         sections={dataArray}
         keyExtractor={(item, index) => item}
@@ -81,7 +82,11 @@ const App: FunctionComponent = () => {
             <Text>{section.title}</Text>
           </View>
         )}
+        // OVO MOGU DA BUDU REACT ELEMENTI IL IDA BUDU FUNKCIJE KOJE RETURN-UJEU REACT ELEMENTE
+        ListHeaderComponent={<Text>Neki Header</Text>}
+        ListFooterComponent={<Text>Neki Footer</Text>}
       />
+      <Text>Fake Footer</Text>
       {/* === !== === !== === !== */}
     </SafeAreaView>
   );
