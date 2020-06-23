@@ -47,10 +47,14 @@ IMA MNOGI KONFIGURACIJSKIH OPCIJA, ALI TRI PROPA SU NAJVAZNIJA
 KOJI SAM JA TRANSFORMISAO U TYPESCRIPT I KOJI SAM IZKOMENTARISAO
 
 ```jsx
-import React from 'react';
-import { Text, View, StyleSheet, FlatList, SafeAreaView } from 'react-native';
+import React, {FunctionComponent} from 'react';
+import { Text, View, StyleSheet, FlatList } from 'react-native';
 
-const Food = props => {
+const Food: FunctionComponent = props => {
+  // STILOVI SU OVDE DEFINISANI (SAMO PRAVIM OBSERVATION)
+  
+  // I JEDINO STO SE IZ PROPS-A KORISTI JESTE       name
+  
   return (
     <View style={styles.food}>
       <Text style={styles.text}>{props.name}</Text>
@@ -66,11 +70,15 @@ const FOODS = [
   'Eclairs'
 ];
 
-const App = () => {
+const App: FunctionComponent = () => {
   return (
     <FlatList
+      // EVO KAO STO VIDIS PROSLEDJEN JE ARRAY, KAO DATA
       data={FOODS}
+      // U OVOM SLUCAJU key CE BITI SAMI ITEM FROM    FOODS     ARRAY
       keyExtractor={item => item}
+      // A OVA FUNKCIJA DAKLE DEFINISE KOJI CE SE REACT ELEMENT RENDER-OVATI
+      //  I KOJI CE MU VREDNOST ZA PROP BITI PROSLEDJEN-A
       renderItem={({ item }) => <Food name={item} />}
     />
   );
@@ -91,3 +99,8 @@ const styles = StyleSheet.create({
 
 export default App;
 ```
+
+MISLIM DA NIJE TESKO ZAPAMTITI KAKO SE RENDER-UJE NESTO UZ POMOC `FlatList`-A
+
+ALI UVEK MI JE DOSTUPNA DOKUMENTACIJA, CIJI SAM LINK OSTAVIO
+
