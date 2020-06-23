@@ -28,9 +28,23 @@ AKO NECU DA IDEM IZVAN EXPO SAFESPACE-A, ODNOSNO AKO NE ZELIM DA EJECT-UJEM EXPO
 
 - `expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view`
 
-# SADA U SVOJ APP, MOZES UVESTI KOMPONENTU, KOJA SE ZOVE `NavigationContainer` I BUKVALN OSVE WRAPP-UJES U NJU (UVOZ IZ `@react-navigation/native`)
+# SADA U SVOJ APP, MOZES UVESTI KOMPONENTU, KOJA SE ZOVE `NavigationContainer` I BUKVALNO SVE WRAPP-UJES U NJU (UVOZ IZ `@react-navigation/native`)
 
 MOZES VIDETI KAKO SAM TO URADIO INSIDE: `App.tsx`
+
+***
+
+***
+
+# !!!! DODAVANJE NAVIGATION SA PLAIN React Native-OM !!!!
+
+KAO STO REKOH, NEMAM EMULATORE I ZATO NE KORISTIM PLAIN REACT NATIVE VEC KORISTIM EXPO
+
+ALI U BUDUCNOSTI [OVDE JE SVE OBJASNJEN OZA INSTALACIJE KOJE SU POTTREBNE I OSTALO, VEZAN OZA IMPLEMENTIRANJE NAVIGACIJE U PLAIN REACT NATIVE-U](https://kadikraman.github.io/react-native-v2/navigation-rn)
+
+***
+
+***
 
 ***
 
