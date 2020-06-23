@@ -75,6 +75,7 @@ const App: FunctionComponent = () => {
       <Text>Fake Header</Text>
       <SectionList
         sections={dataArray}
+        // sections={[]}     // VAZNO ZA ListEmptyComponent
         keyExtractor={(item, index) => item}
         renderItem={(data) => <ItemBox itemName={data.item} />}
         renderSectionHeader={({ section }) => (
@@ -85,6 +86,8 @@ const App: FunctionComponent = () => {
         // OVO MOGU DA BUDU REACT ELEMENTI IL IDA BUDU FUNKCIJE KOJE RETURN-UJEU REACT ELEMENTE
         ListHeaderComponent={<Text>Neki Header</Text>}
         ListFooterComponent={<Text>Neki Footer</Text>}
+        ListEmptyComponent={<Text>Buyaaaaaaa</Text>}
+        // horizontal={true}
       />
       <Text>Fake Footer</Text>
       {/* === !== === !== === !== */}
