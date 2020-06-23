@@ -1,6 +1,19 @@
 import React, { FunctionComponent } from 'react';
 
-import { View, Text, SafeAreaView, StyleSheet, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  Platform,
+  // UVESCU I       SectionList
+  SectionList,
+} from 'react-native';
+
+// UVESXU I ItemBox KOMPONENTU KOJ USAM MALOCAS NAPRAVIO I NIZ KOJI SAM NAPRAVIO
+import ItemBox from './components/ItemBox';
+import dataArray from './fetchedData';
+// === !== === !== === !==
 
 import Box from './components/Box';
 
@@ -33,8 +46,8 @@ const App: FunctionComponent = () => {
           <Text>Malo sam se poigrao</Text>
         </View>
       </View>
-
-      <Box
+      {/* comment-ujem ih out da bi mi bilo lakse da vidim    sECTIONlIST */}
+      {/* <Box
         no={1}
         boxStyles={first}
         otherStyles={otherStyles}
@@ -57,7 +70,19 @@ const App: FunctionComponent = () => {
         boxStyles={fourth}
         otherStyles={otherStyles}
         textStyles={textFour}
+      /> */}
+      {/* EVO OVDE CU DA RENDERUJEM     SectionList */}
+      <SectionList
+        sections={dataArray}
+        keyExtractor={(item, index) => item}
+        renderItem={(data) => <ItemBox itemName={data.item} />}
+        renderSectionHeader={({ section }) => (
+          <View style={{ backgroundColor: section.color }}>
+            <Text>{section.title}</Text>
+          </View>
+        )}
       />
+      {/* === !== === !== === !== */}
     </SafeAreaView>
   );
 };

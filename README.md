@@ -266,3 +266,299 @@ KADI KAZE DA JU JE KORISCENJE OVOGA, POSTEDEL ODODATNOG DEBUGGING-A, KOJI BI MOR
 
 ## NAJBOLJE BI BILO NAPRAVITI NEKU EXTENSIVE LISTU, I RENDER-OVATI JE UZ POMOC POMENUTIH KOMPONENTI, KAKO BIH VIDEO KAKO FUNKCIONISE TO STO CE KOMPONENTE RENDER-OVATI; ISTO TAKO MOZDA BI BIL OSTVARNO DOBRO PRIBELEZITI POMENUTE PROPSE KAO NESTO STO CE SE CESTO KORITITI I STO BIH TREBAO IMATI LISTED USEPARATE BRANCH-U (NEKA TO BUDE SLEDECI BRANCH)
 
+***
+
+***
+
+***
+
+***
+
+# :one::one::one::one: PRIMER :one::one::one::one:
+
+NAJBOLJE BI BILO DA KORISTIM GENERATOR KAKO BI NAPRAVIO OBJEKTE KOJE ZELIM
+
+ISTO TAKO NAPRAVICU PRIMER SA `SectionList` KOMPONENTOM, JER ME ZANIMA STA CE TO SVE ONA RENDER-OVATI I ZELIM DA UPOTREBIM NAJVAZNIJE PROPSE ZA TU KOMPONENTU
+
+***
+
+KREIRAM PRVO FAJL KOJI CE PREDSTAVLJATI DATA, ODNONO MOZE DA PREDSTAVLJA FETCHED DATA
+
+A ONO STA CU USTVARI URADITI JESTE DA CU KORISTITI GENERATOR, KOKO BI KREIRAO NIZ KOJI JE PODESAN DA SE KORISTI SA `SectionList` KOMPONENTOM
+
+- `touch/code makeRadesData.ts`
+
+```ts
+const generatorMaker = (param: number) => blahGeneratorFunc(param);
+
+// OVO JE MOZDA BILO SAMO PODSECANJE KAKO FUNKCIONISU GENERATORI
+// NISAM IH BAS UPOTREBIO NEGO SAMO OVAKO
+function* blahGeneratorFunc(param: number) {
+  yield { myItem: `item${param}` };
+}
+
+/**
+ *
+ * @param color BOJA ZA PODLISTU KOJOM ONA MOZE BITI ODREDJENA
+ * @param title NASLOV PODLISTE
+ * @param len DUZINA NIZA ITEM-A
+ */
+const makeArrayAndHeading = (color: string, title: string, len: number) => {
+  const arr: string[] = [];
+
+  for (let i = 1; i <= len; i++) {
+    const generator = generatorMaker(i);
+    const generated = generator.next();
+
+    if (generated.value) {
+      arr.push(generated.value.myItem);
+    }
+  }
+
+  return { title, color, data: arr };
+};
+
+/**
+ * @description FUNKCIJA USTVARI PRAVI OBJEKAT U FORMATU {color, title, data: NIZ STRINGOVA}
+ */
+export default makeArrayAndHeading;
+```
+
+***
+
+***
+
+GORNJU FUNKCIJU MOGU DA UPOTREBIM ZA KRIRANJE OBJEKTA KOJI BI PREDSTAVLJAO DATA
+
+I TO DATA POGODAN ZA KORISCENJE SA `SectionList` KOMPONENTOM
+
+- `touch/code fetchedData.ts`
+
+```ts
+import makeHeadingAndArray from './makeRadesData';
+
+const fetchedData: {
+  title: string;
+  color: string;
+  data: string[];
+}[] = [
+  makeHeadingAndArray('crimson', 'GraphQL', 60),
+  makeHeadingAndArray('aqua', 'React', 58),
+  makeHeadingAndArray('dodgerblue', 'Typescript', 48),
+  makeHeadingAndArray('lightcoral', 'Javascript', 38),
+];
+
+// MOGU KORISTITI OVAJ OBJEKAT ZA RENDERING LISTE, UPOTREBOM            SectionList          KOMPONENTE
+
+export default fetchedData;
+
+```
+
+***
+
+***
+
+NAPRAVICU KOMPONENTU, KOJA BI TREBALA DA SE RENDER-UJE KAO ITEM LISTE
+
+- `touch/code components/ItemBox.tsx`
+
+```tsx
+import React, { FunctionComponent } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+const ItemBox: FunctionComponent<{ itemName: string }> = (
+  props
+) => {
+  const { itemName } = props;
+
+  return (
+    <View style={itemBoxStyles.boxStyles}>
+      {/* OVDE JE DAKLE BITAN   itemNAME   */}
+      <Text style={itemBoxStyles.textStyles}>{itemName}</Text>
+    </View>
+  );
+};
+
+const itemBoxStyles = StyleSheet.create({
+  textStyles: { color: '#fff' },
+  boxStyles: {
+    borderColor: 'blanchedalmond',
+    borderWidth: 2,
+  },
+});
+
+export default ItemBox;
+
+
+```
+
+***
+
+***
+
+SADA CU DA U `App.tsx` UPOTREBIM    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    `SectionList`  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   KOMPONENTU, SA STVARIMA KOJE SAM DEFINISAO 
+
+- `code App.tsx`
+
+```jsx
+import React, { FunctionComponent } from 'react';
+
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  Platform,
+  // UVESCU I       SectionList
+  SectionList,
+} from 'react-native';
+
+// UVESXU I ItemBox KOMPONENTU KOJ USAM MALOCAS NAPRAVIO I NIZ KOJI SAM NAPRAVIO
+import ItemBox from './components/ItemBox';
+import dataArray from './fetchedData';
+// === !== === !== === !==
+
+import Box from './components/Box';
+
+const App: FunctionComponent = () => {
+  const {
+    first,
+    third,
+    fourth,
+    droidSafeArea,
+    second,
+    otherStyles,
+    //
+    textOne,
+    textTwo,
+    textThree,
+    textFour,
+    //
+    explain,
+    textExplain,
+  } = globalStyles;
+
+  return (
+    <SafeAreaView style={droidSafeArea}>
+      <View style={explain}>
+        <Text style={textExplain}>
+          Evo ih neki element i stilizovani su kao što vidiš
+        </Text>
+        {/* DA, NISTA TE NE SPRECAVA DA IMAS NESTED MULTIPLE VIEWS */}
+        <View>
+          <Text>Malo sam se poigrao</Text>
+        </View>
+      </View>
+      {/* comment-ujem ih out da bi mi bilo lakse da vidim    sECTIONlIST */}
+      {/* <Box
+        no={1}
+        boxStyles={first}
+        otherStyles={otherStyles}
+        textStyles={textOne}
+      />
+      <Box
+        no={2}
+        boxStyles={second}
+        otherStyles={otherStyles}
+        textStyles={textTwo}
+      />
+      <Box
+        no={3}
+        boxStyles={third}
+        otherStyles={otherStyles}
+        textStyles={textThree}
+      />
+      <Box
+        no={4}
+        boxStyles={fourth}
+        otherStyles={otherStyles}
+        textStyles={textFour}
+      /> */}
+      {/* EVO OVDE CU DA RENDERUJEM     SectionList */}
+      <SectionList
+        sections={dataArray}
+        keyExtractor={(item, index) => item}
+        renderItem={(data) => <ItemBox itemName={data.item} />}
+        renderSectionHeader={({ section }) => (
+          <View style={{ backgroundColor: section.color }}>
+            <Text>{section.title}</Text>
+          </View>
+        )}
+      />
+      {/* === !== === !== === !== */}
+    </SafeAreaView>
+  );
+};
+
+export const globalStyles = StyleSheet.create({
+  explain: {
+    margin: 28,
+  },
+  textExplain: {
+    fontSize: 20,
+  },
+  // === !== ===
+  otherStyles: {
+    flex: 0,
+    borderWidth: 2,
+    paddingTop: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderLeftColor: 'yellow',
+    marginTop: 18,
+    marginHorizontal: 14,
+    padding: 24,
+  },
+  // === !== === !==
+  first: {
+    backgroundColor: 'olive',
+  },
+  second: {
+    backgroundColor: 'crimson',
+  },
+  fourth: {
+    backgroundColor: 'tomato',
+  },
+  // === !== === !==
+  third: {
+    backgroundColor: 'teal',
+  },
+  // === !== === !==
+  droidSafeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? 25 : 0,
+  },
+  // === !== === !==
+  textOne: {
+    color: 'blanchedalmond',
+    fontSize: 12,
+    fontWeight: 'normal',
+  },
+  textTwo: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+  },
+  textThree: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '400',
+  },
+  textFour: {
+    color: 'green',
+    fontSize: 18,
+    fontWeight: '100',
+    fontStyle: 'italic',
+  },
+});
+
+export default App;
+
+```
+
+
+***
+
+
+
