@@ -6,15 +6,18 @@ import {
   SafeAreaView,
   StyleSheet,
   Platform,
-  // UVESCU I       SectionList
-  SectionList,
+  //
+  // SectionList,
   //
   FlatList,
 } from 'react-native';
 
+//
+import { NavigationContainer } from '@react-navigation/native';
+
 // === !== === !== === !== === !== === !== ===
 import ItemBox from './components/ItemBox';
-import dataArray from './fetchedData';
+// === !== === !== === !== === !== === !== ===
 
 const COLORS = [
   { colorName: 'Base03', hexCode: '#002b36' },
@@ -58,65 +61,35 @@ const App: FunctionComponent = () => {
     flatListBox,
   } = globalStyles;
 
+  // EVO KAO STO VIDIS DODAO SAM NavigationContainer
+
   return (
-    <SafeAreaView style={droidSafeArea}>
-      <View style={explain}>
-        <Text style={textExplain}>
-          Evo ih neki element i stilizovani su kao što vidiš
-        </Text>
-      </View>
-      {/* comment-ujem ih out da bi mi bilo lakse da vidim    sECTIONlIST */}
-      {/* <Box
-        no={1}
-        boxStyles={first}
-        otherStyles={otherStyles}
-        textStyles={textOne}
-      />
-      <Box
-        no={2}
-        boxStyles={second}
-        otherStyles={otherStyles}
-        textStyles={textTwo}
-      />
-      <Box
-        no={3}
-        boxStyles={third}
-        otherStyles={otherStyles}
-        textStyles={textThree}
-      />
-      <Box
-        no={4}
-        boxStyles={fourth}
-        otherStyles={otherStyles}
-        textStyles={textFour}
-      /> */}
-      {/* --------------------------*/}
-      <Text>Fake Header</Text>
-      <FlatList
-        style={flatListBox}
-        // sections={dataArray}  // NE KORISTIM OVO IZ MOG STAROG PRIMERA
-        // sections={[]}     // VAZNO ZA ListEmptyComponent
-        // KORISTICU OVAJ COLOR NIZ
-        data={COLORS}
-        // keyExtractor={(item, index) => item}
-        keyExtractor={(item) => item.hexCode}
-        renderItem={({ item }) => (
-          <ItemBox itemName={item.colorName} boxColor={item.hexCode} />
-        )}
-        /* renderSectionHeader={({ section }) => (
-          <View style={{ backgroundColor: section.color }}>
-            <Text>{section.title}</Text>
-          </View>
-        )} */
-        // OVO MOGU DA BUDU REACT ELEMENTI IL IDA BUDU FUNKCIJE KOJE RETURN-UJEU REACT ELEMENTE
-        ListHeaderComponent={<Text>Neki Header</Text>}
-        ListFooterComponent={<Text>Neki Footer</Text>}
-        ListEmptyComponent={<Text>Buyaaaaaaa</Text>}
-        // horizontal={true}
-      />
-      <Text>Fake Footer</Text>
-      {/* === !== === !== === !== */}
-    </SafeAreaView>
+    <NavigationContainer>
+      <SafeAreaView style={droidSafeArea}>
+        <View style={explain}>
+          <Text style={textExplain}>
+            Evo ih neki element i stilizovani su kao što vidiš, i nalaze se u
+            flat listi
+          </Text>
+        </View>
+        {/* --------------------------*/}
+        <Text>Fake Header</Text>
+        <FlatList
+          style={flatListBox}
+          data={COLORS}
+          keyExtractor={(item) => item.hexCode}
+          renderItem={({ item }) => (
+            <ItemBox itemName={item.colorName} boxColor={item.hexCode} />
+          )}
+          ListHeaderComponent={<Text>Neki Header</Text>}
+          ListFooterComponent={<Text>Neki Footer</Text>}
+          ListEmptyComponent={<Text>Buyaaaaaaa</Text>}
+          // horizontal={true}
+        />
+        <Text>Fake Footer</Text>
+        {/* === !== === !== === !== */}
+      </SafeAreaView>
+    </NavigationContainer>
   );
 };
 
