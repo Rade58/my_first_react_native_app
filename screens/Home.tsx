@@ -1,34 +1,39 @@
 import React, { FunctionComponent } from 'react';
 
-import {
-  Text,
-  View,
-  // UVEZAO SAM KOMPONENTU ZA TOUCHING
-  TouchableOpacity,
-} from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 
-// DA VIDIM DA LI MOGU DA NADJEM PRAVI PROP TYPE
-import { StackScreenProps } from '@react-navigation/stack'; // OVAJ TYPE IMA I GENERIC, KOJIM SE PREDPOSTAVLJAM DEFINISU OSTALI PROPSI KOMPONENTE (VIDIM DA MORA BITI Record)
-// PRONASAO SAM PRAVI TYPE
-// === !== === !== ===
+import { StackScreenProps } from '@react-navigation/stack';
 
-// sa koji mogu da type-ujem komponentu
 const Home: FunctionComponent<StackScreenProps<any>> = ({
   navigation,
-  route,
+  route, // OVO I DALJE NE KORISTIM
 }) => (
-  // KAO STO VIDIS IMAS I route PROP (PREDPOSTAVLJAM DA JE TO ONAJ name SCREENA, KOJI MI NE TREBA OVDE)
   <View>
     <TouchableOpacity
+      style={styles.touchableStyles}
       onPress={() => {
-        //  EVO VIDIS PUSH-OVAO SAM IME SCREEN-A U NAVIGATION
-        navigation.push('ColorPalette');
-        // DAKLE TO BI TREBAL ODA SE DOGODI ON PRESS
+        // KORISTIO SAM     navigate I NE VIDIM NIKAKVU RAZLIKU
+        navigation.navigate('ColorPalette');
       }}
     >
-      <Text>Color Pallete</Text>
+      <Text style={styles.textStuff}>Color Pallete</Text>
     </TouchableOpacity>
   </View>
 );
+
+// DEFINISAO I UPOTREBIO STILIZOVANJE
+
+const styles = StyleSheet.create({
+  touchableStyles: {
+    margin: 8,
+    backgroundColor: 'crimson',
+    width: 100,
+    padding: 8,
+    marginTop: 28,
+  },
+  textStuff: {
+    color: 'blanchedalmond',
+  },
+});
 
 export default Home;
