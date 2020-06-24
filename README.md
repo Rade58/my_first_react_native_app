@@ -192,3 +192,143 @@ U SUSTINI JA CU ZA screens/ColorPalette.tsx
 JER ZA RENDERING LISTE COLOR ITEM-A. BICE ODGOVORNA COLOR PALLET KOMPONENTA
 
 Home KOMPONENTU SAM ZA SADA DEFINISAO SAMO KAO HELLO WORLD KOMPONENTU (DAKLE RENDERUJE SAMO HELLO WORLD)
+
+### UVESCU KOMPONENTE (ODNOSNO SCREEN-OVE) `Home` I `ColorPalette` U MOJA APP (`App.tsx`)
+
+## U `App.tsx` UVOZIM TAKODJE I FUNKCIJU `createStackNavigator` FROM `@react-navigation/stack`
+
+- `code App.tsx` 
+
+```tsx
+import React, { FunctionComponent } from 'react';
+
+//
+import { NavigationContainer } from '@react-navigation/native';
+
+// === !== === !== === !== === !== === !== ===
+import { createStackNavigator } from '@react-navigation/stack';
+// === !== === !== === !== === !== === !== ===
+
+import ColorPalette from './screens/ColorPalette';
+import Home from './screens/Home';
+
+// I KREIRAM STACK
+const Stack = createStackNavigator();
+// Stack MOGU SMATRATI           'SANDBOX'-OM        SCREEN-OVA
+//                                                              IZMEDJU KOJIH SE MOZE NAVIGATE-OVATI IN A STACK
+// === !== === !== === !== === !== === !== ===
+// JA USTVARI IZ    Stack   OBJEKTA IZDVAJAM        Navigator       KOMPONENTU, KOJU ONDA RENDER-UJEM
+// I NJEGA WRAPP-UJEM AROUND NECEGA DRUGOGSTO ISTO IZDVAJA
+
+// IZDVAJAM I       Screen      KOMPONENTU
+
+// === !== === !== === !==
+
+const App: FunctionComponent = () => (
+  <NavigationContainer>
+    <Stack.Navigator>
+      {/* SADA DEFINISEM SVE SCREEN-OVE INSIDE STACK */}
+      {/* I KAO STO VIDIS REFERENCIRAM KOMPONENTU, ALI DAJE M I IME */}
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="ColorPalette" component={ColorPalette} />
+    </Stack.Navigator>
+  </NavigationContainer>
+);
+export default App;
+```
+
+## SADA MOZES STARTOVATI APP I VIDECES DA CE HOME BITI RENDERED
+
+TO JE ZATO STO JE ON PRVI LAYED OUT
+
+## E SADA ZELIM DA DEFINISEM LINK-OVE (AKO SE TO TAKO ZOVE U REACT NATIVE-U)
+
+USTVARI JA ZELIM DA UVEDEM INTERAKTIVNOST
+
+## A DA BIH MOGAO DA IMAM INTERAKTIVNOST, TREBA MI NEKI NACIN ZA REGISTERING USER TAPS (DODIRA, ILI TOUCH-EVA)
+
+NAIME JASN OJE DA NA WEB-U IMAM KLIK I IMAM BUTTONS, JA NE MOGU DA DEFINISEM KLIK HANDLER-A NA NATIVE-U 
+
+# ONO STO MI TREBA JESU `TOUCABLE COMPONENTS`, KOJE ISTO UVOZIS IZ `'react-native'` PAKETA
+
+POSTOJI CELA SELEKCIJA TIH KOMPONENTI
+
+[EVO KADI IH JE OVDE PREDSTAVILA](https://kadikraman.github.io/react-native-v2/adding-navigation) (NA KRAJU STRANICE)
+
+A TO CU URADITI I JA
+
+- [TouchableHighlight](https://reactnative.dev/docs/touchablehighlight) (KOMPONENTA CE BITI POTAMNJENA NA TOUCH)
+
+- [TouchableOpacity](https://reactnative.dev/docs/touchableopacity) (SMANJICE JOS SE OPACITY ON TOUCH) (**NAJCESCE SE KORISTI**)
+
+- [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) (NECE BITI NIKAKVOG VIZUELNOG EFFECT-A) (**NAJCESCE SE KORISTI**)
+
+- [TouchableNativeFeedback](https://reactnative.dev/docs/touchablenativefeedback) (BICE OSECAJ KAO NA ANDROID-U)
+
+## JA CU KORISTITI `TouchableOpacity` U SLUCAJU MOG PRIMER-A
+
+NA NJEMU CES REGISTROVATI HANDLER:
+
+- `onPress`
+
+NA WEB IMAS onClick A NA NATIVE DEVICE-U JE **`onPress`**
+
+## A ONO STA SE KORITI JESTE `navigation` PROP, I ON CE TI SLUZITI ZA NAVIGATION BETWEEN SCREENS
+
+[POGLEDAJ DOKUMENTACIJU](https://reactnavigation.org/docs/navigation-prop)
+
+VIDIS POSTO JE TVOJA KOMPONENTA REFRENCED KAO SCREEN (POGLEDAJ GORNJI POSLEDNJI CODE BLOCK KOJI SAM POSTAVIO)
+
+**TO ZNACI DA IZ NJE MOZES IZDVOJITI `navigation` PROP**
+
+A TAK `navigation` PROP JESTE USTVARI JESTE **NAVIGACIJSKI STACK** *NAS KOJ ITI MOZES STACKOVATI SCREEN*
+
+USTVARI TO JE OBJEKAT (ILI BOLJE RECENO NIZ) NA KOJI MOZES `push`-OVATI (ALI I NE SAMO TO **IMAS I SVE OSTALE ARRAY METHODS**)
+
+A STA TI USTVARI STACK-UJES, ODNOSNO PUSH-UJES
+
+**`E PA TO JE IME SCREEN-A`** (ZADAO SI GA NA Screen KOMPONENTI (OPET POGLEDAJ GORNJI CODE BLOCK KOJ ISAM OSTAVIO))
+
+NAVIGATION PROP JESTE NAVIGATIO NARRAY
+
+## IMAJUCI SVE TO NA UMU DEFINISACU HANDLER NA Home KOMPONENTI I NA KRAJU PRITISKOM NA NEK ITEKST NA Home-U TREBAL OBI DA NAVIGATE-UJE DO ColorPallet-A
+
+- `code screens/Home/tsx`
+
+```tsx
+import React, { FunctionComponent } from 'react';
+
+import {
+  Text,
+  View,
+  // UVEZAO SAM KOMPONENTU ZA TOUCHING
+  TouchableOpacityComponent,
+} from 'react-native';
+
+// DA VIDIM DA LI MOGU DA NADJEM PRAVI PROP TYPE
+import { StackScreenProps } from '@react-navigation/stack'; // OVAJ TYPE IMA I GENERIC, KOJIM SE PREDPOSTAVLJAM DEFINISU OSTALI PROPSI KOMPONENTE (VIDIM DA MORA BITI Record)
+// PRONASAO SAM PRAVI TYPE
+// === !== === !== ===
+
+// sa koji mogu da type-ujem komponentu
+const Home: FunctionComponent<StackScreenProps<any>> = ({
+  navigation,
+  route,
+}) => (
+  // KAO STO VIDIS IMAS I route PROP (PREDPOSTAVLJAM DA JE TO ONAJ name SCREENA, KOJI MI NE TREBA OVDE)
+  <View>
+    <TouchableOpacityComponent
+      onPress={() => {
+        //  EVO VIDIS PUSH-OVAO SAM IME SCREEN-A U NAVIGATION
+        navigation.push('ColorPalette');
+        // DAKLE TO BI TREBAL ODA SE DOGODI ON PRESS
+      }}
+    >
+      <Text>Color Pallete</Text>
+    </TouchableOpacityComponent>
+  </View>
+);
+
+export default Home;
+
+```
