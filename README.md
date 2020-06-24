@@ -572,3 +572,19 @@ U TOM `options` PROP-U MOZES DA ZADASW I `title` I JOS MNOGE DRUGE STVARI (USTVA
 >> There push adds the screen to the top of the stack whereas, I think navigate is if you use the bottom nav, you could navigate to a different nav as well. Cuz I think push would automatically just add it to the top of the current stack. Whereas navigate you could use to also navigate between the bottom navs.
 
 DAKLE navigate IMA U VIDU I BOTTOM NAVIGATION
+
+# MOGUCE JE TAKODJE PROSLEDJIVATI ARGUMENTE PRILIKOM POZIVANJE `navigation.navigate`; ODNONO PORED STO PROSLEDJUJES `name` SCREEN-A, MOZES PROSLEDJIVATI I DODATNI OBJEKAT, CIJI CI TI PODACI BITI DOSTUPNI ZA SCREEN ZA KOJI DEFINISES NAVIGATION
+
+NA STA MISLIM
+
+EVO POGLEDAJ
+
+```tsx
+navigation.navigate('Home', {
+  // UPRAVO OVE MOZES DA DEFINISES STA ZELIS
+  mojTitle: "Home Screen je ovo",
+  bojaPozadine: 'crimson'
+})
+```
+
+OVO CU UPRAVO KORISTITI U PRIMERU, ALI CU TO ODRADITI U SLEDECEM BRANCH-U
