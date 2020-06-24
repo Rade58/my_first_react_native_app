@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import {
-  SafeAreaView,
+  SafeAreaView, // NE KORISTIM VISE
   FlatList,
   View,
   Text,
@@ -46,10 +46,13 @@ const ColorPalette: FunctionComponent = () => {
     explain,
     textExplain,
     flatListBox,
+    screenStyle,
   } = globalStyles;
 
   return (
-    <SafeAreaView style={droidSafeArea}>
+    // COMMENTED OUT I NE KORISTIM GA VISE
+    // <SafeAreaView style={droidSafeArea}>
+    <View>
       <View style={explain}>
         <Text style={textExplain}>
           Evo ih neki element i stilizovani su kao što vidiš, i nalaze se u flat
@@ -72,11 +75,17 @@ const ColorPalette: FunctionComponent = () => {
       />
       <Text>Fake Footer</Text>
       {/* === !== === !== === !== */}
-    </SafeAreaView>
+    </View>
+    // </SafeAreaView>
   );
 };
 
 export const globalStyles = StyleSheet.create({
+  screenStyle: {
+    backgroundColor: 'blanchedalmond',
+    color: 'crimson',
+  },
+
   flatListBox: {
     borderColor: 'crimson',
     borderWidth: 2,

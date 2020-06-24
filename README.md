@@ -390,3 +390,185 @@ MALO SAM STILIZOVAO TOUCHABLE
 
 A KORISCENJE navigate UMESTO push NISTA NIJE PROMENILO
 
+# JEDNA STVAR KOJU MOZDA TREBAS DA ZNAS JESTE DA TI NE TREBA `SafeAreaView` ZA SCREEN-OVE
+
+JER JE U VRHU VEC POSTAVLJEN BANNER KOJI GOVORI O KOJEM JE PAGE-U REC A TAJ BANNER NIJE OVERLAP-OVAO TELEFONOV TOP BAR (TAMO GDE JE BATERIJA I TIME ...)
+
+# ALI UPRAVO TI MOZES STILIZOVASTI UPRAVO TAJ PROSTOR PAGE-A, GDE STOJI IME SCREEN-A; ALI TO RADIS U SCREEN KOMPOENENTI
+
+SADA CU UKLONITI `SafeAreaView` FROM `ColorPalette` KOMPONENTE
+
+- `code screens/ColorPalette.tsx`
+
+```tsx
+import React, { FunctionComponent } from 'react';
+import {
+  SafeAreaView, // NE KORISTIM VISE
+  FlatList,
+  View,
+  Text,
+  StyleSheet,
+  Platform,
+} from 'react-native';
+
+import ItemBox from '../components/ItemBox';
+
+const COLORS = [
+  { colorName: 'Base03', hexCode: '#002b36' },
+  { colorName: 'Base02', hexCode: '#073642' },
+  { colorName: 'Base01', hexCode: '#586e75' },
+  { colorName: 'Base00', hexCode: '#657b83' },
+  { colorName: 'Base0', hexCode: '#839496' },
+  { colorName: 'Base1', hexCode: '#93a1a1' },
+  { colorName: 'Base2', hexCode: '#eee8d5' },
+  { colorName: 'Base3', hexCode: '#fdf6e3' },
+  { colorName: 'Yellow', hexCode: '#b58900' },
+  { colorName: 'Orange', hexCode: '#cb4b16' },
+  { colorName: 'Red', hexCode: '#dc322f' },
+  { colorName: 'Magenta', hexCode: '#d33682' },
+  { colorName: 'Violet', hexCode: '#6c71c4' },
+  { colorName: 'Blue', hexCode: '#268bd2' },
+  { colorName: 'Cyan', hexCode: '#2aa198' },
+  { colorName: 'Green', hexCode: '#859900' },
+];
+
+const ColorPalette: FunctionComponent = () => {
+  const {
+    /* first,
+    third,
+    fourth, */
+    droidSafeArea,
+    /*  second,
+    otherStyles,
+    //
+    textOne,
+    textTwo,
+    textThree,
+    textFour, */
+    //
+    explain,
+    textExplain,
+    flatListBox,
+    screenStyle,
+  } = globalStyles;
+
+  return (
+    // COMMENTED OUT I NE KORISTIM GA VISE
+    // <SafeAreaView style={droidSafeArea}>
+    <View>
+      <View style={explain}>
+        <Text style={textExplain}>
+          Evo ih neki element i stilizovani su kao što vidiš, i nalaze se u flat
+          listi
+        </Text>
+      </View>
+      {/* --------------------------*/}
+      <Text>Fake Header</Text>
+      <FlatList
+        style={flatListBox}
+        data={COLORS}
+        keyExtractor={(item) => item.hexCode}
+        renderItem={({ item }) => (
+          <ItemBox itemName={item.colorName} boxColor={item.hexCode} />
+        )}
+        ListHeaderComponent={<Text>Neki Header</Text>}
+        ListFooterComponent={<Text>Neki Footer</Text>}
+        ListEmptyComponent={<Text>Buyaaaaaaa</Text>}
+        // horizontal={true}
+      />
+      <Text>Fake Footer</Text>
+      {/* === !== === !== === !== */}
+    </View>
+    // </SafeAreaView>
+  );
+};
+
+export const globalStyles = StyleSheet.create({
+  screenStyle: {
+    backgroundColor: 'blanchedalmond',
+    color: 'crimson',
+  },
+
+  flatListBox: {
+    borderColor: 'crimson',
+    borderWidth: 2,
+    marginHorizontal: 8,
+  },
+
+  explain: {
+    margin: 28,
+  },
+  textExplain: {
+    fontSize: 20,
+  },
+  // === !== ===
+  otherStyles: {
+    flex: 0,
+    borderWidth: 2,
+    paddingTop: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderLeftColor: 'yellow',
+    marginTop: 18,
+    marginHorizontal: 14,
+    padding: 24,
+  },
+  // === !== === !==
+  first: {
+    backgroundColor: 'olive',
+  },
+  second: {
+    backgroundColor: 'crimson',
+  },
+  fourth: {
+    backgroundColor: 'tomato',
+  },
+  // === !== === !==
+  third: {
+    backgroundColor: 'teal',
+  },
+  // === !== === !==
+  droidSafeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? 25 : 0,
+  },
+  // === !== === !==
+  textOne: {
+    color: 'blanchedalmond',
+    fontSize: 12,
+    fontWeight: 'normal',
+  },
+  textTwo: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+  },
+  textThree: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '400',
+  },
+  textFour: {
+    color: 'green',
+    fontSize: 18,
+    fontWeight: '100',
+    fontStyle: 'italic',
+  },
+});
+
+export default ColorPalette;
+
+```
+
+**A BANNER SCREEN-A MOGU STILIZOVATI AKO DODAM DODATNE OPCIJE NA SCREEN-U**
+
+TADA NA ZELJENOM `Screen` REACT ELEMENTU (TAKVA DVA SI KORISTIO U `App.tsx`) ZADAJES `options` PROPS
+
+U TOM `options` PROP-U MOZES DA ZADASW I `title` I JOS MNOGE DRUGE STVARI (USTVARI MOGUCE JE PROSLEDJIVATI DINAMICKI, RAZNE STVARI, PRETEZNO STILOVE, DA BIH ONI BILI UPOTREBLJENI NA PAGE-U (STO CU RADITI  UNAVIGATION VEZBI))
+
+# SAZNAO SAM RAZLIKU IZMEDJU `push` I `navigate`
+
+>> There push adds the screen to the top of the stack whereas, I think navigate is if you use the bottom nav, you could navigate to a different nav as well. Cuz I think push would automatically just add it to the top of the current stack. Whereas navigate you could use to also navigate between the bottom navs.
+
+DAKLE navigate IMA U VIDU I BOTTOM NAVIGATION
