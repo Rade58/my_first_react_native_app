@@ -302,7 +302,7 @@ import {
   Text,
   View,
   // UVEZAO SAM KOMPONENTU ZA TOUCHING
-  TouchableOpacityComponent,
+  TouchableOpacity,
 } from 'react-native';
 
 // DA VIDIM DA LI MOGU DA NADJEM PRAVI PROP TYPE
@@ -317,7 +317,7 @@ const Home: FunctionComponent<StackScreenProps<any>> = ({
 }) => (
   // KAO STO VIDIS IMAS I route PROP (PREDPOSTAVLJAM DA JE TO ONAJ name SCREENA, KOJI MI NE TREBA OVDE)
   <View>
-    <TouchableOpacityComponent
+    <TouchableOpacity
       onPress={() => {
         //  EVO VIDIS PUSH-OVAO SAM IME SCREEN-A U NAVIGATION
         navigation.push('ColorPalette');
@@ -325,10 +325,11 @@ const Home: FunctionComponent<StackScreenProps<any>> = ({
       }}
     >
       <Text>Color Pallete</Text>
-    </TouchableOpacityComponent>
+    </TouchableOpacity>
   </View>
 );
 
 export default Home;
-
 ```
+
+I SADA MOZES DA STARTUJES APP I DA PROBAS DA NAVIGATE-UJES
