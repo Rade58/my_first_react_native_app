@@ -8,6 +8,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import ColorPalette from './screens/ColorPalette';
 import Home from './screens/Home';
+import Tryout from './screens/TryoutScreen';
+
+// === !== === !== === !== ===
+import { stackRecord } from './screens/TryoutScreen';
+// === !== === !== === !== ===
 
 // TRI NIZA
 
@@ -48,7 +53,7 @@ const FRONTEND_MASTERS = [
 
 //
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<stackRecord>();
 
 const App: FunctionComponent = () => (
   <NavigationContainer>
@@ -59,17 +64,19 @@ const App: FunctionComponent = () => (
         name="Home"
         component={Home}
         initialParams={{
-          mojiParams: {
-            SOLARIZED: 'SOLARIZED',
-            FRONTEND_MASTERS: 'FRONTEND_MASTERS',
-            RAINBOW: 'RAINBOW',
-          },
+          hexBoje: [],
+          something: '',
         }}
         options={{
           animationEnabled: true,
         }}
       />
-      <Stack.Screen name="SOLARIZED" component={ColorPalette} options={{}} />
+      <Stack.Screen name="SOLARIZED" component={ColorPalette} />
+      <Stack.Screen<'TRYOUT'>
+        name="TRYOUT"
+        component={Tryout}
+        initialParams={{ hexBoje: ['nesto'], something: 'blah' }}
+      />
     </Stack.Navigator>
   </NavigationContainer>
 );

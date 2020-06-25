@@ -53,23 +53,35 @@ type KarbonaraRecord = Record<string, karbonararaInter>;
 
 // === !== === !== === !== ===
 
-const Home: FunctionComponent<StackScreenProps<
-  KarbonaraRecord,
-  karbonaraEnum
->> = ({ navigation, route }) => {
-  const { key, name, params } = route;
+const Home: FunctionComponent<StackScreenProps<any>> = ({
+  navigation,
+  route,
+}) => (
+  // const { key, name, params } = route;
 
   //    params      JESTE NIZ   // I ON JE NIZ NAMENJEN ZA    SectionList
 
-  navigation.navigate(karbonaraEnum.PASTA, {
-    hexColorArr: [''],
-    hexColorName: '',
-  });
+  <View>
+    <TouchableOpacity
+      style={styles.touchableStyles}
+      onPress={() => {
+        navigation.navigate('SOLARIZED');
+      }}
+    >
+      <Text>Pritisni</Text>
+    </TouchableOpacity>
+    <TouchableOpacity
+      style={styles.touchableStyles}
+      onPress={() => {
+        navigation.navigate('TRYOUT');
+      }}
+    >
+      <Text>Pritisni</Text>
+    </TouchableOpacity>
+    <Text>{JSON.stringify({ route }, null, 2)}</Text>
 
-  return (
-    <View>
-      {/* OVO OVDE JE GENERIC DA TE NE ZBUNJUJE */}
-      <SectionList
+    {/* OVO OVDE JE GENERIC DA TE NE ZBUNJUJE */}
+    {/* <SectionList
         //
         sections={params.colors}
         renderItem={({ index, item, section, separators }) => {
@@ -85,11 +97,9 @@ const Home: FunctionComponent<StackScreenProps<
             </TouchableOpacity>
           );
         }}
-      />
-    </View>
-  );
-};
-
+      /> */}
+  </View>
+);
 // DEFINISAO I UPOTREBIO STILIZOVANJE
 
 const styles = StyleSheet.create({
