@@ -140,7 +140,10 @@ EVO POGLEDAJ KAKO SAM JA NAPRAVIO TAJ TYPE
 ```ts
 type screenNames = "SOLARIZED"| "LIGHT"| "DARK"
 
-type stackRecord = Record<string, {hexBoje: string[]; something: string }>
+// OVAJ SAM TYPE EXPORT-OVAO JER CU GA KORISTITI
+// PRILIKOM     POZIVANJA       import { createStackNavigator } from '@react-navigation/stack'
+// (PRILIKOM POZIVANJA  createStacNavigator )
+export type stackRecord = Record<string, {hexBoje: string[]; something: string }>
 
 // === !== === !==
 type ComponentScreenProps = StackScreenProps<stackRecord, screenNames>
@@ -174,12 +177,28 @@ params    -->      {hexBoje: string[]; something: string}
 
 **PARAMS** MOZES PROSLEDITI KADA DEFINISES Screen, A MORACE BITI U GORNJEM FORMATU, JER SAM TAKO DEFINISAO
 
+# DAKLE MORAS TAKODJE DA ZADAS TYPE DEFFINITION ZA SCREEN, I UPRAVO SAM ZATO IZVEZAO POMENUTY TYPE (Record), MADA JE TYPE MOGAO BITI DEFINISAN BILO GDE
 
+```tsx
+// PRI KREIRANJU STACK-A
 
+import {stackRecordtType} from 'tamo gde sam ga definisao'
 
+const Stack = createStackNavigator<stackRecordType>();
 
+// U SUSTINI SADA IMAS TYPE SAFTY KADA DEFINISES SCREEN (KADA KORISTIS Stack.Screen)
 
-# MISLIM DA PRVO TREBA DEFINISATI DA `CollorPalette` KOMPONENTA BUDE KOMPONENTA, KOJOJ SE KAO PROP DODAJE, UPRAVO NIZ KOJI JE U FORMATU KOJI JE FORMAT, TRI GORE PRIKAZANA NIZA
+// A RANIJE SI POKAZAO KAKO DA IMAS TYPE SAFTY KADA DEFINISES KONKRETNI SCREEN KOMPONENTU
+```
 
-**IME PAGE-A CE BITI **
+**JA CU SVE OVO POKAZATI I U KONKRETNOM PRIMER-U PA CES MOCI DA VIDIS SAV CODE**
 
+TO JEST JA CU SAV CODE PREDSTAVITI OVDE KADA ZAVRSIM PRIMER
+
+# ALI ONO STO NISAM ZNAO RANIJE JESTE DA SVE IMAS U DOKUMENTACIJI
+
+<https://reactnavigation.org/docs/typescript/>
+
+ALI NE VERUJEM DA JE SVE UP TO DATE, JER SAM JA MORAO KORISTITI Reacord
+
+A NIGDE NISAM VIDEO DA SE U DOKUMENTACIJI KORISTI Record
