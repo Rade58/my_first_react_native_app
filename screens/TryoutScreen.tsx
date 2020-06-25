@@ -8,7 +8,7 @@ type screenNames = 'SOLARIZED' | 'LIGHT' | 'DARK';
 
 export type stackRecord = Record<
   string,
-  { hexBoje: string[]; something: string }
+  { hexBoje: string[]; something: string; colors?: string[] }
 >;
 
 // === !== === !==
@@ -25,7 +25,7 @@ const Tryout: FunctionComponent<ComponentScreenProps> = (props) => {
         onPress={() => {
           navigation.navigate('Home', {
             hexBoje: ['nesto blah', '#fff'],
-            something: 'some',
+            something: '',
           });
         }}
       >

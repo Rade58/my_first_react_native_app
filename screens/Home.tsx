@@ -9,79 +9,45 @@ import {
   SectionList,
 } from 'react-native';
 
+// OVO JE DAKLE TYPE ZA PROPSE JEDNOG SCREEN-A (NARAVNO, JASNO MI JE DA MU SE DODAJU GENERICS)
 import { StackScreenProps } from '@react-navigation/stack';
 
-/**
- * @description INTERFACE ONOG OBJEKATA KOJI JE INDIVIDUALNI OBJEKAT data NIZA NAMENJENOG ONOM OBJEKTU, KOJI JE OPET ITEM NAMENJEN ZA SectionList
- */
-interface SectionListLevel2ItemI {
-  hexColor: string;
-  screenName: string;
-  colors: string[];
-}
+// JA SADA USTVARI ZELIM DA TYPE-UJEM, SVE ONE SCREEN NAME-OVE, PREMA KOJIMA CE SE NAVIGATE-OVATI IZ Home-A
 
-interface SectionListLevel1ItemI {
-  sectionHeading: string;
-  data: SectionListLevel2ItemI[];
-}
+type screenNamesType = 'SOLARIZED' | 'RAINBOW' | 'FRONTEND_MASTERS'; // OVDE SI MOZDA MOGAO DEFINISATI enum (ALI enu mSE UVEK MORA REFERENCIRATI)
 
-type SectionsArgumentArr = SectionListLevel1ItemI[];
+type StackPropsType = StackScreenProps<any>;
 
-enum Blah {
-  LELO = 'lelo',
-}
+// SADA MOZES DA OVAJ TYPE DA KORISTIS KAO TYPE ZA PROPSE KOMPONENTE KOJA CE BITI REFERENCED KAO SCREEN COMPONENT
+const Home: FunctionComponent<StackPropsType> = (props) => {
+  // POKUSAJ DA RESTRUKTURIRAS PROPSE DA VIDIS STA SVE IMA
 
-/**
- * @description RECORD NAMENJEN ZA StackScreenProps
- */
-type ParamsStackScreenI = Record<Blah, {}>;
+  const { navigation, route } = props; // NARAVNI, IMAS      navigation    I     route     STO JE DOBRO
 
-// === !== === !== === !== ===
+  const { key, name, params } = route;
 
-enum karbonaraEnum {
-  PASTA = 'PASTA',
-  SPAGETE = 'SPAGETE',
-  TROGLODIT = 'TROGLODIT',
-}
+  return (
+    <View>
+      <TouchableOpacity
+        style={styles.touchableStyles}
+        onPress={() => {
+          navigation.navigate('SOLARIZED');
+        }}
+      >
+        <Text>Pritisni</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.touchableStyles}
+        onPress={() => {
+          navigation.navigate('TRYOUT');
+        }}
+      >
+        <Text>Pritisni</Text>
+      </TouchableOpacity>
+      <Text>{JSON.stringify({ route }, null, 2)}</Text>
 
-interface karbonararaInter {
-  hexColorArr: string[];
-  hexColorName: string;
-}
-
-type KarbonaraRecord = Record<string, karbonararaInter>;
-
-// === !== === !== === !== ===
-
-const Home: FunctionComponent<StackScreenProps<any>> = ({
-  navigation,
-  route,
-}) => (
-  // const { key, name, params } = route;
-
-  //    params      JESTE NIZ   // I ON JE NIZ NAMENJEN ZA    SectionList
-
-  <View>
-    <TouchableOpacity
-      style={styles.touchableStyles}
-      onPress={() => {
-        navigation.navigate('SOLARIZED');
-      }}
-    >
-      <Text>Pritisni</Text>
-    </TouchableOpacity>
-    <TouchableOpacity
-      style={styles.touchableStyles}
-      onPress={() => {
-        navigation.navigate('TRYOUT');
-      }}
-    >
-      <Text>Pritisni</Text>
-    </TouchableOpacity>
-    <Text>{JSON.stringify({ route }, null, 2)}</Text>
-
-    {/* OVO OVDE JE GENERIC DA TE NE ZBUNJUJE */}
-    {/* <SectionList
+      {/* OVO OVDE JE GENERIC DA TE NE ZBUNJUJE */}
+      {/* <SectionList
         //
         sections={params.colors}
         renderItem={({ index, item, section, separators }) => {
@@ -98,8 +64,9 @@ const Home: FunctionComponent<StackScreenProps<any>> = ({
           );
         }}
       /> */}
-  </View>
-);
+    </View>
+  );
+};
 // DEFINISAO I UPOTREBIO STILIZOVANJE
 
 const styles = StyleSheet.create({

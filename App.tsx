@@ -76,6 +76,7 @@ const App: FunctionComponent = () => (
         name="TRYOUT"
         component={Tryout}
         initialParams={{ hexBoje: ['nesto'], something: 'blah' }}
+        options={({ navigation, route }) => ({ somethingNew: 2 })}
       />
     </Stack.Navigator>
   </NavigationContainer>
