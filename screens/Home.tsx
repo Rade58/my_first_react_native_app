@@ -1,25 +1,94 @@
 import React, { FunctionComponent } from 'react';
 
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  SectionList,
+} from 'react-native';
 
 import { StackScreenProps } from '@react-navigation/stack';
 
-const Home: FunctionComponent<StackScreenProps<any>> = ({
-  navigation,
-  route, // OVO I DALJE NE KORISTIM
-}) => (
-  <View>
-    <TouchableOpacity
-      style={styles.touchableStyles}
-      onPress={() => {
-        // KORISTIO SAM     navigate I NE VIDIM NIKAKVU RAZLIKU
-        navigation.navigate('ColorPalette');
-      }}
-    >
-      <Text style={styles.textStuff}>Color Pallete</Text>
-    </TouchableOpacity>
-  </View>
-);
+/**
+ * @description INTERFACE ONOG OBJEKATA KOJI JE INDIVIDUALNI OBJEKAT data NIZA NAMENJENOG ONOM OBJEKTU, KOJI JE OPET ITEM NAMENJEN ZA SectionList
+ */
+interface SectionListLevel2ItemI {
+  hexColor: string;
+  screenName: string;
+  colors: string[];
+}
+
+interface SectionListLevel1ItemI {
+  sectionHeading: string;
+  data: SectionListLevel2ItemI[];
+}
+
+type SectionsArgumentArr = SectionListLevel1ItemI[];
+
+enum Blah {
+  LELO = 'lelo',
+}
+
+/**
+ * @description RECORD NAMENJEN ZA StackScreenProps
+ */
+type ParamsStackScreenI = Record<Blah, {}>;
+
+// === !== === !== === !== ===
+
+enum karbonaraEnum {
+  PASTA = 'PASTA',
+  SPAGETE = 'SPAGETE',
+  TROGLODIT = 'TROGLODIT',
+}
+
+interface karbonararaInter {
+  hexColorArr: string[];
+  hexColorName: string;
+}
+
+type KarbonaraRecord = Record<string, karbonararaInter>;
+
+// === !== === !== === !== ===
+
+const Home: FunctionComponent<StackScreenProps<
+  KarbonaraRecord,
+  karbonaraEnum
+>> = ({ navigation, route }) => {
+  const { key, name, params } = route;
+
+  //    params      JESTE NIZ   // I ON JE NIZ NAMENJEN ZA    SectionList
+
+  navigation.navigate(karbonaraEnum.PASTA, {
+    hexColorArr: [''],
+    hexColorName: '',
+  });
+
+  return (
+    <View>
+      {/* OVO OVDE JE GENERIC DA TE NE ZBUNJUJE */}
+      <SectionList
+        //
+        sections={params.colors}
+        renderItem={({ index, item, section, separators }) => {
+          const { hexColor, screenName, colors } = item;
+
+          return (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Home', {});
+              }}
+            >
+              <Text>{hexColor}</Text>
+            </TouchableOpacity>
+          );
+        }}
+      />
+    </View>
+  );
+};
 
 // DEFINISAO I UPOTREBIO STILIZOVANJE
 

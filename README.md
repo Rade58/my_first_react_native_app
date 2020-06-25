@@ -1,419 +1,11 @@
-# SADA CU SE POZABAVITI NAVIGATION-OM
+# U OVOM BRANCH-U IDEJA JE DA MALO PROSIRIM PRIMER IZ PROSLOG BRANCH-A; A NAJVAZNIJA STVAR 
 
-NARAVNO TREBA POSLUSATI KADI, ALI TAKODJE JE POTREBNO PROCITATI SVE ODAVDE:
+[OVDE MOZES VIDETI POSTAVKU](https://kadikraman.github.io/react-native-v2/navigation-exercise)
 
-<https://kadikraman.github.io/react-native-v2/navigation-intro>
-
-# ONO STO SAM SAZNAO IZ POMENUTOGA JESTE
-
-- React Native NEMA BUILT IN NAVIGATION, I ZATO **MORAS KORISTITI LIBRARY**
-
-- MOGU DA BIRAM IZMEDJU DVA LIBRAY-JA: [React Navigation](https://reactnavigation.org/) I [React Native Navigation](https://wix.github.io/react-native-navigation/docs/before-you-start/)
-
-**OBA LIBRARY-JA IMAJU ISTU FUNKCIONALNOST** (OBA RADE ISTU STVAR)
-
-**OBA SE DANAS NE RAZLIKUJU U SEGMENTU PERFORMANSI**
-
-# JA CU UCITI LIBRARY `React Navigation` JER JE ON BUILT INTO EXPO
-
-AKO NECU DA IDEM IZVAN EXPO SAFESPACE-A, ODNOSNO AKO NE ZELIM DA EJECT-UJEM EXPO, KORISTIM POMENUTI LIBRARY
-
-# POTREBNO JE INSTALIRATI NEKE DEPENDANCIES
-
-[______](https://kadikraman.github.io/react-native-v2/navigation-expo)
-
-- `yarn add @react-navigation/native`
-
-**I DODAJEM I EXPO COMPATIBILE DEPENDANCIES** (KAO STO VIDIS INSTALIRAM IH UZ POMOC expo CLI-A)
-
-- `expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view`
-
-# SADA U SVOJ APP, MOZES UVESTI KOMPONENTU, KOJA SE ZOVE `NavigationContainer` I BUKVALNO SVE WRAPP-UJES U NJU (UVOZ IZ `@react-navigation/native`)
-
-MOZES VIDETI KAKO SAM TO URADIO INSIDE: `App.tsx`
-
-***
-
-***
-
-# !!!! DODAVANJE NAVIGATION SA PLAIN React Native-OM !!!!
-
-KAO STO REKOH, NEMAM EMULATORE I ZATO NE KORISTIM PLAIN REACT NATIVE VEC KORISTIM EXPO
-
-ALI U BUDUCNOSTI [OVDE JE SVE OBJASNJEN OZA INSTALACIJE KOJE SU POTTREBNE I OSTALO, VEZANO ZA IMPLEMENTIRANJE NAVIGACIJE U PLAIN REACT NATIVE-U](https://kadikraman.github.io/react-native-v2/navigation-rn)
-
-ZA OVO SU POTREBNI MULTIPLE SETUPS, I ZA ANDROID I ZA IOS, A POTREBNO JE I IMATI DOBRU MASIN UDA RUNN-UJES EMULATOR-E
-
-TAKODJE MORAS IMATI MAC
-
-***
-
-***
-
-# #️⃣#️⃣#️⃣#️⃣ VAZNE STVARI O NAVIGATIONU NA NATIVE DEVICE-U #️⃣#️⃣#️⃣#️⃣
-
-- POSTOJE DVA TIPA NAVIGATION-A
-
-:one: **`BOTTOM NAVIGATION`** (ROOT NAVIGATIONS)
-
-:two: **`STACK NAVIGATION`**
-
-I TO KADI [OVDE LEPO OBJASNJAVA](https://kadikraman.github.io/react-native-v2/adding-navigation)
-
-ALI HAJDE DA JA SVOJIM RECIMA OBJASNIM
-
-- **`BOTTOM NAVIGATION`** VIDEO SI JE NA PRIMER NA TWITTERU, ALI JE DOBAR PRIMER HEADSPACE APP
-
-VIDIS NEKOLIKO IKONICA POREDANIH U REDU NA DNU, I KAKO PRITISKAS NA NJIH POJAVLJUJE TI SE NOVI SCREEN
-
-I KADA TO RADIS VEOMA JE BITN UOCITI DA **PAGE, ODNOSNO SCREEN JE LOADED IMMEDIATELY AS YOU NAVIGATE**
-
-`OVO ZNACI DA SE TVOJE, ALL BOOTOM ROOT NAVIGATION PAGES KOJE IMAS` **`RENDER-UJU AS SOON AS YOU OPEN APPLICATION`**
-
-> `So if you have any, like crazy data fetching that you're doing, be mindful of the fact that everything that gets launched when you launch the route page, get launched straight away.`
-
-PREDPOSTAVLJAM DAKLE DA OVAJ QUOTE PREDSTAVLJA UPOZORENJE DA BI TREBALO OBRATITI PAZNJU DA IPAK NEMAM VELIK IDATA FETCHING ZA POMENUTU TIP NAVIGATION-A
-
-- **STACK NAVIGATION** JE NAVIGATION INSIDE PAGES; ODNONO NAVIGATION DOLZAZI IN STACKS
-
->> NAVIGATION INSIDE PAGES, COMES IN STACKS
-
-UPRAVO JE BIO PRIMER NA HEADSPACE APP, KADA JE KADI KLIKNULA NA ODREDJENI ELEMENT NA PAGE-U (NE GOVORIM O BOTTOM NAVIGATION-U), KADA SE ONDA OTVORILA NOVA STRANICA
-
-**`TA NOVA STRANICA IMA` `BACK BUTTON` (U LEVOM GORNJEM COSKU NAJCESCE)**
-
-ALI AKO POGLEDAS BOTTOM, ODNOSNO BOTTOM NAVIGATION, VIDECES DA SI I DALJE NA ISTOM MESTU STO SE TICE BOTTOM NAVIGATION-A
-
-**`USTVARI DODAT JE NOVI PAGE ON TOP OF MY STACK, ALI TI --NE IDES-- NA WHOLE DIGFFERENT PAGE`**
-
-I OVO SLEDECE JE BITNA STVAR
-
-TI MOZES DA PROMENIS BOTTOM NAVIGATION, ODNONO DA NAVIGATE-UJES DO DRUGOG SCREENA ODNONO PAGE0A U POGLEDU BOTTOM NAVIGATION-A
-
-**I ONDA MOZES PONOVO DA SE VRATIS U PREDHODNI BOTTOM PAGE NA KOJEM SI BIO**
-
-**`TADA CES VIDETI DA TVOJ STACK (ODNONO TVOJ 'STACK NAVIGATION POREDAK' ZA TRENUTNO IZBRANI BOTTOM) NIJE RESETOVAN, DAKLE I DALJE CES BITI NA PAGE-U STACK NAVIGACIJE, KOJI SI OTVORIO PRE NEGO STO SI, RANIJE NAVIGATE-OVAO U POGLEDU BOTTOM NAVIGATION-A`**
-
-***
-
-## JA CU U MOM PRIMERU DODAVATI STACK NAVIGATION, A BOTTOM NAVIGATION NIJE POTREBNA ZA MOJ APP
-
-NAIME JA VEC IMAM PAGE, NA KOJEM JE RENDERED LIST SA COLORIMA
-
-JA CU DEFINISATI DA SE MOZE TAPOVATI NA ITEM
-
-A TO CE REZULTOVATI OTVARANJEM NOVOG PAGE-A U STACKU, A ONO STO CE BITI PRIKAZANO NA NOVOM PAGE-U, BICE COLOR SCHEMA ZA KARAKTERISTICNU BOJU
-
-***
-
-***
-
-# A PRE NEGO STO POCNEM DA RADIM PRIMER ZA NAVIGATION, MORAM URADITI NEKOLIKO STVARI
-
-U PREDHODNOM PRIMERU NISAM SE BAS DRZAO CIRCULUM JER SAM SAM EXPLORE-OVAO REACT NATIVE DO ODREDJENOG NIVOA
-
-ZATO NISAM IMPLEMENTIRAO OVO
+A OVO SU TI TRI NIZA KOJA CES KORISTITI SA `FlatList` KOMPONENTOM
 
 ```ts
-const COLORS = [
-  { colorName: 'Base03', hexCode: '#002b36' },
-  { colorName: 'Base02', hexCode: '#073642' },
-  { colorName: 'Base01', hexCode: '#586e75' },
-  { colorName: 'Base00', hexCode: '#657b83' },
-  { colorName: 'Base0', hexCode: '#839496' },
-  { colorName: 'Base1', hexCode: '#93a1a1' },
-  { colorName: 'Base2', hexCode: '#eee8d5' },
-  { colorName: 'Base3', hexCode: '#fdf6e3' },
-  { colorName: 'Yellow', hexCode: '#b58900' },
-  { colorName: 'Orange', hexCode: '#cb4b16' },
-  { colorName: 'Red', hexCode: '#dc322f' },
-  { colorName: 'Magenta', hexCode: '#d33682' },
-  { colorName: 'Violet', hexCode: '#6c71c4' },
-  { colorName: 'Blue', hexCode: '#268bd2' },
-  { colorName: 'Cyan', hexCode: '#2aa198' },
-  { colorName: 'Green', hexCode: '#859900' },
-];
-```
-
-NAIME JA IMAM ITEM-E A TREBAO SAM IH OBOJITI OVIM BOJAMA
-
-TO CU SADA URADITI
-
-A ZASTO?
-
-**`IDEJA JE DA ZA OVAJ PRIMER NAVIGATION, JA USTVARI IMAM OBOJENE ELEMENTE I DA SE ONDA TOUCH-OM NA ELEMENT USTVARI ODLAZI NA SEPARATE PAGE UPRAVO TE BOJE NA KOJU SI TOUCH-OVAO`**
-
-`A TAMO TREBA DA DEFINISEM PREDSTAVLJANJE COLOR PALETT-A`
-
-***
-
-ZATO MALO KORIGUJEM PRIMER I UVODIM OVAJ NIZ U PRIMER
-
-**TAKODJE OVO IZISKUJE UPOTREBU `FlatList` A NE `SectionList`-A**
-
-TAKO DA SAM SVE TO KORIGOVAO I MOGU SE POSVETITI PRIMER-U
-
-***
-***
-
-# :one::one::one::one: DODAVANJE NAVIGATION-A :one::one::one::one:
-
-OVAJ DEO SE ISTO APLICIRA I ZA EXPO A I ZA PLAIN REACT NATIVE
-
-STO SE TICE REACT NAVIGATION LIBRARY-JA, SVI NAVIGATORI SI BROKEN INTO SMALL LIBRARIES
-
-A JA CU SAMO KORISTITI STACK NAVIGATION I MORAM DA INSTALIRAM NAVIGATORA
-
-## MORAS PRVO INSTALIRATI `STACK NAVIGATOR`-A
-
-- `yarn add @react-navigation/stack`
-
-## DOBRA PRAKSA JE IMATI `screens` DIREKTORIJUM GDE CES KEEPOVATI SVE SVOJE PAGE-OVE
-
-- `mkdir screens`
-
-## STO SE TICE `App.tsx`, CISTO TI NAPOMINJEM DA SI TI TAMO SVE WRAPP-OVAO U `NavigationContainer` 
-
-TO TI JE BIO UVOZ IZ `@react-navigation/native`
-
-## KRIRACU DVA SCREEN-A: `Home` SCREEN I `ColorPalette`
-
-- `touch screens/Home.tsx`
-- `touch screens/ColorPalette.tsx`
-
-U SUSTINI CollorPallete KOMPONENTU CU STAVITI ONU FLAT LIST-U KOJA SE NALAZI U `App.tsx`; A TO SU OBOJENI ELEMENTI KOJI SU RENDERED UZ POMOC `FlatList` KOMPONENTE
-
-U SUSTINI JA CU ZA screens/ColorPalette.tsx
-
-**USTVARI TACNIJE RECENO JA CU SAV ONAJ FLAT LIST CODE APSTRACTOVATI OUT U NOVU KOMPONENTU** (TO JE **`ColorPalette`**)
-
-**`POSTO SI ZAVSIO DEFINISANJE ColorPalette KOMPONENTE UVOZIS JE U App.tsx UKLONI SAV VISAK CODE-A`**
-
-JER ZA RENDERING LISTE COLOR ITEM-A. BICE ODGOVORNA COLOR PALLET KOMPONENTA
-
-Home KOMPONENTU SAM ZA SADA DEFINISAO SAMO KAO HELLO WORLD KOMPONENTU (DAKLE RENDERUJE SAMO HELLO WORLD)
-
-### UVESCU KOMPONENTE (ODNOSNO SCREEN-OVE) `Home` I `ColorPalette` U MOJA APP (`App.tsx`)
-
-## U `App.tsx` UVOZIM TAKODJE I FUNKCIJU `createStackNavigator` FROM `@react-navigation/stack`
-
-- `code App.tsx` 
-
-```tsx
-import React, { FunctionComponent } from 'react';
-
-//
-import { NavigationContainer } from '@react-navigation/native';
-
-// === !== === !== === !== === !== === !== ===
-import { createStackNavigator } from '@react-navigation/stack';
-// === !== === !== === !== === !== === !== ===
-
-import ColorPalette from './screens/ColorPalette';
-import Home from './screens/Home';
-
-// I KREIRAM STACK
-const Stack = createStackNavigator();
-// Stack MOGU SMATRATI           'SANDBOX'-OM        SCREEN-OVA
-//                                                              IZMEDJU KOJIH SE MOZE NAVIGATE-OVATI IN A STACK
-// === !== === !== === !== === !== === !== ===
-// JA USTVARI IZ    Stack   OBJEKTA IZDVAJAM        Navigator       KOMPONENTU, KOJU ONDA RENDER-UJEM
-// I NJEGA WRAPP-UJEM AROUND NECEGA DRUGOGSTO ISTO IZDVAJA
-
-// IZDVAJAM I       Screen      KOMPONENTU
-
-// === !== === !== === !==
-
-const App: FunctionComponent = () => (
-  <NavigationContainer>
-    <Stack.Navigator>
-      {/* SADA DEFINISEM SVE SCREEN-OVE INSIDE STACK */}
-      {/* I KAO STO VIDIS REFERENCIRAM KOMPONENTU, ALI DAJE M I IME */}
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="ColorPalette" component={ColorPalette} />
-    </Stack.Navigator>
-  </NavigationContainer>
-);
-export default App;
-```
-
-## SADA MOZES STARTOVATI APP I VIDECES DA CE HOME BITI RENDERED
-
-TO JE ZATO STO JE ON PRVI LAYED OUT
-
-## E SADA ZELIM DA DEFINISEM LINK-OVE (AKO SE TO TAKO ZOVE U REACT NATIVE-U)
-
-USTVARI JA ZELIM DA UVEDEM INTERAKTIVNOST
-
-## A DA BIH MOGAO DA IMAM INTERAKTIVNOST, TREBA MI NEKI NACIN ZA REGISTERING USER TAPS (DODIRA, ILI TOUCH-EVA)
-
-NAIME JASN OJE DA NA WEB-U IMAM KLIK I IMAM BUTTONS, JA NE MOGU DA DEFINISEM KLIK HANDLER-A NA NATIVE-U 
-
-# ONO STO MI TREBA JESU `TOUCABLE COMPONENTS`, KOJE ISTO UVOZIS IZ `'react-native'` PAKETA
-
-POSTOJI CELA SELEKCIJA TIH KOMPONENTI
-
-[EVO KADI IH JE OVDE PREDSTAVILA](https://kadikraman.github.io/react-native-v2/adding-navigation) (NA KRAJU STRANICE)
-
-A TO CU URADITI I JA
-
-- [TouchableHighlight](https://reactnative.dev/docs/touchablehighlight) (KOMPONENTA CE BITI POTAMNJENA NA TOUCH)
-
-- [TouchableOpacity](https://reactnative.dev/docs/touchableopacity) (SMANJICE JOS SE OPACITY ON TOUCH) (**NAJCESCE SE KORISTI**)
-
-- [TouchableWithoutFeedback](https://reactnative.dev/docs/touchablewithoutfeedback) (NECE BITI NIKAKVOG VIZUELNOG EFFECT-A) (**NAJCESCE SE KORISTI**)
-
-- [TouchableNativeFeedback](https://reactnative.dev/docs/touchablenativefeedback) (BICE OSECAJ KAO NA ANDROID-U)
-
-## JA CU KORISTITI `TouchableOpacity` U SLUCAJU MOG PRIMER-A
-
-NA NJEMU CES REGISTROVATI HANDLER:
-
-- `onPress`
-
-NA WEB IMAS onClick A NA NATIVE DEVICE-U JE **`onPress`**
-
-## A ONO STA SE KORITI JESTE `navigation` PROP, I ON CE TI SLUZITI ZA NAVIGATION BETWEEN SCREENS
-
-[POGLEDAJ DOKUMENTACIJU](https://reactnavigation.org/docs/navigation-prop)
-
-VIDIS POSTO JE TVOJA KOMPONENTA REFRENCED KAO SCREEN (POGLEDAJ GORNJI POSLEDNJI CODE BLOCK KOJI SAM POSTAVIO)
-
-**TO ZNACI DA IZ NJE MOZES IZDVOJITI `navigation` PROP**
-
-A TAK `navigation` PROP JESTE USTVARI JESTE **NAVIGACIJSKI STACK** *NAS KOJ ITI MOZES STACKOVATI SCREEN*
-
-USTVARI TO JE OBJEKAT (ILI BOLJE RECENO NIZ) NA KOJI MOZES `push`-OVATI (ALI I NE SAMO TO **IMAS I SVE OSTALE ARRAY METHODS**)
-
-A STA TI USTVARI STACK-UJES, ODNOSNO PUSH-UJES
-
-**`E PA TO JE IME SCREEN-A`** (ZADAO SI GA NA Screen KOMPONENTI (OPET POGLEDAJ GORNJI CODE BLOCK KOJ ISAM OSTAVIO))
-
-NAVIGATION PROP JESTE NAVIGATIO NARRAY
-
-## IMAJUCI SVE TO NA UMU DEFINISACU HANDLER NA Home KOMPONENTI I NA KRAJU PRITISKOM NA NEK ITEKST NA Home-U TREBAL OBI DA NAVIGATE-UJE DO ColorPallet-A
-
-- `code screens/Home/tsx`
-
-```tsx
-import React, { FunctionComponent } from 'react';
-
-import {
-  Text,
-  View,
-  // UVEZAO SAM KOMPONENTU ZA TOUCHING
-  TouchableOpacity,
-} from 'react-native';
-
-// DA VIDIM DA LI MOGU DA NADJEM PRAVI PROP TYPE
-import { StackScreenProps } from '@react-navigation/stack'; // OVAJ TYPE IMA I GENERIC, KOJIM SE PREDPOSTAVLJAM DEFINISU OSTALI PROPSI KOMPONENTE (VIDIM DA MORA BITI Record)
-// PRONASAO SAM PRAVI TYPE
-// === !== === !== ===
-
-// sa koji mogu da type-ujem komponentu
-const Home: FunctionComponent<StackScreenProps<any>> = ({
-  navigation,
-  route,
-}) => (
-  // KAO STO VIDIS IMAS I route PROP (PREDPOSTAVLJAM DA JE TO ONAJ name SCREENA, KOJI MI NE TREBA OVDE)
-  <View>
-    <TouchableOpacity
-      onPress={() => {
-        //  EVO VIDIS PUSH-OVAO SAM IME SCREEN-A U NAVIGATION
-        navigation.push('ColorPalette');
-        // DAKLE TO BI TREBAL ODA SE DOGODI ON PRESS
-      }}
-    >
-      <Text>Color Pallete</Text>
-    </TouchableOpacity>
-  </View>
-);
-
-export default Home;
-```
-
-I SADA MOZES DA STARTUJES APP I DA PROBAS DA NAVIGATE-UJES
-
-## KADI JE UMESTO `navigation.push` KORISTILA `navigation.navigate`
-
-ISTI JE PRINCIP I NIJE MI JASNO KOJA JE RAZLIKA IZMEDJU DVA POMENUTA
-
-MOGUCE JE DA JE POMENUTA FUNKCIJA NESTO OPTIMIZOVANA ILI IMA ANIMATION
-
-## ISTO TAKO `TOUCHABLES` SU PO DEFAULTU SA WHITE BACKGROUND-OM, PA MOZES I SAM DEFINISATI STIL ZA NJIH
-
-# ZATO CU SADA DA DEFINISEM NEKE STILOVE ZA TOUCHABLE ELEMENT, A TAKODJE CU POKUSTATI DA KORISTIM `navigation.navigate` UMESTO `navigation.push`
-
-```tsx
-import React, { FunctionComponent } from 'react';
-
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
-
-import { StackScreenProps } from '@react-navigation/stack';
-
-const Home: FunctionComponent<StackScreenProps<any>> = ({
-  navigation,
-  route, // OVO I DALJE NE KORISTIM
-}) => (
-  <View>
-    <TouchableOpacity
-      style={styles.touchableStyles}
-      onPress={() => {
-        // KORISTIO SAM     navigate I NE VIDIM NIKAKVU RAZLIKU
-        navigation.navigate('ColorPalette');
-      }}
-    >
-      <Text style={styles.textStuff}>Color Pallete</Text>
-    </TouchableOpacity>
-  </View>
-);
-
-// DEFINISAO I UPOTREBIO STILIZOVANJE
-
-const styles = StyleSheet.create({
-  touchableStyles: {
-    margin: 8,
-    backgroundColor: 'crimson',
-    width: 100,
-    padding: 8,
-    marginTop: 28,
-  },
-  textStuff: {
-    color: 'blanchedalmond',
-  },
-});
-
-export default Home;
-```
-
-MALO SAM STILIZOVAO TOUCHABLE
-
-A KORISCENJE navigate UMESTO push NISTA NIJE PROMENILO
-
-# JEDNA STVAR KOJU MOZDA TREBAS DA ZNAS JESTE DA TI NE TREBA `SafeAreaView` ZA SCREEN-OVE
-
-JER JE U VRHU VEC POSTAVLJEN BANNER KOJI GOVORI O KOJEM JE PAGE-U REC A TAJ BANNER NIJE OVERLAP-OVAO TELEFONOV TOP BAR (TAMO GDE JE BATERIJA I TIME ...)
-
-# ALI UPRAVO TI MOZES STILIZOVASTI UPRAVO TAJ PROSTOR PAGE-A, GDE STOJI IME SCREEN-A; ALI TO RADIS U SCREEN KOMPOENENTI
-
-SADA CU UKLONITI `SafeAreaView` FROM `ColorPalette` KOMPONENTE
-
-- `code screens/ColorPalette.tsx`
-
-```tsx
-import React, { FunctionComponent } from 'react';
-import {
-  SafeAreaView, // NE KORISTIM VISE
-  FlatList,
-  View,
-  Text,
-  StyleSheet,
-  Platform,
-} from 'react-native';
-
-import ItemBox from '../components/ItemBox';
-
-const COLORS = [
+const SOLARIZED = [
   { colorName: 'Base03', hexCode: '#002b36' },
   { colorName: 'Base02', hexCode: '#073642' },
   { colorName: 'Base01', hexCode: '#586e75' },
@@ -432,159 +24,162 @@ const COLORS = [
   { colorName: 'Green', hexCode: '#859900' },
 ];
 
-const ColorPalette: FunctionComponent = () => {
-  const {
-    /* first,
-    third,
-    fourth, */
-    droidSafeArea,
-    /*  second,
-    otherStyles,
-    //
-    textOne,
-    textTwo,
-    textThree,
-    textFour, */
-    //
-    explain,
-    textExplain,
-    flatListBox,
-    screenStyle,
-  } = globalStyles;
+const RAINBOW = [
+  { colorName: 'Red', hexCode: '#FF0000' },
+  { colorName: 'Orange', hexCode: '#FF7F00' },
+  { colorName: 'Yellow', hexCode: '#FFFF00' },
+  { colorName: 'Green', hexCode: '#00FF00' },
+  { colorName: 'Violet', hexCode: '#8B00FF' },
+];
 
-  return (
-    // COMMENTED OUT I NE KORISTIM GA VISE
-    // <SafeAreaView style={droidSafeArea}>
-    <View>
-      <View style={explain}>
-        <Text style={textExplain}>
-          Evo ih neki element i stilizovani su kao što vidiš, i nalaze se u flat
-          listi
-        </Text>
-      </View>
-      {/* --------------------------*/}
-      <Text>Fake Header</Text>
-      <FlatList
-        style={flatListBox}
-        data={COLORS}
-        keyExtractor={(item) => item.hexCode}
-        renderItem={({ item }) => (
-          <ItemBox itemName={item.colorName} boxColor={item.hexCode} />
-        )}
-        ListHeaderComponent={<Text>Neki Header</Text>}
-        ListFooterComponent={<Text>Neki Footer</Text>}
-        ListEmptyComponent={<Text>Buyaaaaaaa</Text>}
-        // horizontal={true}
-      />
-      <Text>Fake Footer</Text>
-      {/* === !== === !== === !== */}
-    </View>
-    // </SafeAreaView>
-  );
+const FRONTEND_MASTERS = [
+  { colorName: 'Red', hexCode: '#c02d28' },
+  { colorName: 'Black', hexCode: '#3e3e3e' },
+  { colorName: 'Grey', hexCode: '#8a8a8a' },
+  { colorName: 'White', hexCode: '#ffffff' },
+  { colorName: 'Orange', hexCode: '#e66225' },
+];
+
+```
+
+# ALI PRE NEGO STO ODRADIM PRIMER, HAJDE DA NAUCIM NEKOLIKO STVARI O ONOJ KOMPONENTI KOJA SE KORISTI KAO SCREEN, ODNONO DA VIDIM KOJI SU TU BITNI MOMENTI, KONKRETNO PO PITANJU TYPESCRIPT-A, KOJEG JA KORISTIM
+
+ONO SA CIME BI TYPE-OVAO PROPSE TAKVE KOMPONENTE JESTE SLEDECE
+
+```ts
+// OVO JE DAKEL TYPE KOJEG SAM RANIJE SPOMINJAO, ALI GA NISAM UPOTREBIO NA BOLJUI NACIN
+import { StackScreenProps } from '@react-navigation/stack'
+
+// MEDJUTIM I OVAJ TYPE ZAHTEVA DA MU SE DODA BAR JEDAN TYPE ARGUMENT (GENERIC) 
+
+```
+
+ZNAS I SAM DA JE U KOMPONENTI KAOJA SE KORISTI KAO SCREEN, USTVARI DOSTUPAN **`navigation`** PROP
+
+I ON IMA METODE POPUT **`push`** I **`navigate`**
+
+SECAS SE KAKO SI OVIM METODAMA RANIJE SAMO `ZADAVAO IME PAGE DO KOJEG ZELIS DA NAVIGATE-UJES` KAO ARGUMENT (DAKLE STRING)
+
+MEDJUTIM, METODI SE MOZE DODAVATI JOS ARGUMENTATA
+
+MOZE SE DODATI BILO STA I TO CE 'ZAVRSITI' KAO **`PODACI DOSTUPNI ZA PAGE DO KOJEG SE NAVIGATE-UJE`** 
+
+```ts
+// EVO POGLEDAJ
+navigation.navigate('Home', {nekaBoja: '#fffff', nekiTekst: "blah"})
+```
+
+## E UPRAVO A SA TYPE-OM `StackScreenProps`, ODNONO SA NJEGOVIM GENERICS-OM, KOJI EXTEND-UJE `Record` TYPE (TO JE GLOBALNO DOSTUPAN TYPE U TYPESCRIPT-U), TI MOZES DEFINISATI
+
+EVENTUALLY DOCI CU DO TOGA ZASTO SE KORISTI Reacord
+
+ALI HAJDE DA SE PRVO PODSETIM RECORD-A
+
+U SUSTINI MISLIM DA JE `NAJVAZNIJE TO DA SE Record-OM MOZE DEFINISITATI I KOJE IME SME DA IMA NEKI PROPERTI`
+
+HAJDE SADA DA VIDIM KAKO RADI Reacord
+
+## HAJDE PRVO DA VIDIM, KAKAV JE USTVARI `Record` TYPE
+
+EVO NJEGOCVE DEFINICIJE
+
+```ts
+type Record<K extends keyof any, T> = {
+    [P in K]: T;
 };
 
-export const globalStyles = StyleSheet.create({
-  screenStyle: {
-    backgroundColor: 'blanchedalmond',
-    color: 'crimson',
-  },
+// NEMOJ DA TE ZBUNJUJE     keyof
 
-  flatListBox: {
-    borderColor: 'crimson',
-    borderWidth: 2,
-    marginHorizontal: 8,
-  },
+// STA JE USTVARI     keyof
 
-  explain: {
-    margin: 28,
-  },
-  textExplain: {
-    fontSize: 20,
-  },
-  // === !== ===
-  otherStyles: {
-    flex: 0,
-    borderWidth: 2,
-    paddingTop: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderLeftColor: 'yellow',
-    marginTop: 18,
-    marginHorizontal: 14,
-    padding: 24,
-  },
-  // === !== === !==
-  first: {
-    backgroundColor: 'olive',
-  },
-  second: {
-    backgroundColor: 'crimson',
-  },
-  fourth: {
-    backgroundColor: 'tomato',
-  },
-  // === !== === !==
-  third: {
-    backgroundColor: 'teal',
-  },
-  // === !== === !==
-  droidSafeArea: {
-    flex: 1,
-    paddingTop: Platform.OS === 'android' ? 25 : 0,
-  },
-  // === !== === !==
-  textOne: {
-    color: 'blanchedalmond',
-    fontSize: 12,
-    fontWeight: 'normal',
-  },
-  textTwo: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: 'bold',
-    fontStyle: 'italic',
-  },
-  textThree: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '400',
-  },
-  textFour: {
-    color: 'green',
-    fontSize: 18,
-    fontWeight: '100',
-    fontStyle: 'italic',
-  },
-});
-
-export default ColorPalette;
+// PA EVO GLEDAJ OVAJ TYPE              type nesto = keyof {trah: 1, blah: "48px"}
+//                            nesto   JE USTVARI TYPE-A     'trah' | 'blah'
 
 ```
 
-**A BANNER SCREEN-A MOGU STILIZOVATI AKO DODAM DODATNE OPCIJE NA SCREEN-U**
+IZGLEDA, NAIZGLED KOMPLIKOVANO ALI IPAK JE USTVARI, SAMO TYPE KOJI DEFINISE NEKI OBJEKAT
 
-TADA NA ZELJENOM `Screen` REACT ELEMENTU (TAKVA DVA SI KORISTIO U `App.tsx`) ZADAJES `options` PROPS
+A GENERICS-I OVOG TYPE, DEFINISU
 
-U TOM `options` PROP-U MOZES DA ZADASW I `title` I JOS MNOGE DRUGE STVARI (USTVARI MOGUCE JE PROSLEDJIVATI DINAMICKI, RAZNE STVARI, PRETEZNO STILOVE, DA BIH ONI BILI UPOTREBLJENI NA PAGE-U (STO CU RADITI  UNAVIGATION VEZBI))
+- `TIP KLJUCA OBJEKATA`
 
-# SAZNAO SAM RAZLIKU IZMEDJU `push` I `navigate`
+- `I TIP VALUE-A TOG KLJUCA`
 
->> There push adds the screen to the top of the stack whereas, I think navigate is if you use the bottom nav, you could navigate to a different nav as well. Cuz I think push would automatically just add it to the top of the current stack. Whereas navigate you could use to also navigate between the bottom navs.
+HAJDE DA URADIM JEDNU VEZBU SA DVA Record-A, DA VIDIS KAKVA JE USTVARI NJEGOVA MOC
 
-DAKLE navigate IMA U VIDU I BOTTOM NAVIGATION
+```ts
+type pneuma = 'leblebija' | 'badem';
 
-# MOGUCE JE TAKODJE PROSLEDJIVATI ARGUMENTE PRILIKOM POZIVANJE `navigation.navigate`; ODNONO PORED STO PROSLEDJUJES `name` SCREEN-A, MOZES PROSLEDJIVATI I DODATNI OBJEKAT, CIJI CI TI PODACI BITI DOSTUPNI ZA SCREEN ZA KOJI DEFINISES NAVIGATION
+enum vicarious {
+  leblebija = 'leblebija',
+  badem = 'badem',
+}
 
-NA STA MISLIM
+type rec1 = Record<pneuma, { a: string; b: number }>;
 
-EVO POGLEDAJ
+type rec2 = Record<vicarious, { a: string; b: number }>;
 
-```tsx
-navigation.navigate('Home', {
-  // UPRAVO OVE MOZES DA DEFINISES STA ZELIS
-  mojTitle: "Home Screen je ovo",
-  bojaPozadine: 'crimson'
-})
+// MORAS KORISTITI SVAKI KLJUC BEZ OBZIRA STO JE U PITANJU ENUM ILI TYPE SA |
+// DAKLE U OBJEKTU MORAJU BITI I  leblebija     I     badem
+
+const abala: rec1 = { badem: { a: '', b: 2 }, leblebija: { a: '', b: 4 } };
+
+const inglez: rec2 = { badem: { a: '', b: 8 }, leblebija: { a: '', b: 48 } };
+
+
+// I leblebija I badem MORAJU IMATI TACNE VREDNOSTI   
+
 ```
 
-OVO CU UPRAVO KORISTITI U PRIMERU, ALI CU TO ODRADITI U SLEDECEM BRANCH-U
+# MEDJUTIM `StackScreenProps` MALO DURUGACIJE UZIMA ARGUMENTE, ILI BAR SE MENI TAK OCINI DA IMA PECULIAR THING, ALI MISLIM DA MI JE JASNO
+
+EVO POGLEDAJ KAKO SAM JA NAPRAVIO TAJ TYPE
+
+**NECU KORITITI KONKRETNO OVAJ TYPE (OVO JE SAMO POKAZNA VEZBA), ALI GA OVDE POKAZUJES, KAKO BI BOLJE ZNAO STA TREBA DA URADIS U PRIMER-U**
+
+```ts
+type screenNames = "SOLARIZED"| "LIGHT"| "DARK"
+
+type stackRecord = Record<string, {hexBoje: string[]; something: string }>
+
+// === !== === !==
+type ComponentScreenProps = StackScreenProps<stackRecord, screenNames>
+// === !== === !==
+```
+
+**KADA SA OVIM TYPE-OM TYPE-UJES SVOJU KOMPONENTU, BICE TI DOSTUPNO NEKOLIKO STVARI, STO CU I OBJASNITI**
+
+POSTO ZNAS DA MOZES IMATI SLEDECE PROPSE
+
+```ts
+const {navigation, route} = props
+
+// I POSTO    JE OVAKAV route PROP
+
+const {key, name, params} = route
+
+```
+
+STVARI CE BITI TYPED OVAKO
+
+```php
+
+key  -->   string
+
+name -->   "SOLARIZED"| "LIGHT"| "DARK"
+
+params    -->      {hexBoje: string[]; something: string}  
+
+```
+
+**PARAMS** MOZES PROSLEDITI KADA DEFINISES Screen, A MORACE BITI U GORNJEM FORMATU, JER SAM TAKO DEFINISAO
+
+
+
+
+
+
+# MISLIM DA PRVO TREBA DEFINISATI DA `CollorPalette` KOMPONENTA BUDE KOMPONENTA, KOJOJ SE KAO PROP DODAJE, UPRAVO NIZ KOJI JE U FORMATU KOJI JE FORMAT, TRI GORE PRIKAZANA NIZA
+
+**IME PAGE-A CE BITI **
+

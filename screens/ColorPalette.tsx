@@ -10,44 +10,19 @@ import {
 
 import ItemBox from '../components/ItemBox';
 
-const COLORS = [
-  { colorName: 'Base03', hexCode: '#002b36' },
-  { colorName: 'Base02', hexCode: '#073642' },
-  { colorName: 'Base01', hexCode: '#586e75' },
-  { colorName: 'Base00', hexCode: '#657b83' },
-  { colorName: 'Base0', hexCode: '#839496' },
-  { colorName: 'Base1', hexCode: '#93a1a1' },
-  { colorName: 'Base2', hexCode: '#eee8d5' },
-  { colorName: 'Base3', hexCode: '#fdf6e3' },
-  { colorName: 'Yellow', hexCode: '#b58900' },
-  { colorName: 'Orange', hexCode: '#cb4b16' },
-  { colorName: 'Red', hexCode: '#dc322f' },
-  { colorName: 'Magenta', hexCode: '#d33682' },
-  { colorName: 'Violet', hexCode: '#6c71c4' },
-  { colorName: 'Blue', hexCode: '#268bd2' },
-  { colorName: 'Cyan', hexCode: '#2aa198' },
-  { colorName: 'Green', hexCode: '#859900' },
-];
-
-const ColorPalette: FunctionComponent = () => {
+const ColorPalette: FunctionComponent<{
+  colors: { colorName: string; hexCode: string }[];
+}> = (props) => {
   const {
-    /* first,
-    third,
-    fourth, */
     droidSafeArea,
-    /*  second,
-    otherStyles,
-    //
-    textOne,
-    textTwo,
-    textThree,
-    textFour, */
     //
     explain,
     textExplain,
     flatListBox,
     screenStyle,
   } = globalStyles;
+
+  const { colors } = props;
 
   return (
     // COMMENTED OUT I NE KORISTIM GA VISE
@@ -63,7 +38,7 @@ const ColorPalette: FunctionComponent = () => {
       <Text>Fake Header</Text>
       <FlatList
         style={flatListBox}
-        data={COLORS}
+        data={colors}
         keyExtractor={(item) => item.hexCode}
         renderItem={({ item }) => (
           <ItemBox itemName={item.colorName} boxColor={item.hexCode} />
@@ -111,46 +86,10 @@ export const globalStyles = StyleSheet.create({
     padding: 24,
   },
   // === !== === !==
-  first: {
-    backgroundColor: 'olive',
-  },
-  second: {
-    backgroundColor: 'crimson',
-  },
-  fourth: {
-    backgroundColor: 'tomato',
-  },
-  // === !== === !==
-  third: {
-    backgroundColor: 'teal',
-  },
   // === !== === !==
   droidSafeArea: {
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 25 : 0,
-  },
-  // === !== === !==
-  textOne: {
-    color: 'blanchedalmond',
-    fontSize: 12,
-    fontWeight: 'normal',
-  },
-  textTwo: {
-    color: 'white',
-    fontSize: 14,
-    fontWeight: 'bold',
-    fontStyle: 'italic',
-  },
-  textThree: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '400',
-  },
-  textFour: {
-    color: 'green',
-    fontSize: 18,
-    fontWeight: '100',
-    fontStyle: 'italic',
   },
 });
 
