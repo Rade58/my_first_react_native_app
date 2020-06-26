@@ -65,6 +65,7 @@ type RouteToScreenColor = RouteProp<
 type RouteToScreenHome = RouteProp<homeRecordRouteToScreen, homeScreenNameType>;
 // ==============================================================================================
 
+// ====>      IZUZETNO VAZNO         &
 //  MISLIM DA OVDE TREBA DODATI RECORDE KAO TYPE-OVE (MORAS KORISTITI      &      )
 const Stack = createStackNavigator<
   homeRecordRouteToScreen & colorRecordRouteToScreen
