@@ -26,9 +26,11 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
         horizontal={true}
         // OVDE JEDINO STO U SLEDECOJ FUNKCIJI RESTRUCTURED     section   NIJE TYPED I NE ZNA SE DA POSTOJI title NA NJEMU (SAM Odata UZIMA U OBZIR)
         // MEDJUTIM BITNO JE DA NE JAVLJA GRESKU
-        renderSectionHeader={({ section }) => (
+        renderSectionHeader={(
+          { section: { data, title } } // IMAS DOSTUPNU I data (MALO VECE RESTRUKTURIRANJE SAM NAPRAVIO)
+        ) => (
           <TouchableOpacity>
-            <Text>{section.title}</Text>
+            <Text>{title}</Text>
           </TouchableOpacity>
         )}
         keyExtractor={(item) => item.hexCode}
