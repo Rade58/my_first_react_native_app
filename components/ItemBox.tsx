@@ -1,21 +1,19 @@
 import React, { FunctionComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const ItemBox: FunctionComponent<{ itemName: string; boxColor: string }> = (
+const ItemBox: FunctionComponent<{ colorName: string; hexCode: string }> = (
   props
 ) => {
-  const { itemName, boxColor } = props;
+  const { colorName, hexCode } = props;
 
   const textColor =
-    parseInt(boxColor.replace('#', ''), 16) > 0xffffff / 1.1
-      ? 'black'
-      : 'white';
+    parseInt(hexCode.replace('#', ''), 16) > 0xffffff / 1.1 ? 'black' : 'white';
 
   return (
-    <View style={[itemBoxStyles.boxStyles, { backgroundColor: boxColor }]}>
+    <View style={[itemBoxStyles.boxStyles, { backgroundColor: hexCode }]}>
       {/* OVDE JE DAKLE BITAN   itemNAME   */}
       <Text style={[itemBoxStyles.textStyles, { color: textColor }]}>
-        {itemName}
+        {colorName}
       </Text>
     </View>
   );
