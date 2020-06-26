@@ -1,18 +1,18 @@
 import React, { FunctionComponent } from 'react';
-import { View } from 'react-native';
+import { FlatList } from 'react-native';
 //
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native'; // MOZDA BI BILO DOBRO DA SE OVO ZASTALNO
 
 // === !== === !== === !== === !== === !== ===
-import { createStackNavigator } from '@react-navigation/stack';
+import Stack from './navigators/color-app-stack-navigator';
 
-import ColorPalette from './screens/ColorPalette';
-import Home from './screens/Home';
-import Tryout from './screens/TryoutScreen';
+//
+// KOMPONENTE KOJE CE SE KORISTITI KA OSCREEN-OVI
+import Home from './screens/ColorHome';
+import Palette from './screens/Pallete';
 
-// === !== === !== === !== ===
-import { stackRecord } from './screens/TryoutScreen';
-// === !== === !== === !== ===
+// KOMPOPNENTE VEZANE ZA NAVIGACIJU
+const { Navigator, Screen } = Stack;
 
 // TRI NIZA
 
@@ -43,7 +43,7 @@ const RAINBOW = [
   { colorName: 'Violet', hexCode: '#8B00FF' },
 ];
 
-const FRONTEND_MASTERS = [
+const THEME_COLORS = [
   { colorName: 'Red', hexCode: '#c02d28' },
   { colorName: 'Black', hexCode: '#3e3e3e' },
   { colorName: 'Grey', hexCode: '#8a8a8a' },
@@ -53,32 +53,36 @@ const FRONTEND_MASTERS = [
 
 //
 
-const Stack = createStackNavigator<stackRecord>();
+const COLOR_PALETTES = [
+  { title: 'SOLARIZED', data: SOLARIZED },
+  { title: 'RAINBOW', data: RAINBOW },
+  { title: 'THEME_COLORS', data: THEME_COLORS },
+];
 
 const App: FunctionComponent = () => (
   <NavigationContainer>
-    <Stack.Navigator>
-      {/* SADA DEFINISEM SVE SCREEN-OVE INSIDE STACK */}
-      {/* I KAO STO VIDIS REFERENCIRAM KOMPONENTU, ALI DAJE M I IME */}
-      <Stack.Screen
-        name="Home"
+    <Navigator>
+      {/* PRVO HOME */}
+      <Screen<'Home'>
         component={Home}
-        initialParams={{
-          hexBoje: [],
-          something: '',
-        }}
-        options={{
-          animationEnabled: true,
-        }}
+        name="Home"
+        initialParams={{ allColorData: COLOR_PALETTES }}
       />
-      <Stack.Screen name="SOLARIZED" component={ColorPalette} />
-      <Stack.Screen<'TRYOUT'>
-        name="TRYOUT"
-        component={Tryout}
-        initialParams={{ hexBoje: ['nesto'], something: 'blah' }}
-        options={({ navigation, route }) => ({ somethingNew: 2 })}
+      {/* E SADA DOLAZI ONO BITNO, ODNOSNO ONO NAJBITNIJE        'ZADAVANJE OCIONOG NAME-A ZA SCREEN, JER JA SAMO LAY-JEM JEDAN Screen ALI ON MOZE BITI
+      VISE SCREENOVA'    KORISTIM     options  */}
+
+      <Screen<'SOLARIZED' | 'RAINBOW' | 'THEME_COLORS'>
+        name={'SOLARIZED' || 'RAINBOW' || 'THEME_COLORS'}
+        component={Palette}
+        options={({
+          route: {
+            params: { title },
+          },
+        }) => ({
+          title: title.toLowerCase(),
+        })}
       />
-    </Stack.Navigator>
+    </Navigator>
   </NavigationContainer>
 );
 export default App;

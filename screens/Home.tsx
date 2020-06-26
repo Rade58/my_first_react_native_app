@@ -16,7 +16,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 type screenNamesType = 'SOLARIZED' | 'RAINBOW' | 'FRONTEND_MASTERS'; // OVDE SI MOZDA MOGAO DEFINISATI enum (ALI enu mSE UVEK MORA REFERENCIRATI)
 
-type StackPropsType = StackScreenProps<{}, {}>;
+type StackPropsType = StackScreenProps<{}>;
 
 // SADA MOZES DA OVAJ TYPE DA KORISTIS KAO TYPE ZA PROPSE KOMPONENTE KOJA CE BITI REFERENCED KAO SCREEN COMPONENT
 const Home: FunctionComponent<StackPropsType> = (props) => {
@@ -31,7 +31,7 @@ const Home: FunctionComponent<StackPropsType> = (props) => {
       <TouchableOpacity
         style={styles.touchableStyles}
         onPress={() => {
-          navigation.navigate('SOLARIZED');
+          // navigation.navigate('SOLARIZED');
         }}
       >
         <Text>Pritisni</Text>
@@ -39,7 +39,7 @@ const Home: FunctionComponent<StackPropsType> = (props) => {
       <TouchableOpacity
         style={styles.touchableStyles}
         onPress={() => {
-          navigation.navigate('TRYOUT');
+          // navigation.navigate('TRYOUT');
         }}
       >
         <Text>Pritisni</Text>

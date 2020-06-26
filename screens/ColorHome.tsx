@@ -3,7 +3,11 @@ import React, { FunctionComponent } from 'react';
 import { View, Text, SectionList, TouchableOpacity } from 'react-native';
 
 // TYPE-OVI
-import { HomeScreenProps } from '../navigators/color-app-stack-navigator';
+import {
+  HomeScreenProps,
+  colorScreenNamesType,
+} from '../navigators/color-app-stack-navigator'; // ZASTO SAM UVEZAO IMENA JESTE ZATO STO SAM ODLUCIO DA KOSRISTIM SECTION LIST, A ONA NIJE DOBRO TYPED
+//                                                                              A MENI TREBAJU COLOR SCREEN NAMES
 
 const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   const { params, name } = route;
@@ -29,7 +33,15 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
         renderSectionHeader={(
           { section: { data, title } } // IMAS DOSTUPNU I data (MALO VECE RESTRUKTURIRANJE SAM NAPRAVIO)
         ) => (
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              // PROBLEM JE STO title NIJE TYPED ZATO SAM OVAKO MORAO DA GA TYPE-UJEM (PROBLEM JE SECTION LIST)
+              navigation.navigate(title as colorScreenNamesType, {
+                colors: data.concat([]), //READONLY JE PA SAM GA OVAKO KOPIRAO
+                title,
+              });
+            }}
+          >
             <Text>{title}</Text>
           </TouchableOpacity>
         )}

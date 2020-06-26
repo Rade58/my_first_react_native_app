@@ -41,7 +41,7 @@ const ColorPalette: FunctionComponent<{
         data={colors}
         keyExtractor={(item) => item.hexCode}
         renderItem={({ item }) => (
-          <ItemBox itemName={item.colorName} boxColor={item.hexCode} />
+          <ItemBox colorName={item.colorName} hexCode={item.hexCode} />
         )}
         ListHeaderComponent={<Text>Neki Header</Text>}
         ListFooterComponent={<Text>Neki Footer</Text>}
