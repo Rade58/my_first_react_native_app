@@ -128,7 +128,7 @@ export interface ColorScreenProps {
 
 // --------
 
-const TryoutComponent: FunctionComponent<{
+/* const TryoutComponent: FunctionComponent<{
   navigation: HomeNavigationPropType;
   route: routeOfHomeScreenType;
 }> = (props) => {
@@ -155,6 +155,6 @@ const TryoutComponent: FunctionComponent<{
       </NavigationContainer>
     </View>
   );
-};
+}; */
 
 // !!!!! PODSETNIK DA SE SCREEN NAME MOZE TYPE-OVATI (ANOTATOVATI) I KADA LAY-UJES DOWN Screen KOMPONENTU
