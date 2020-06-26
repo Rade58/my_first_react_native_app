@@ -217,15 +217,67 @@ PARAMETRI TE FUNKCIJE SU ISTI KAO I ONI PROPSI KOJI BI SE NASLI U SCREEN KOMPONE
 
 navigate I route A POVRATNA VREDNOST TE KOMPONENTE MORA BITI ONO STA SI TYPE-OVAO, A STA SE SME PROSLEDITI PRI KORISCENJU navigate-A
 
+I MOZES RESTRUKTURIRATI route
+
+ALI TO ZNACI DA JOJ MOZES SLATI STA HOCES IZ SPOLJANJEG SVETA ALI NARAVNO TO MORA BITI U SKLADU SA TYPSCRIPT TYPING-OM
+
+# !!!! PROBLEM SA TYPING-OM !!!!
+
+ON OSTO SE SALJE IZ SPOLJASNJEG SVETA, JE ISTO ONO STO SE MORA PROSLEDITI KADA SE ZOVE `navigate`
+
+SEM AKO NEMAM ZADATU OPCIONSOST U POGLEDU TYPE-OVA ZA POMENUTI
+
+MOZDA UPRAVO MOGU DA ISKORISTIM TU OPCIONSOST (VIDECU KAKO)
+
 ***
 ***
 ***
 ***
 
-# :one::one::one::one::one::one::one::one: DA SE KONACNO POSVETIM PRIMERU :one::one::one::one::one::one::one::one:
+# ---- DA SE KONACNO POSVETIM PRIMERU ----
 
-KOMENTARISACU SVE I OSTAVLJACU CODE
+# MISLIM DA SAM DOBRO OSMISLIO IDEJU PO KOJOJ BI SE NAVIGATOR CUVAO U POSEBNOM FAJLU, ALI I SVI POTREBNI TYPE-OVI BI SE TAM ODEFINISALI
 
-# PRVO CU REDEFINISATI Home SCREEN KOMPONENTU
+- `mkdir navigators`
 
-NAIME, SAV POTREBNI DATA CE USTVARI KROZ `initialParams` BITI PROSLEDJEN `Home` SCREEN KOMPONENTI
+- `touch navigators/color-app-stack-navigator.ts`
+
+```ts
+
+```
+
+# 'NORMALIZUJ' PODATKE DA BUDU POGODNI ZA `SectionList`, A TAKODJE MOZES DA SLICE-UJES NESTO OD PODATAKA DA BIH IMAO BIH RENDER-OVAO NEKE BOJE I WRAPP-OVAO IH U `TouchableOpacity` NA HOME SCREEN-U 
+
+MOZE DATA DA TI BUDE I U SEPARATE FILE-U
+
+#######################################################################
+#######################################################################
+#######################################################################
+#######################################################################
+<!--  POGLEDAJ DOKUMENTACIJU, MOZDA NISTI TREBAO DA KORISTIS RECORD -->
+
+<!-- POGLEDAJ DOKUMENTACIJU A OVO SVE IZBRISI -->
+
+TYPE-UJ SVAKI PROP ODVOJENO
+
+```ts
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+```
+
+#######################################################################
+#######################################################################
+#######################################################################
+#######################################################################
+
+
+
+KREIRACU KOMPONENTU KOJA TREBA DA BUDE SCREEN ZASIGURNO
+
+ALI TA KOMPONENTA CE IMATI "DINAMICKI SCREEN NAME", ODNOSNO SCREEN NAME CE BITI NESTO STO SE MOZE PASS-OVATI IZ SPOLJASNJEG SVETA
+
+- `touch screens/ColorScreenTemplate.tsx`
+
+```tsx
+
+```
+

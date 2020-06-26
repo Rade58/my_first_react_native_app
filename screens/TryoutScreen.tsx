@@ -11,6 +11,10 @@ export type stackRecord = Record<
   { hexBoje: string[]; something: string; colors?: string[] }
 >;
 
+interface SpolajnjiSvet {
+  bauk: string;
+}
+
 // === !== === !==
 type ComponentScreenProps = StackScreenProps<stackRecord, screenNames>;
 // === !== === !==
