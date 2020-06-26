@@ -1,6 +1,12 @@
 import React, { FunctionComponent } from 'react';
 
-import { View, Text, SectionList, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  SectionList,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 
 // TYPE-OVI
 import {
@@ -47,7 +53,7 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
         )}
         keyExtractor={(item) => item.hexCode}
         renderItem={({ item }) => (
-          <View style={{ backgroundColor: item.hexCode }}>
+          <View style={[{ backgroundColor: item.hexCode }, styles.colorItems]}>
             <Text>{item.colorName}</Text>
           </View>
         )}
@@ -55,5 +61,12 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  colorItems: {
+    width: 20,
+    margin: 10,
+  },
+});
 
 export default Home;

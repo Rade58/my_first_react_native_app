@@ -12,15 +12,10 @@ import {
 // TREBACE MI I NESTO S CIM MOGU DA TYPE-UJEM ROUTE, ALI TO SE UVIZI IZ DRUGOG PAKETA
 import {
   RouteProp,
-  // SAMO ZA PROVERU-----
-  NavigationContainer,
-  // -----
+  //
 } from '@react-navigation/native';
 
 // / --------------
-import React, { FunctionComponent } from 'react';
-import { View, Text } from 'react-native';
-import Tryout from '../screens/TryoutScreen';
 // / --------------
 
 // MORAS NAPRAVITI INTERFACE-OVE, KOJI CE ODGOVARATI PARAMSIMA, KOJE SMES SLATI U SCREEN

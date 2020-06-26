@@ -71,8 +71,30 @@ const App: FunctionComponent = () => (
       {/* E SADA DOLAZI ONO BITNO, ODNOSNO ONO NAJBITNIJE        'ZADAVANJE OCIONOG NAME-A ZA SCREEN, JER JA SAMO LAY-JEM JEDAN Screen ALI ON MOZE BITI
       VISE SCREENOVA'    KORISTIM     options  */}
 
-      <Screen<'SOLARIZED' | 'RAINBOW' | 'THEME_COLORS'>
-        name={'SOLARIZED' || 'RAINBOW' || 'THEME_COLORS'}
+      <Screen<'SOLARIZED'>
+        name={'SOLARIZED'}
+        component={Palette}
+        options={({
+          route: {
+            params: { title },
+          },
+        }) => ({
+          title: title,
+        })}
+      />
+      <Screen<'RAINBOW'>
+        name={'RAINBOW'}
+        component={Palette}
+        options={({
+          route: {
+            params: { title },
+          },
+        }) => ({
+          title: title,
+        })}
+      />
+      <Screen<'THEME_COLORS'>
+        name={'THEME_COLORS'}
         component={Palette}
         options={({
           route: {

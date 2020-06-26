@@ -67,7 +67,14 @@ SA CIME JOJ MOZES PROSLEDITI STA ZELIS, I TO TREBA DA BUDE DOSTUPNO U KOMPONENTI
 
 :two: **`options`**
 
-I TO TREBA DA BUDE FUNKCIJA I TO OVAKVA: `({navigation, route}) => ({ovo: 'jeste objekat koji saljem unutar screen-a'})` 
+I TO TREBA DA BUDE FUNKCIJA I TO OVAKVA:
+
+```ts
+// MORAS RESTRUKTURIRTI     route     SVE DOK NE NADJES     props     I ONDA MOZES PROSLEDJIVATI U NJIH STA ZELIS
+
+({navigation, route}) => ({ovo: 'jeste objekat koji saljem unutar screen-a'})
+
+``` 
 
 # ALI TI MOZES PROSLEDJIVATI U KOMPONENTU U KOJU NAVIGATE-UJES; TADA TI PROSLEDJUJES IZ JEDNOG SCREEN-A U DRUGI
 
