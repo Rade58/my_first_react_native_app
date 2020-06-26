@@ -54,27 +54,71 @@ type colorRecordRouteToScreen = Record<colorScreenNamesType, RouteColorScreenI>;
 type homeRecordRouteToScreen = Record<homeScreenNameType, RouteHomeScreenI>;
 // === !== === !== === !==
 
-// =============================================================================================
-// OVO NECE TREBATI OVDE AL ICE TREBATI ZA DIREKTAN TYPING SCREEN KOMPONENTE
-// ROUTE PROPS TYPE, STO CE NA KRAJU ODLUCITI STA CU MOCI DA DAJEM SCREEN-OVIMA
-// === KORISTIM     RouteProp
-type RouteToScreenColor = RouteProp<
-  colorRecordRouteToScreen,
-  colorScreenNamesType //   OPET SE MORA ZADADVATI MOGUCA IMENA
->;
-type RouteToScreenHome = RouteProp<homeRecordRouteToScreen, homeScreenNameType>;
-// ==============================================================================================
-
 // ====>      IZUZETNO VAZNO         &
 //  MISLIM DA OVDE TREBA DODATI RECORDE KAO TYPE-OVE (MORAS KORISTITI      &      )
-const Stack = createStackNavigator<
+export const Stack = createStackNavigator<
   homeRecordRouteToScreen & colorRecordRouteToScreen
 >();
 
+// SADA CU DA TYPE-UJEM DVA PROP-A KOMPONENTE KOJA TREBA DA REPREZENTUJE SCREEN
+
+// TREBAS OBRATITI PAZNJU NA TO ODAKLE ZELIS GDE DA SE NAVIGATE-UJE
+// JER MOZE SE DESITI DA POGRESNO DEFINISES TYPING ZA
+// navigation
+// A NAVIGATIO NTREBA BITI TAK OTYPED DA
+// KORISTICU    StackNavigationProp   TYPE
+
+// ZELIM TYPE SAFETY ZA SLEDECE
+// ZELIM DA HOME PAGE IMA MOGUCNOST NAVIGACIJE DO OSTALIH COLOR PAGE-OVA
+// I TAKODJE DEFINISEM DA IM SE PRI TOM NAVIGATE-INGU
+
+// =============================================================================================
+// ALI PRVO CU DEFINISATI ROUTE INSIDE SCREEN
+//  I VODI MRACUNA STA GDE PRIPADA
+// === KORISTIM     RouteProp
+type routeOfColorScreenType = RouteProp<
+  colorRecordRouteToScreen,
+  colorScreenNamesType //   OPET SE MORA ZADADVATI MOGUCA IMENA
+>;
+type routeOfHomeScreenType = RouteProp<
+  homeRecordRouteToScreen,
+  homeScreenNameType
+>;
+// ==============================================================================================
+// A SADA DEFINISEM KAKO CE nvigate PROP IZGLEDATI (USTVARI PO TYPE SAFTY-JU GDE CU SE MOCI NAVIGATE-OVATI IZ HOME-A)
+// PRVO IDU VREDNOSTI STA CE SE MOCI POSLATI
+// PA ONDA IDU VREDNSOTI DO KOJIH SCREEN-OVA CE SE MOCI POSLATI
+// - PRVI GENERIC SE ODNOSI NA ONO STA SE SALJE
+// - DRUGI ARGUMENT SE ODNOSI NA IMENA SCREEN-OVA
+// ALI I DALJE CES MORATI KORISTI Record TYPE
+
+type navigateToColorScreenType = Record<
+  colorScreenNamesType,
+  RouteColorScreenI
+>;
+
+type HomeNavigationPropType = StackNavigationProp<navigateToColorScreenType>;
+
+// I TO BI BILO TO STO SE TICE TYPING-A ,A SADA MORAM ODLLUCITI STA DA IZVOZIM
+
+// NIKAKAV NAVIGATION IZ COLOR SCREEN-OVA NIJE PREDVIDJEN IAK OSAM TAMO MOGAO DA DEFINISEM DA IMA HOME BUTTON ALI TO NECU URADITI
+// U OVOM SLUCAJU
+
 // PROVERA
 
-const TryoutComponent: FunctionComponent = () => {
+const TryoutComponent: FunctionComponent<{
+  navigation: HomeNavigationPropType;
+  route: routeOfHomeScreenType;
+}> = (props) => {
   let something = 4;
+
+  const { navigation, route } = props;
+
+  navigation;
+
+  const { params } = route;
+
+  const { allColorData } = params;
 
   return (
     <View>
