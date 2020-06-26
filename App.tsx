@@ -79,7 +79,7 @@ const App: FunctionComponent = () => (
             params: { title },
           },
         }) => ({
-          title: title.toLowerCase(),
+          title: title,
         })}
       />
     </Navigator>

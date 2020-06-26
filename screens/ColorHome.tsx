@@ -27,7 +27,7 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
       <Text>{name}</Text>
       <SectionList
         sections={pickedColorData}
-        horizontal={true}
+        // horizontal={true}
         // OVDE JEDINO STO U SLEDECOJ FUNKCIJI RESTRUCTURED     section   NIJE TYPED I NE ZNA SE DA POSTOJI title NA NJEMU (SAM Odata UZIMA U OBZIR)
         // MEDJUTIM BITNO JE DA NE JAVLJA GRESKU
         renderSectionHeader={(
@@ -46,6 +46,11 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
           </TouchableOpacity>
         )}
         keyExtractor={(item) => item.hexCode}
+        renderItem={({ item }) => (
+          <View style={{ backgroundColor: item.hexCode }}>
+            <Text>{item.colorName}</Text>
+          </View>
+        )}
       />
     </View>
   );
