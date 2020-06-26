@@ -6,13 +6,33 @@ import { View, Text, SectionList, TouchableOpacity } from 'react-native';
 import { HomeScreenProps } from '../navigators/color-app-stack-navigator';
 
 const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
-  const { params } = route;
+  const { params, name } = route;
 
   const { allColorData } = params;
 
+  const pickedColorData: typeof allColorData = [];
+
+  for (let colorsObject of allColorData) {
+    const { data, title } = colorsObject;
+
+    pickedColorData.push({ title, data: data.slice(0, 4) });
+  }
+
   return (
     <View>
-      <Text>Tekst</Text>
+      <Text>{name}</Text>
+      <SectionList
+        sections={pickedColorData}
+        horizontal={true}
+        // OVDE JEDINO STO U SLEDECOJ FUNKCIJI RESTRUCTURED     section   NIJE TYPED I NE ZNA SE DA POSTOJI title NA NJEMU (SAM Odata UZIMA U OBZIR)
+        // MEDJUTIM BITNO JE DA NE JAVLJA GRESKU
+        renderSectionHeader={({ section }) => (
+          <TouchableOpacity>
+            <Text>{section.title}</Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.hexCode}
+      />
     </View>
   );
 };
