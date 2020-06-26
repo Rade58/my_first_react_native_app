@@ -56,7 +56,7 @@ type homeRecordRouteToScreen = Record<homeScreenNameType, RouteHomeScreenI>;
 
 // ====>      IZUZETNO VAZNO         &
 //  MISLIM DA OVDE TREBA DODATI RECORDE KAO TYPE-OVE (MORAS KORISTITI      &      )
-export const Stack = createStackNavigator<
+const Stack = createStackNavigator<
   homeRecordRouteToScreen & colorRecordRouteToScreen
 >();
 
@@ -104,7 +104,29 @@ type HomeNavigationPropType = StackNavigationProp<navigateToColorScreenType>;
 // NIKAKAV NAVIGATION IZ COLOR SCREEN-OVA NIJE PREDVIDJEN IAK OSAM TAMO MOGAO DA DEFINISEM DA IMA HOME BUTTON ALI TO NECU URADITI
 // U OVOM SLUCAJU
 
-// PROVERA
+// MOGU PODELITI IZVOZENJE U NEKOLIKO GRUPA
+
+const { Navigator, Screen } = Stack;
+/**
+ * @description Navigator SE WRAPPP-UJE OKO INDIVIDUAL Screen-OVA (OVDE SU TI TE DVE KOMPONENTE) /I NE ZABORAVI DA SVE MOTA BITI U *" NavigationContainer "* KOMPONENTI/
+ */
+export default { Navigator, Screen }; // MOGAO SAM DIREKTNO IZVESTI Stack ALI OVDE TI SVE POKAZUJEM KAKO IZGLEDA
+// TI IZVEZI SAMO       Stack     U BUDUCNOSTI, KAO DEFAULT EXPORT
+
+// ZELIM DA IZVEZEM SVE POTREBNE TYPE-OVE
+// ONO STO CE TREBATI SU PROP TYPE-OVI ZA KOMPONENTE
+
+export interface HomeScreenProps {
+  navigation: HomeNavigationPropType;
+  route: routeOfHomeScreenType;
+}
+
+export interface ColorScreenProps {
+  navigation: any; // NEMA NIKAKVE JASNE NAVIGACIJE, MOZE SE RADITI BILO STA IZ COLOR SCREEN-OVA
+  route: routeOfColorScreenType;
+}
+
+// --------
 
 const TryoutComponent: FunctionComponent<{
   navigation: HomeNavigationPropType;
