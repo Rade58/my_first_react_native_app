@@ -52,17 +52,22 @@ interface RouteHomeScreenI {
 //                    I TO U ZAVISNOSTI OD PARMAETARA, KOJE BUDEM PROSLEDJIVAO SA
 //                                                                                        navigation.navigate()
 
-export type colorScreenNamesType = 'SOLARIZED' | 'RAINBOW' | 'THEME_COLORS'; // MOZDA JE OVO BIL ODOBRO MESTO ZA UPOTREBU enum-A, ALI TO CU U NEKOM MOM PROJEKTU
+// MOZES SE PREVARITI PA ODLUCITI SE DA TYPE-UJE MULTIPLE SCREENS
+// ALI TI TO NE TREBAS RADITI, JER TI CES NAVIGATE-OVATI SAMO DO JEDNOG SCREEN-A U KOJ ICE SE SLATI RAZLICITI PARAMSI
 
+// DAKLE SCREEN NAME GDE CE BITI LISTED BOJE CE BITI TYPED SA SLEDECIM
+export type colorScreenNameType = 'ColorPallete';
+
+// A NIJE SPORNO KOJE CE IME BITI ZA          Home
 type homeScreenNameType = 'Home';
 
 // === !== === A SADA DA DEFINISEM TE RECORD-E !== === !==
-type colorRecordRouteToScreen = Record<colorScreenNamesType, RouteColorScreenI>;
+type colorRecordRouteToScreen = Record<colorScreenNameType, RouteColorScreenI>;
 type homeRecordRouteToScreen = Record<homeScreenNameType, RouteHomeScreenI>;
 // === !== === !== === !==
 
 // ====>      IZUZETNO VAZNO         &
-//  MISLIM DA OVDE TREBA DODATI RECORDE KAO TYPE-OVE (MORAS KORISTITI      &      )
+//  MISLIM DA OVDE TREBA DODATI RECORDE KAO TYPE-OVE (I MORAS KORISTITI      &      )
 const Stack = createStackNavigator<
   homeRecordRouteToScreen & colorRecordRouteToScreen
 >();
@@ -72,20 +77,22 @@ const Stack = createStackNavigator<
 // TREBAS OBRATITI PAZNJU NA TO ODAKLE ZELIS GDE DA SE NAVIGATE-UJE
 // JER MOZE SE DESITI DA POGRESNO DEFINISES TYPING ZA
 // navigation
-// A NAVIGATIO NTREBA BITI TAK OTYPED DA
+// A NAVIGATIO NTREBA BITI TAKO TYPED DA UZIMAS U OBZIR ODAKLE DOKLE NAVIGATE-UJES
+// I STA SE MOZE NACI U params-U, U SCREEN-U, NAKON NAVIGATING-A
 // KORISTICU    StackNavigationProp   TYPE
 
 // ZELIM TYPE SAFETY ZA SLEDECE
-// ZELIM DA HOME PAGE IMA MOGUCNOST NAVIGACIJE DO OSTALIH COLOR PAGE-OVA
-// I TAKODJE DEFINISEM DA IM SE PRI TOM NAVIGATE-INGU
+// ZELIM DA HOME PAGE IMA MOGUCNOST NAVIGACIJE DO COLLOR PALLETE PAGE (U KOJI CE SE PROSLEDJIVATI RAZLICITE VREDNOSTI STO CU POKAZATI KASNIJE)
+// I TAKODJE DEFINISEM (U POGLEDU TYPING-A) DA SE PRI TOM NAVIGATE-INGU PROSLEDJUJE   IME SCREEN-A (ODNONO ONO STO TREBA BITI IME DISPLAYED U VRHU)
+// I NIZ OBJEKATA U KOJEM JE JEDAN PROPERTI IME BOJE A DRUGI HEXCODE
 
 // =============================================================================================
-// ALI PRVO CU DEFINISATI ROUTE INSIDE SCREEN
+// DAKLE TYPE-UJEM ROUTE- INSIDE SCREEN
 //  I VODI MRACUNA STA GDE PRIPADA
 // === KORISTIM     RouteProp
 type routeOfColorScreenType = RouteProp<
   colorRecordRouteToScreen,
-  colorScreenNamesType //   OPET SE MORA ZADADVATI MOGUCA IMENA
+  colorScreenNameType
 >;
 type routeOfHomeScreenType = RouteProp<
   homeRecordRouteToScreen,
@@ -96,72 +103,44 @@ type routeOfHomeScreenType = RouteProp<
 // PRVO IDU VREDNOSTI STA CE SE MOCI POSLATI
 // PA ONDA IDU VREDNSOTI DO KOJIH SCREEN-OVA CE SE MOCI POSLATI
 // - PRVI GENERIC SE ODNOSI NA ONO STA SE SALJE
-// - DRUGI ARGUMENT SE ODNOSI NA IMENA SCREEN-OVA
+// - DRUGI GENERIC SE ODNOSI NA IMENA SCREEN-OVA
 // ALI I DALJE CES MORATI KORISTI Record TYPE
 
-type navigateToColorScreenType = Record<
-  colorScreenNamesType,
-  RouteColorScreenI
->;
+type navigateToColorScreenType = Record<colorScreenNameType, RouteColorScreenI>;
 
 type HomeNavigationPropType = StackNavigationProp<navigateToColorScreenType>;
 
 // I TO BI BILO TO STO SE TICE TYPING-A ,A SADA MORAM ODLLUCITI STA DA IZVOZIM
 
-// NIKAKAV NAVIGATION IZ COLOR SCREEN-OVA NIJE PREDVIDJEN IAK OSAM TAMO MOGAO DA DEFINISEM DA IMA HOME BUTTON ALI TO NECU URADITI
+// NIKAKAV NAVIGATION IZ COLOR SCREEN-A NIJE PREDVIDJEN, IAKO SAM TAMO MOGAO DA DEFINISEM DA IMA HOME BUTTON ALI TO NECU URADITI
 // U OVOM SLUCAJU
 
 // MOGU PODELITI IZVOZENJE U NEKOLIKO GRUPA
 
 const { Navigator, Screen } = Stack;
 /**
- * @description Navigator SE WRAPPP-UJE OKO INDIVIDUAL Screen-OVA (OVDE SU TI TE DVE KOMPONENTE) /I NE ZABORAVI DA SVE MOTA BITI U *" NavigationContainer "* KOMPONENTI/
+ * @description Navigator SE WRAPPP-UJE OKO INDIVIDUAL Screen-OVA (OVDE SU TI TE DVE KOMPONENTE) /I NE ZABORAVI DA to sve MOTA BITI U *" NavigationContainer "* KOMPONENTI/
  */
-export default { Navigator, Screen }; // MOGAO SAM DIREKTNO IZVESTI Stack ALI OVDE TI SVE POKAZUJEM KAKO IZGLEDA
+export default { Navigator, Screen }; // MOGAO SAM DIREKTNO IZVESTI Stack ALI OVDE TI SVE POKAZUJEM KAKO IZGLEDA Stack IZNUTRA (IMA DVE KOMPONENTE)
 // TI IZVEZI SAMO       Stack     U BUDUCNOSTI, KAO DEFAULT EXPORT
 
 // ZELIM DA IZVEZEM SVE POTREBNE TYPE-OVE
 // ONO STO CE TREBATI SU PROP TYPE-OVI ZA KOMPONENTE
 
+/**
+ * @description PROPSI HOME KOMPONENTE
+ */
 export interface HomeScreenProps {
   navigation: HomeNavigationPropType;
   route: routeOfHomeScreenType;
 }
 
+/**
+ * @description PROPSI COLOR PALETTE KOMPONENTE
+ */
 export interface ColorScreenProps {
-  navigation: any; // NEMA NIKAKVE JASNE NAVIGACIJE, MOZE SE RADITI BILO STA IZ COLOR SCREEN-OVA
+  navigation: any; // NEMA NIKAKVE JASNE NAVIGACIJE, MOZE SE RADITI BILO STA IZ COLOR PALETTE SCREEN-A
   route: routeOfColorScreenType;
 }
-
-// --------
-
-/* const TryoutComponent: FunctionComponent<{
-  navigation: HomeNavigationPropType;
-  route: routeOfHomeScreenType;
-}> = (props) => {
-  let something = 4;
-
-  const { navigation, route } = props;
-
-  navigation;
-
-  const { params } = route;
-
-  const { allColorData } = params;
-
-  return (
-    <View>
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="RAINBOW"
-            initialParams={{ colors: [{ colorName: '', hexCode: '' }] }}
-            component={Tryout}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </View>
-  );
-}; */
 
 // !!!!! PODSETNIK DA SE SCREEN NAME MOZE TYPE-OVATI (ANOTATOVATI) I KADA LAY-UJES DOWN Screen KOMPONENTU
