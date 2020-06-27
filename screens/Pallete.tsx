@@ -15,13 +15,15 @@ const Pallete: FunctionComponent<ColorScreenProps> = ({
 }) => {
   const { params } = route; // INSIDE route POSTOJE JOS PROPERTIJI key I name (ALI NE VIDIM DA M ITREBAJU)
 
-  const { colors, title } = params;
+  const { colors, imeScreena } = params; // CISTO TI POKAZUJEM STA IMAS
+
+  // imeScreena     TI NECES U OBIMU OVE KOMPONENTE EKSPLICITNO KORISTITI
+  //              ALI KADA BUDES DEFINISAO    options     PROP PRI MOUNTING-U SCREEN-A
+  //            TADA CES DEFINISATI DA imeScreen-A BUDE       title     KOJI CE PRIKAZIVATI IME SCREEN-A NA VRHU RENDERED SCREEN-A
+  //  (TO CES TEK URADITI U App.tsx)
 
   return (
     <View>
-      <View>
-        <Text>{title}</Text>
-      </View>
       <FlatList
         data={colors}
         renderItem={({ item }) => (
@@ -29,6 +31,8 @@ const Pallete: FunctionComponent<ColorScreenProps> = ({
         )}
         keyExtractor={({ hexCode }) => hexCode}
       />
+      {/* OVDE SAM SAM OSTRINGIFIKOVAO PODATKE JER ZELIM DA VIDIM STA CE BITI U PARMASIMA
+      OVO UJEDNO PREDSTAVLJA I COO LTRICK ZA DEBUGING*/}
       <View>
         <Text>{JSON.stringify(params, null, 2)}</Text>
       </View>
