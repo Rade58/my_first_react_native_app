@@ -34,6 +34,11 @@ const itemBoxStyles = StyleSheet.create({
     margin: 8,
     textAlign: 'center',
     padding: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
+    elevation: 2,
   },
 });
 

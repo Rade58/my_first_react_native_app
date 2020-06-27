@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-import { View, Text, FlatList } from 'react-native';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 
 // UVOZIM TYPE-OVE
 import { ColorScreenProps } from '../navigators/color-app-stack-navigator';
@@ -27,7 +27,9 @@ const Pallete: FunctionComponent<ColorScreenProps> = ({
       <FlatList
         data={colors}
         renderItem={({ item }) => (
-          <Item hexCode={item.hexCode} colorName={item.colorName} />
+          <View style={styles.shadowsAndStuff}>
+            <Item hexCode={item.hexCode} colorName={item.colorName} />
+          </View>
         )}
         keyExtractor={({ hexCode }) => hexCode}
       />
@@ -39,5 +41,15 @@ const Pallete: FunctionComponent<ColorScreenProps> = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  shadowsAndStuff: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
+    elevation: 2,
+  },
+});
 
 export default Pallete;
