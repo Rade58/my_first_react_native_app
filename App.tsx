@@ -54,9 +54,9 @@ const THEME_COLORS = [
 //
 
 const COLOR_PALETTES = [
-  { title: 'SOLARIZED', data: SOLARIZED },
-  { title: 'RAINBOW', data: RAINBOW },
-  { title: 'THEME_COLORS', data: THEME_COLORS },
+  { title: 'Solarized', data: SOLARIZED },
+  { title: 'Rainbow', data: RAINBOW },
+  { title: 'theme colors', data: THEME_COLORS },
 ];
 
 const App: FunctionComponent = () => (
@@ -71,30 +71,30 @@ const App: FunctionComponent = () => (
       {/* E SADA DOLAZI ONO BITNO, ODNOSNO ONO NAJBITNIJE        'ZADAVANJE OCIONOG NAME-A ZA SCREEN, JER JA SAMO LAY-JEM JEDAN Screen ALI ON MOZE BITI
       VISE SCREENOVA'    KORISTIM     options  */}
 
-      <Screen<'SOLARIZED'>
-        name={'SOLARIZED'}
+      <Screen<'Solarized'>
+        name={'Solarized'}
         component={Palette}
         options={({
           route: {
             params: { title },
           },
         }) => ({
-          title: title,
+          title: title + '****',
         })}
       />
-      <Screen<'RAINBOW'>
-        name={'RAINBOW'}
+      <Screen<'Rainbow'>
+        name={'Rainbow'}
         component={Palette}
         options={({
           route: {
             params: { title },
           },
         }) => ({
-          title: title,
+          title: title + '..<><>..',
         })}
       />
-      <Screen<'THEME_COLORS'>
-        name={'THEME_COLORS'}
+      <Screen<'theme colors'>
+        name={'theme colors'}
         component={Palette}
         options={({
           route: {

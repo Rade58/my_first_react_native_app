@@ -29,6 +29,9 @@ const Pallete: FunctionComponent<ColorScreenProps> = ({
         )}
         keyExtractor={({ hexCode }) => hexCode}
       />
+      <View>
+        <Text>{JSON.stringify(params, null, 2)}</Text>
+      </View>
     </View>
   );
 };

@@ -45,6 +45,7 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
               navigation.navigate(title as colorScreenNamesType, {
                 colors: data.concat([]), //READONLY JE PA SAM GA OVAKO KOPIRAO
                 title,
+                somethingNew: 'balah',
               });
             }}
           >
@@ -64,8 +65,9 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   colorItems: {
-    width: 20,
-    margin: 10,
+    width: 108,
+    margin: 4,
+    padding: 8,
   },
 });
 
