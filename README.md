@@ -191,7 +191,7 @@ interface RouteHomeScreenI {
 // ALI TI TO NE TREBAS RADITI, JER TI CES NAVIGATE-OVATI SAMO DO JEDNOG SCREEN-A U KOJ ICE SE SLATI RAZLICITI PARAMSI
 
 // DAKLE SCREEN NAME GDE CE BITI LISTED BOJE CE BITI TYPED SA SLEDECIM
-export type colorScreenNameType = 'ColorPallete';
+type colorScreenNameType = 'ColorPallete';
 
 // A NIJE SPORNO KOJE CE IME BITI ZA          Home
 type homeScreenNameType = 'Home';
@@ -322,14 +322,195 @@ const Pallete: FunctionComponent<ColorScreenProps> = ({
 export default Pallete;
 ```
 
-# KREIRACU I HOME KOMPONENTU, ODNOSNO HOME SCREEN
+# KREIRACU I HOME KOMPONENTU, ODNOSNO HOME SCREEN, ODNOSNO KOMPONENTU KOJE CE REPREZENTOVATI HOME SCREEN
 
 - `touch screens/ColorHome.tsx`
 
 ```tsx
+import React, { FunctionComponent } from 'react';
 
+import {
+  View,
+  Text,
+  SectionList,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
+
+// TYPE-OVI
+import { HomeScreenProps } from '../navigators/color-app-stack-navigator'; // ZASTO SAM UVEZAO IMENA JESTE ZATO STO SAM ODLUCIO DA KOSRISTIM SECTION LIST, A ONA NIJE DOBRO TYPED
+//                                                                              A MENI TREBAJU COLOR SCREEN NAMES
+
+const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
+  const { params, name } = route;
+
+  const { allColorData } = params;
+
+  const pickedColorData: typeof allColorData = [];
+
+  for (let colorsObject of allColorData) {
+    const { data, imeScreena } = colorsObject;
+
+    pickedColorData.push({ imeScreena, data: data.slice(0, 4) });
+  }
+
+  return (
+    <View>
+      <Text>{name}</Text>
+      <SectionList
+        sections={pickedColorData}
+        // horizontal={true}
+        // OVDE JEDINO STO U SLEDECOJ FUNKCIJI RESTRUCTURED     section   NIJE TYPED I NE ZNA SE DA POSTOJI imeScreen-A
+        // PROPERTI NA NJEMU (SAMO SE data UZIMA U OBZIR, JER ONO MORA BITI TAMO)
+        // MEDJUTIM BITNO JE DA NE JAVLJA GRESKU
+        renderSectionHeader={(
+          { section: { data, imeScreena } } // ALI NISTA TE NE SPRECAVA DA RESTRUKTURIRANJEM STAVIS I     imeScreen-A
+        ) => (
+          <TouchableOpacity
+            onPress={() => {
+              // ALI NISTA MI NE SMETA DA UPOTREBIM imeScreen-A
+
+              navigation.navigate('ColorPallete', {
+                colors: data.concat([]),
+                imeScreena: imeScreena,
+              });
+            }}
+          >
+            <Text>{imeScreena}</Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.hexCode}
+        renderItem={({ item }) => (
+          <View style={[{ backgroundColor: item.hexCode }, styles.colorItems]}>
+            <Text>{item.colorName}</Text>
+          </View>
+        )}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  colorItems: {
+    width: 108,
+    margin: 4,
+    padding: 8,
+  },
+});
+
+export default Home;
 ```
 
+# 🏄🏄🏄🏄 OSTAJE MI DA DEFINISEM, ODNOSNO REDEFINISEM `App.tsx`, KAO BI LAYOVAO SVE SCREEN-OVE, I USTVARI DEFINISAO `options` NA APROPRIATE SCREEN-U CIME CU DEFINISATE STA CE SE TOM SCREEN-U PREDSTAVITI KAO TITLE, KADA SE NAVIGATE-UJE DO NJEGA 🏄🏄🏄🏄
+
+**OVO JE I NAJVAZNIJE DEO**, JER SI ZBOG OVOGA PRVENSTVENO I RADIO OVU VEZBU
+
+```tsx
+import React, { FunctionComponent } from 'react';
+import { FlatList } from 'react-native';
+//
+import { NavigationContainer } from '@react-navigation/native'; // MOZDA BI BILO DOBRO DA SE OVO IZVOZI IZ
+//                                                                FAJLA GDE SAM DEFINISAO SVE TYPE-OVE
+//                                                                I OSTALE KOMPONENTE VEZANE ZA NAVIGACIJU
+
+// === !== === !== === !== === !== === !== ===
+import Stack from './navigators/color-app-stack-navigator';
+
+//
+// KOMPONENTE KOJE CE SE KORISTITI KAO SCREEN-OVI
+import Home from './screens/ColorHome';
+import Palette from './screens/Pallete';
+
+// KOMPOPNENTE VEZANE ZA NAVIGACIJU
+const { Navigator, Screen } = Stack;
+
+// TRI NIZA
+const SOLARIZED = [
+  { colorName: 'Base03', hexCode: '#002b36' },
+  { colorName: 'Base02', hexCode: '#073642' },
+  { colorName: 'Base01', hexCode: '#586e75' },
+  { colorName: 'Base00', hexCode: '#657b83' },
+  { colorName: 'Base0', hexCode: '#839496' },
+  { colorName: 'Base1', hexCode: '#93a1a1' },
+  { colorName: 'Base2', hexCode: '#eee8d5' },
+  { colorName: 'Base3', hexCode: '#fdf6e3' },
+  { colorName: 'Yellow', hexCode: '#b58900' },
+  { colorName: 'Orange', hexCode: '#cb4b16' },
+  { colorName: 'Red', hexCode: '#dc322f' },
+  { colorName: 'Magenta', hexCode: '#d33682' },
+  { colorName: 'Violet', hexCode: '#6c71c4' },
+  { colorName: 'Blue', hexCode: '#268bd2' },
+  { colorName: 'Cyan', hexCode: '#2aa198' },
+  { colorName: 'Green', hexCode: '#859900' },
+];
+
+const RAINBOW = [
+  { colorName: 'Red', hexCode: '#FF0000' },
+  { colorName: 'Orange', hexCode: '#FF7F00' },
+  { colorName: 'Yellow', hexCode: '#FFFF00' },
+  { colorName: 'Green', hexCode: '#00FF00' },
+  { colorName: 'Violet', hexCode: '#8B00FF' },
+];
+
+const RANDOM_COLORS = [
+  { colorName: 'Red', hexCode: '#c02d28' },
+  { colorName: 'Black', hexCode: '#3e3e3e' },
+  { colorName: 'Grey', hexCode: '#8a8a8a' },
+  { colorName: 'White', hexCode: '#ffffff' },
+  { colorName: 'Orange', hexCode: '#e66225' },
+];
+
+// KOJA SAM SPOJIO U OBJEKAT KOJI JE POGODAN DA SE KORISTI SA SECTION LIST-OM
+const COLOR_PALETTES = [
+  { imeScreena: 'Solarized', data: SOLARIZED },
+  { imeScreena: 'Rainbow', data: RAINBOW },
+  { imeScreena: 'Random Colors', data: RANDOM_COLORS },
+];
+
+//
+
+const App: FunctionComponent = () => (
+  <NavigationContainer>
+    <Navigator>
+      {/* PRVO HOME I VIDIS DA MOZES I OVDE DA DODAS GENERIC */}
+      <Screen<'Home'>
+        component={Home}
+        name="Home"
+        // DAKLE JA MOGU PROSLEDITI BILO KOJI DATA KOJI
+        // I LEPO JE DA SAM IMAO MOGUCNOST DA DOBIJE SUGESTIONS ON    Ctrl + Space
+        initialParams={{ allColorData: COLOR_PALETTES }}
+      />
+      {/* E SADA DOLAZI ONO BITNO, ODNOSNO ONO NAJBITNIJE   'ZADAVANJE  NAME-A ZA SCREEN, JER JA SAMO LAY-JEM JEDAN Screen ALI ON MOZE
+      RENDER-OVATI RAZLICIT DATA OD SLUCAJA DO SLUCAJ'    KORISCENJEM     options    PROPA  */}
+
+      <Screen<'ColorPallete'>
+        name="ColorPallete"
+        component={Palette}
+        // I OVO JE NAJVAZNIJE
+        // RESTRUKTURIRAS ONO STO SE U KOMPONENTU, ODNON IOSCREEN SALJE PRILIKOM
+        // NAVIGATE-OVANJA DO NJE
+        // I SA TIM PODACIMA MOZES DEFINISATI NEKA OD SVOJSTAVA SCREEN-A
+        // JA MENJAM    title   SCREEN-A, UPRAVO SA POMENUTIM PASSED IN TOKOM NAVIGATING-A PODACIMA
+        options={({
+          route: {
+            params: { imeScreena },
+          },
+        }) => ({
+          // I OPET IMAM SUGESTIJE KORISCENJEM   Ctrl + Space
+          title: imeScreena,
+        })}
+      />
+    </Navigator>
+  </NavigationContainer>
+);
+export default App;
+```
+
+I STA SAM OVIME POSTIGAO
+
+`PA UMESTO VISE SCREEN-OVA, JA SADFA IMAM JEDAN SCREEN, U KOJEM MOGU PROSLEDJIVATI DATA TOKOM NAVIGATING-A, STO SAM I URADIO`
+
+`A TAKODJE MOZES SA PASSED IN PODACIMA DEFINISATI NEKA SVOJSTVA SCREEN-A` (options PROPS)
 
 
 

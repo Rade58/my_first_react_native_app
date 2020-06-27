@@ -9,10 +9,7 @@ import {
 } from 'react-native';
 
 // TYPE-OVI
-import {
-  HomeScreenProps,
-  colorScreenNamesType,
-} from '../navigators/color-app-stack-navigator'; // ZASTO SAM UVEZAO IMENA JESTE ZATO STO SAM ODLUCIO DA KOSRISTIM SECTION LIST, A ONA NIJE DOBRO TYPED
+import { HomeScreenProps } from '../navigators/color-app-stack-navigator'; // ZASTO SAM UVEZAO IMENA JESTE ZATO STO SAM ODLUCIO DA KOSRISTIM SECTION LIST, A ONA NIJE DOBRO TYPED
 //                                                                              A MENI TREBAJU COLOR SCREEN NAMES
 
 const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
@@ -23,9 +20,9 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   const pickedColorData: typeof allColorData = [];
 
   for (let colorsObject of allColorData) {
-    const { data, title } = colorsObject;
+    const { data, imeScreena } = colorsObject;
 
-    pickedColorData.push({ title, data: data.slice(0, 4) });
+    pickedColorData.push({ imeScreena, data: data.slice(0, 4) });
   }
 
   return (
@@ -34,22 +31,23 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
       <SectionList
         sections={pickedColorData}
         // horizontal={true}
-        // OVDE JEDINO STO U SLEDECOJ FUNKCIJI RESTRUCTURED     section   NIJE TYPED I NE ZNA SE DA POSTOJI title NA NJEMU (SAM Odata UZIMA U OBZIR)
+        // OVDE JEDINO STO U SLEDECOJ FUNKCIJI RESTRUCTURED     section   NIJE TYPED I NE ZNA SE DA POSTOJI imeScreen-A
+        // PROPERTI NA NJEMU (SAMO SE data UZIMA U OBZIR, JER ONO MORA BITI TAMO)
         // MEDJUTIM BITNO JE DA NE JAVLJA GRESKU
         renderSectionHeader={(
-          { section: { data, title } } // IMAS DOSTUPNU I data (MALO VECE RESTRUKTURIRANJE SAM NAPRAVIO)
+          { section: { data, imeScreena } } // ALI NISTA TE NE SPRECAVA DA RESTRUKTURIRANJEM STAVIS I     imeScreen-A
         ) => (
           <TouchableOpacity
             onPress={() => {
-              // PROBLEM JE STO title NIJE TYPED ZATO SAM OVAKO MORAO DA GA TYPE-UJEM (PROBLEM JE SECTION LIST)
-              navigation.navigate(title as colorScreenNamesType, {
-                colors: data.concat([]), //READONLY JE PA SAM GA OVAKO KOPIRAO
-                title,
-                somethingNew: 'balah',
+              // ALI NISTA MI NE SMETA DA UPOTREBIM imeScreen-A
+
+              navigation.navigate('ColorPallete', {
+                colors: data.concat([]),
+                imeScreena: imeScreena,
               });
             }}
           >
-            <Text>{title}</Text>
+            <Text>{imeScreena}</Text>
           </TouchableOpacity>
         )}
         keyExtractor={(item) => item.hexCode}

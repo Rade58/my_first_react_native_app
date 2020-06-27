@@ -56,7 +56,7 @@ interface RouteHomeScreenI {
 // ALI TI TO NE TREBAS RADITI, JER TI CES NAVIGATE-OVATI SAMO DO JEDNOG SCREEN-A U KOJ ICE SE SLATI RAZLICITI PARAMSI
 
 // DAKLE SCREEN NAME GDE CE BITI LISTED BOJE CE BITI TYPED SA SLEDECIM
-export type colorScreenNameType = 'ColorPallete';
+type colorScreenNameType = 'ColorPallete';
 
 // A NIJE SPORNO KOJE CE IME BITI ZA          Home
 type homeScreenNameType = 'Home';
