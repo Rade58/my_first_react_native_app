@@ -43,7 +43,7 @@ const RAINBOW = [
   { colorName: 'Violet', hexCode: '#8B00FF' },
 ];
 
-const THEME_COLORS = [
+const RANDOM_COLORS = [
   { colorName: 'Red', hexCode: '#c02d28' },
   { colorName: 'Black', hexCode: '#3e3e3e' },
   { colorName: 'Grey', hexCode: '#8a8a8a' },
@@ -54,9 +54,9 @@ const THEME_COLORS = [
 //
 
 const COLOR_PALETTES = [
-  { title: 'Solarized', data: SOLARIZED },
-  { title: 'Rainbow', data: RAINBOW },
-  { title: 'theme colors', data: THEME_COLORS },
+  { imeScreena: 'Solarized', data: SOLARIZED },
+  { imeScreena: 'Rainbow', data: RAINBOW },
+  { imeScreena: 'Random Colors', data: RANDOM_COLORS },
 ];
 
 const App: FunctionComponent = () => (

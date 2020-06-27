@@ -2,6 +2,7 @@
 import {
   //
   createStackNavigator,
+  //
   // --> types
   // SLEDECI TYPE CE MI SLUZITI DA PRAVILNO TYPE-UJEM navigation
   //                KONKRETNO JE NAJVAZNIJE DA CE TO ODREDITI
@@ -15,20 +16,25 @@ import {
   //
 } from '@react-navigation/native';
 
-// / --------------
-// / --------------
+// / --------------------------------------------------------------------------------------
+// / --------------------------------------------------------------------------------------
 
 // MORAS NAPRAVITI INTERFACE-OVE, KOJI CE ODGOVARATI PARAMSIMA, KOJE SMES SLATI U SCREEN
+// DAKEL TYPE-UJES ONO STA MOZES OCEKIVATI U      route     PROPU       , ODNOSNO U NJEGOVOM        params    PROPU
+// IL IDA BUDEM JOS TACNIJI,
+//                              OVDE------------>           props: {route: {params :  {TYPE-UJES OVAJ OBJEKAT}  }}
 interface RouteColorScreenI {
   // U MOM PRIMERU TO CE BITI BOJE
   colors: { colorName: string; hexCode: string }[];
-  title: string;
+  imeScreena: string;
 }
+
 // DVA INTERFACE PRAVIM JER RAZLICITE STVARI SALJE U SCREEN-OVE NA KOJIMA CE BITI RENDERED COLOR, I U Home SCREEN
+
 // JER U home SCREEN JA SALJEM SVE STO IMAM OD PODATAKA
 interface RouteHomeScreenI {
   allColorData: {
-    title: string;
+    imeScreena: string;
     data: { colorName: string; hexCode: string }[];
   }[];
 }
@@ -39,7 +45,13 @@ interface RouteHomeScreenI {
 // O OVOME NEMA NISTA U DOKUMENTACIJI ALI IZGLEDA DA TREBAS DA POVEZES
 // ROUTE TYPE SA TYPE-OVIMA ZA SCREEN-OVE
 
-// DEFINISACU PRVO TYPE-OVE ZA MOGUCE SCREEN-OVE
+// !!!!!!!!!!!    VAZNA STVAR      !!!!!!!!!!!!!!!!
+// TI CES IMATI
+//                -     SAMO JEDAN SCREEN U KOJI CES RENDER-OVATI BOJE
+//                    ALI JA CU TAKORECI PREVARITI KORISNIKA TAK OSTO CU MU SERVIRATI RAZLICITE PODATKE U TOM
+//                    I TO U ZAVISNOSTI OD PARMAETARA, KOJE BUDEM PROSLEDJIVAO SA
+//                                                                                        navigation.navigate()
+
 export type colorScreenNamesType = 'SOLARIZED' | 'RAINBOW' | 'THEME_COLORS'; // MOZDA JE OVO BIL ODOBRO MESTO ZA UPOTREBU enum-A, ALI TO CU U NEKOM MOM PROJEKTU
 
 type homeScreenNameType = 'Home';

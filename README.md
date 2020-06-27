@@ -34,7 +34,7 @@ const RAINBOW = [
   { colorName: 'Violet', hexCode: '#8B00FF' },
 ];
 
-const THEME_COLORS = [
+const RANDOM_COLORS = [
   { colorName: 'Red', hexCode: '#c02d28' },
   { colorName: 'Black', hexCode: '#3e3e3e' },
   { colorName: 'Grey', hexCode: '#8a8a8a' },
@@ -48,10 +48,9 @@ OVA TRI NIZA MOZES SPOJITI U JEDAN ARRAY, KOJI BI SE NA PRIMER ZVAO `COLLOR_PALE
 
 ```ts
 const COLOR_PALETTES = [
-  {title: 'SOLARIZED', data: SOLARIZED},
-  {title: 'RAINBOW', data: RAINBOW},
-  {title: 'THEME_COLORS', data: THEME_COLORS}
-
+  {imeScreena: 'Solarized', data: SOLARIZED},
+  {imeScreena: 'Rainbow', data: RAINBOW},
+  {imeScreena: 'Random Colors', data: RANDOM_COLORS}
 ]
 ```
 
@@ -98,22 +97,36 @@ I TO TREBA DA BUDE FUNKCIJA I TO OVAKVA:
 
 // TITLE JE SAMO JEDNA STVAR KOJU MOZES DEFINISATI
 //  CAR TYPESCRIPTA TI OMOGUCAVA DA U TOM OBJEKTU
-//                                                  PRITISNES         Ctrl + Space    I TAKO SAZNAS STA MOZES DEFINISATI
-
+//                                       PRITISNES      *********\         Ctrl + Space         /*********   I TAKO SAZNAS STA MOZES DEFINISATI
 ``` 
 
-<!-- SVE  DALJE TRAZI REVIZIJU JER SAM IZGRESIO I DAO MNOSTVO MOZDA POGRESNIH INFORMACIJA; PROVERI TO SVE -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
-<!--  -->
+**POSMATRAJ GORE RETRUKTURIRANI PARAMETAR** ({navigation, route})
+
+**TU IMASI** `route.params`
+
+**E PA TO TI JE ONO STO CE BITI PROSLEDJENO U SCREEN, KADA KORISTIS** &nbsp;&nbsp;&nbsp;&nbsp; 
+
+```ts
+
+navigation.navigate('ime screena', {E TO JE OVAJ OBJEKAT})
+
+```
+
+**`TAK ODA TI PRILIKOM MOUNTING-A SCREEN-A, DAKLE IZ SPOLJASNJEG SVETA, DEFINISES STA CE SE TO I KOKO KORISTITI U SCREEN-U`**
+
+`I MOZES DEFINISATI MNOSTVO VREDNOSTI, OD KOJIH SE NAJCESCE MENJA` **title**
+
+TO TI JE IME SCREEN-A, A TO JE ONO, ONDOSNO ONAJ TITLE STO SE PRIKAZUJE U VRHU SCREENA DO KOJEG SI NAVIGATE-OVAO
 
 
+#########
+#########
+#########
+#########
+#########
+#########
 
-# ONO STO ZELIM DA URADIM JESTE DA VIDIM KAKO JE NAJBOLJE TYPE-OVATI SCREEN KOMPONENTE, KAKO BI ZNAO STA DA OCEKUJEM U NJIMA, U POGLEDU DODATNIH PARMETARA; AL IZELIM TAKODJE DA TYPE-UJEM SAMI Screen, JER ZELIM DA IMAM I TYPESCRIPT PODRSKU KADA PROSLEDJUJEM DATA SCREEN-U
+# ONO STO ZELIM DA URADIM JESTE DA VIDIM KAKO JE NAJBOLJE TYPE-OVATI SCREEN KOMPONENTE, KAKO BI ZNAO STA DA OCEKUJEM U NJIMA, U POGLEDU DODATNIH PARMETARA; ALI ZELIM TAKODJE DA TYPE-UJEM SAMI Screen, JER ZELIM DA IMAM I TYPESCRIPT PODRSKU KADA PROSLEDJUJEM DATA SCREEN-U
 
 [JA U SUSTINI VEC IMAM GUIDE](https://reactnavigation.org/docs/typescript/)
 
