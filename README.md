@@ -368,3 +368,10 @@ SADA CES SPINNER VIDETI NESTO DUZE
 TO JE SIMPLE EXPRESS SERVER CIJI CODE MOZES NACI OVDE
 
 <https://github.com/kadikraman/color-palette-api>
+
+
+MISLI MDA GA JE ONA DEPLOY-OVALA SA
+
+<https://vercel.com/> (Vercel (formerly ZEIT))
+
+NJEN DEPLOYMENT SE NALAZI NA (<https://color-palette-api.kadikraman.now.sh/palettes>), KAO STO I ZNAM JER SAM AGAINST THIS URI SLAO NETWORK REQUESTS
