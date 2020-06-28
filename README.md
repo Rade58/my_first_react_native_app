@@ -24,6 +24,8 @@ EVO POGLEDAJ KAKO SAM SVE URADIO
 - `code screens/ColorHome.tsx`
 
 
+--problemi sa stylingom--
+
 ```tsx
 
 ```

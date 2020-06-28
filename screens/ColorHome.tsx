@@ -43,6 +43,15 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
     pickedColorData.push({ imeScreena, data: data.slice(0, 4) });
   } */
 
+  // SLUZICE MI DA NAPRAVIM FLAT LIST ZA ONE PREVIEW BOJE NA HOME SCREEN-U
+  const takePreviewColors = (
+    colorsArr: { colorName: string; hexCode: string }[]
+  ) => {
+    const myColors: typeof colorsArr = colorsArr.slice(0, 4);
+
+    return myColors;
+  };
+
   // ***************************************************************************************************
   // ***************************************************************************************************
 
@@ -66,10 +75,11 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   }, [fetchApiDataCallback]);
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Text>{name}</Text>
       {/* UMESTO SECTION LIST ZELIM DA KORISTIM FLAT LIST */}
       <FlatList
+        style={{ flex: 1 }}
         data={colorData}
         renderItem={({ item: { colors, paletteName } }) => (
           <TouchableOpacity
@@ -82,6 +92,16 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
           >
             <View style={[styles.colorItems]}>
               <Text>{paletteName}</Text>
+              <FlatList
+                style={styles.prevContainer}
+                data={takePreviewColors(colors)}
+                renderItem={({ item: { colorName, hexCode } }) => (
+                  <View
+                    style={[{ backgroundColor: hexCode }, styles.preview]}
+                  />
+                )}
+                keyExtractor={({ hexCode }) => hexCode}
+              />
             </View>
           </TouchableOpacity>
         )}
@@ -92,8 +112,23 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
+  prevContainer: {
+    borderColor: 'crimson',
+    borderWidth: 4,
+    flex: 1,
+    flexDirection: 'column',
+  },
+
+  preview: {
+    width: 38,
+    height: 38,
+    borderColor: 'olive',
+    borderWidth: 2,
+  },
+
   colorItems: {
-    width: 108,
+    // width: 108,
+    flex: 1,
     margin: 4,
     padding: 8,
   },
