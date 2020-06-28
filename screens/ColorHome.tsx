@@ -65,11 +65,12 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   // ISKORISTICU USE CALLBACK U KOJEM CU DEFINISATI NETWORK REQUEST
 
   const fetchApiDataCallback = useCallback(async () => {
-    const jsonData = await fetch(colorsURL);
+    const result = await fetch(colorsURL);
 
-    const data: ApiDataType = await jsonData.json();
-
-    setColorData(data);
+    if (result.ok) {
+      const data: ApiDataType = await result.json();
+      setColorData(data);
+    }
   }, []);
 
   useEffect(() => {

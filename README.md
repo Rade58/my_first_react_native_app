@@ -91,11 +91,12 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   // ISKORISTICU USE CALLBACK U KOJEM CU DEFINISATI NETWORK REQUEST
 
   const fetchApiDataCallback = useCallback(async () => {
-    const jsonData = await fetch(colorsURL);
+    const result = await fetch(colorsURL);
 
-    const data: ApiDataType = await jsonData.json();
-
-    setColorData(data);
+    if (result.ok) {
+      const data: ApiDataType = await result.json();
+      setColorData(data);
+    }
   }, []);
 
   useEffect(() => {
@@ -173,3 +174,11 @@ export default Home;
 ```
 
 I TO JE TO, UZ NEKE MALE STVARI, U DRUGIM KOMPONENTAMA (PRETEZNO STYLING (UKLANJANJE BORDER-A))
+
+# NEKI NOTES U VEZI TESTING-A
+
+>> For React Native, what would you use for unit testing? Would you use something like React?
+
+>> There's a React Native testing library that's special for React Native, it is React Native test library. And then if you want to do end to end testing, there's a framework called Detox, that's kind of the best for that.
+
+>> There's some limitations on running on some Android devices on specific CIs. But in general, if you want to do end to end testing in React Native, Detox is kind of like the main thing you use. And you can write your tests in JavaScript, which is pretty cool.
