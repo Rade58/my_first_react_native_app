@@ -363,4 +363,8 @@ SADA CES SPINNER VIDETI NESTO DUZE
 
 >>  And it's kind of a weird thing cause normally we don't want to make our app slower. We're kind of chasing the opposite, but sometimes from a user experience point of view, users just wanna know that something's going on. And when you have a super short spinning cycle, the thing that they were trying to do didn't happen.So sometimes this is handy to do
 
+**CISTO DA NAPOMENEM DA JE KADI NAPRAVILA API ZA POTREBE OVOG PRIMERA**
 
+TO JE SIMPLE EXPRESS SERVER CIJI CODE MOZES NACI OVDE
+
+<https://github.com/kadikraman/color-palette-api>
