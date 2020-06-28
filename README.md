@@ -136,7 +136,7 @@ DA LI JE OVO SAMO VEZANO ZA REACT NATIV ILI SE ODNOSI I NA PLAIN REACT, NISAM SI
 
 # DOBAR PRIMER UPOTREBE SVA OD OVA TRI HOOK-A BIO BI JEDAN PRIMER, U KOJEM JE UPOTREBLJEN NETWORK REQUEST
 
-OSTAVICU [EXPO SNACK PRIMER, KOJEG CU ISKOMENTARISATI](https://snack.expo.io/@radedev/useeffect-(network-request-example))
+OSTAVICU [EXPO SNACK PRIMER, KOJEG CU ISKOMENTARISATI](https://snack.expo.io/@radedev/d1e848)
 
 ALI TAKODJE CU CODE OSTAVITI OVDE KAO REFERENCU
 
@@ -152,7 +152,7 @@ const App = () => {
   const handleFetchCatFacts = useCallback(async () => {
     // KAO STO VIDIS CALLBACK JE ASINHRONA FUNKCIJA
     // I MOGU KORISTITI     await
-    const result = await fetch('https://cat-fact.herokuapp.com/facts/random?animal_type=cat&amount=4');  // KORISCEN JE CAT FACTS PUBLIC API
+    const result = await fetch('https://cat-fact.herokuapp.com/facts/random?animal_type=cat&amount=4');
     const facts = await result.json();
     if (result.ok) {
       setFacts(facts);
@@ -180,6 +180,18 @@ const App = () => {
     handleFetchCatFacts();
   }, [handleFetchCatFacts]);  // OVO JE MOGAO DA BUDE I PRAZAN NIZ ALI OVAJ DEPENDANCY NECE NIKAD BITI PROMENJEN
   //                            TAKO DA JE U REDU DA GA STAVIS (EFFECT CE BITI POZVAN SAMO ON MOUNTING)
+
+
+  // BITNO JE DODATI TO:      U KAKVOM BI PROBLEMU BIO DA NISI DODAO DEPENDANCY ARRAY, UOPSTE
+
+    // TADA, EFFECT BI SE RUNN-OVAO, SVAKI PUT, KADA SE KOMPONENTA RERENDER-UJE
+    // A ONA SE RERENDER-UJE PRI SVAKOJ PROMENI STATE-A
+    // A TI U GORNJEM EFFECT-U UPRAVO NA IDIREKTAN NACIN TRIGGER0UJES PROMENU STATE, TAK OSTO POZIVAS CALLBACK U NJENOM 
+    // OBIMU, KOJI MENJA STATE
+
+    // I TO BI ZNACILO STALNI REEXECUTION EFFECT-A I OPEET TRIGGERING PROMENE STANJA I TAK OU NEDOGLED
+    // IMAO BI ENDLESS LOOP, I MOZES ZAMISLITI STA TO ZNACI ZA RESURSE, AKO JE U PITANJU NEKI
+    // API KOJI PLACAS 
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
