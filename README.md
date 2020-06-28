@@ -134,10 +134,79 @@ DA LI JE OVO SAMO VEZANO ZA REACT NATIV ILI SE ODNOSI I NA PLAIN REACT, NISAM SI
 ***
 ***
 
-# DOBAR PRIMER UPOTREBE SVA OD OVA TRI HOOK-A BIO BI JEDAN NETWORK REQUEST
+# DOBAR PRIMER UPOTREBE SVA OD OVA TRI HOOK-A BIO BI JEDAN PRIMER, U KOJEM JE UPOTREBLJEN NETWORK REQUEST
 
 OSTAVICU [EXPO SNACK PRIMER, KOJEG CU ISKOMENTARISATI](https://snack.expo.io/@radedev/useeffect-(network-request-example))
 
 ALI TAKODJE CU CODE OSTAVITI OVDE KAO REFERENCU
+
+```tsx
+import React, { useState, useCallback, useEffect } from 'react';
+import { Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+
+
+const App = () => {
+  //  EVO OVDE CUVAM DATA KOJI SE UZIMA SA EXTERNAL API-A       
+  const [facts, setFacts] = useState([]);  // U PITANJU JE NIZ OBJEKATA PREUZETIH SA SERVERA
+
+  const handleFetchCatFacts = useCallback(async () => {
+    // KAO STO VIDIS CALLBACK JE ASINHRONA FUNKCIJA
+    // I MOGU KORISTITI     await
+    const result = await fetch('https://cat-fact.herokuapp.com/facts/random?animal_type=cat&amount=4');  // KORISCEN JE CAT FACTS PUBLIC API
+    const facts = await result.json();
+    if (result.ok) {
+      setFacts(facts);
+    }
+
+    // STA JE OVDE BITNO
+    // PA BITNO JE DA OVDE MOGU KORISTITI ASIHHRONE STVARI, I PONAJVISE MI JE BITNO STO
+    // CALLBACK MOZE BITI ASINHRON
+
+    // **** TAKODJE ON CE BITI MEMOIZED ****
+    // TO SAM VEC NAUCIO
+    // ALI NE VIDIM DA JE TO BAS NESTO PRETERANO BITNO ZA OVAJ PRIMER
+
+  }, []); // CALLBACK SE SIGURNO NECE EVALUATE-OVATI, JER NEMA DEPENDANCY, KOJI BI TO TRIGGEROVAO
+
+
+  // E SADA BITN JE STVAR DA CALLBACK useEffect-A, NE MOZE BITI     async     FUNKCIJA
+  // ALI NISTA MI NE SMETA DA   UNUTAR OVAOG CALLBACK-A POZOVEM NEKI ASINHRONI CALLBACK
+  // KOJI CE ONDA ASINHRONO PROMENITI STATE
+
+  // TO SAM I URADIO
+
+  useEffect(() => {         // DA SI STAVIO DA OVO BUDE async , LINT BI USTVARI YELL-OVAO NA TEBE DA TO
+                                  // NIKAKO NE RADIS ZBOG race conditions-A
+    handleFetchCatFacts();
+  }, [handleFetchCatFacts]);  // OVO JE MOGAO DA BUDE I PRAZAN NIZ ALI OVAJ DEPENDANCY NECE NIKAD BITI PROMENJEN
+  //                            TAKO DA JE U REDU DA GA STAVIS (EFFECT CE BITI POZVAN SAMO ON MOUNTING)
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <FlatList
+        style={styles.list}
+        data={facts}
+        keyExtractor={item => item._id}
+        renderItem={({ item }) => <Text style={styles.text}>{item.text}</Text>}
+      />
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  list: {
+    marginTop: 40,
+    padding: 10,
+    flex: 1,
+  },
+  text: {
+    marginBottom: 20,
+    fontSize: 16
+  }
+});
+
+export default App;
+```
+
 
 
