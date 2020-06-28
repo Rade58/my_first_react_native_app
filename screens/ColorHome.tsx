@@ -1,27 +1,24 @@
 import React, {
   FunctionComponent,
-  // UVOZIM HOOK-OVE
+  //
   useState,
   useCallback,
   useEffect,
+  //
 } from 'react';
 
 import {
   View,
-  Text,
-  // SectionList,
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  // UVOZIM PRVO KOMPONENTU     RefreshControl
+  RefreshControl,
 } from 'react-native';
 
-import PalettPreview from '../components/PreviewPalette';
-
-// TYPE-OVI
 import { HomeScreenProps } from '../navigators/color-app-stack-navigator';
 import PalettePreview from '../components/PreviewPalette';
 
-// HAJDE DA PRVO NAPRAVIM INTERFACE KOJIM CU TYPE-OVATI DATA, ZA KOJI MCU PRAVITI REQUEST
 interface ApiDataItem {
   id: number;
   paletteName: string;
@@ -51,6 +48,11 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   return (
     <View>
       <FlatList
+        // EVO ZADACU SVE OVDE
+        refreshControl={
+          <RefreshControl refreshing={true} onRefresh={() => {}} />
+        }
+        //
         style={styles.list}
         data={colorData}
         renderItem={({ item: { colors, paletteName } }) => (
