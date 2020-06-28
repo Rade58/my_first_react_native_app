@@ -1,10 +1,8 @@
 import React, {
   FunctionComponent,
-  //
   useState,
   useCallback,
   useEffect,
-  //
 } from 'react';
 
 import {
@@ -12,7 +10,6 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  // UVOZIM PRVO KOMPONENTU     RefreshControl
   RefreshControl,
 } from 'react-native';
 
@@ -31,6 +28,7 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   const colorsURL = 'https://color-palette-api.kadikraman.now.sh/palettes';
 
   const [colorData, setColorData] = useState<ApiDataType>([]);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
 
   const fetchApiDataCallback = useCallback(async () => {
     const result = await fetch(colorsURL);
@@ -41,6 +39,17 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
     }
   }, []);
 
+  const handleRefetch = useCallback(async () => {
+    setIsRefreshing(true);
+    await fetchApiDataCallback();
+
+    // EVO GDE DEFINISEM setTimeout
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 3800);
+    //
+  }, [setIsRefreshing, fetchApiDataCallback]);
+
   useEffect(() => {
     fetchApiDataCallback();
   }, [fetchApiDataCallback]);
@@ -48,9 +57,13 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   return (
     <View>
       <FlatList
-        // EVO ZADACU SVE OVDE
         refreshControl={
-          <RefreshControl refreshing={true} onRefresh={() => {}} />
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={() => {
+              handleRefetch();
+            }}
+          />
         }
         //
         style={styles.list}
