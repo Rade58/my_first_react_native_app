@@ -69,7 +69,7 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
     pickedColorData.push({ imeScreena, data: data.slice(0, 4) });
   } */
 
-  // SLUZICE MI DA NAPRAVIM FLAT LIST ZA ONE PREVIEW BOJE NA HOME SCREEN-U
+  // SLUZICE MI DA NAPRAVIM FLAT LIST ZA ONE PREVIEW BOJE NA HOME SCREEN-U (HELPER FUNKCIJA)
   const takePreviewColors = (
     colorsArr: { colorName: string; hexCode: string }[]
   ) => {
@@ -81,15 +81,17 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   // ***************************************************************************************************
   // ***************************************************************************************************
 
+  // URL MOGU   CUVATI U VRAIJABLI
+
+  const colorsURL = 'https://color-palette-api.kadikraman.now.sh/palettes';
+
   // OVDE CU CUVATI DATA I MOGU DA GA TYPE-UJEM
   const [colorData, setColorData] = useState<ApiDataType>([]);
 
   // ISKORISTICU USE CALLBACK U KOJEM CU DEFINISATI NETWORK REQUEST
 
   const fetchApiDataCallback = useCallback(async () => {
-    const jsonData = await fetch(
-      'https://color-palette-api.kadikraman.now.sh/palettes'
-    );
+    const jsonData = await fetch(colorsURL);
 
     const data: ApiDataType = await jsonData.json();
 
