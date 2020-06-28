@@ -9,7 +9,8 @@ import React, {
 import {
   View,
   Text,
-  SectionList,
+  // SectionList,
+  FlatList,
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
@@ -25,7 +26,6 @@ type ApiDataType = ApiDataItem[];
 
 // TYPE-OVI
 import { HomeScreenProps } from '../navigators/color-app-stack-navigator';
-import { FlatList } from 'react-native-gesture-handler';
 
 const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   const { params, name } = route;
@@ -33,9 +33,9 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   // ***************************************************************************************************
   // OVO VISE NECU KORISTITI, ALI MRZI ME DA VRSIM REDEFINISANJE OVOGA
   // === !== ===--------------  NEKA OVO OSTANE ** NO-OP ** ---------------   !== === !==
-  const { allColorData } = params;
+  // const { allColorData } = params;
 
-  const pickedColorData: typeof allColorData = [];
+  // const pickedColorData: typeof allColorData = [];
 
   /* for (let colorsObject of allColorData) {
     const { data, imeScreena } = colorsObject;
@@ -75,11 +75,11 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   }, [fetchApiDataCallback]);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View>
       <Text>{name}</Text>
       {/* UMESTO SECTION LIST ZELIM DA KORISTIM FLAT LIST */}
       <FlatList
-        style={{ flex: 1 }}
+        style={{ marginRight: 'auto' }}
         data={colorData}
         renderItem={({ item: { colors, paletteName } }) => (
           <TouchableOpacity
@@ -113,24 +113,31 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   prevContainer: {
-    borderColor: 'crimson',
-    borderWidth: 4,
+    // borderColor: 'crimson',
+    // borderWidth: 4,
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'row',
+    marginRight: 'auto', // MOGUCA JE I OVA PODESITI UMESTO BROJA
   },
 
   preview: {
+    margin: 4,
     width: 38,
     height: 38,
-    borderColor: 'olive',
-    borderWidth: 2,
+    // borderColor: 'olive',
+    // borderWidth: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.3,
+    shadowRadius: 1,
+    elevation: 2,
   },
 
   colorItems: {
-    // width: 108,
     flex: 1,
     margin: 4,
     padding: 8,
+    marginTop: 8,
   },
 });
 

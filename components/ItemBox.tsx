@@ -25,12 +25,12 @@ const itemBoxStyles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
 
-    borderWidth: 2,
-    borderColor: 'olive',
+    // borderWidth: 2,
+    // borderColor: 'olive',
   },
   boxStyles: {
-    borderColor: 'blanchedalmond',
-    borderWidth: 2,
+    // borderColor: 'blanchedalmond',
+    // borderWidth: 2,
     margin: 8,
     textAlign: 'center',
     padding: 8,
