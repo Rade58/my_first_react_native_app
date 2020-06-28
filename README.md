@@ -92,3 +92,6 @@ STO ZNACI, A STO JE NAJVAZNIJE:
 
 **`SVAKI PUT KADA SE PROMENI DEPENDANCY, CALLBACK SE REEVALUATE-UJE`**
 
+[-----------------](https://snack.expo.io/@radedev/usecallback-dobar-primer-citaj-komenta)
+
+
