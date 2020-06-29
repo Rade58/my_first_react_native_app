@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
 export default Review;
 
 ```
+[--](https://snack.expo.io/@radedev/9d1834)
 
 KAKO SAM OVO WIRE-OVAO UP KAO SCREEN, MOZES VIDETI U KOMPONENTAMA (**MADA TO NIJE TEMA TRENUTNE LEKCIJE**)
 
