@@ -76,6 +76,7 @@ const Review: FunctionComponent<InputPreviewScreenProps> = (props) => {
 const styles = StyleSheet.create({
   input: {
     borderColor: 'gray',
+    borderWidth: 1,
     padding: 4,
     margin: 8,
   },
