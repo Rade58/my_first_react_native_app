@@ -2,12 +2,9 @@ import React, { useState, FunctionComponent } from 'react';
 
 import { Text, TextInput, ScrollView, StyleSheet } from 'react-native';
 
-interface ReviewPropsI {
-  navigation: any;
-  route: any;
-}
+import { InputPreviewScreenProps } from '../navigators/color-app-stack-navigator';
 
-const Review: FunctionComponent<ReviewPropsI> = (props) => {
+const Review: FunctionComponent<InputPreviewScreenProps> = (props) => {
   const [basicText, setBasicText] = useState<string>('');
   // VIDECES UBRZO ZASTO SAM OVO TYPE-OVAO KA OSTRING
   const [someNumber, setSomeNumber] = useState<string>('');

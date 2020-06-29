@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   RefreshControl,
+  Text,
 } from 'react-native';
 
 import { HomeScreenProps } from '../navigators/color-app-stack-navigator';
@@ -56,6 +57,15 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
 
   return (
     <View>
+      <View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Input Preview', { sonething: 'blah' });
+          }}
+        >
+          <Text style={styles.inputPreview}>Text Inputs Preview</Text>
+        </TouchableOpacity>
+      </View>
       <FlatList
         refreshControl={
           <RefreshControl
@@ -88,6 +98,7 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   list: { marginRight: 'auto' },
+  inputPreview: { fontSize: 38 },
 });
 
 export default Home;

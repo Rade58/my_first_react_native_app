@@ -39,6 +39,10 @@ interface RouteHomeScreenI {
   }[];
 }
 
+interface RouteInputPreviewScreenI {
+  sonething: any;
+}
+
 // ALI SADA JE DOBRO DA DEFINISES TYPE-OVE ZA ROUTE-OVE
 // JER CES KORISTITI Record TYPE
 // ALI OVO CE TI POMOCI STA SA CIM SMES DA PAIR-UJES
@@ -61,15 +65,23 @@ type colorScreenNameType = 'ColorPallete';
 // A NIJE SPORNO KOJE CE IME BITI ZA          Home
 type homeScreenNameType = 'Home';
 
+type inputPreviewScreenNameType = 'Input Preview';
+
 // === !== === A SADA DA DEFINISEM TE RECORD-E !== === !==
 type colorRecordRouteToScreen = Record<colorScreenNameType, RouteColorScreenI>;
 type homeRecordRouteToScreen = Record<homeScreenNameType, RouteHomeScreenI>;
+type inputPreviewRecordRouteToScreen = Record<
+  inputPreviewScreenNameType,
+  RouteInputPreviewScreenI
+>;
 // === !== === !== === !==
 
 // ====>      IZUZETNO VAZNO         &
 //  MISLIM DA OVDE TREBA DODATI RECORDE KAO TYPE-OVE (I MORAS KORISTITI      &      )
 const Stack = createStackNavigator<
-  homeRecordRouteToScreen & colorRecordRouteToScreen
+  homeRecordRouteToScreen &
+    colorRecordRouteToScreen &
+    inputPreviewRecordRouteToScreen
 >();
 
 // SADA CU DA TYPE-UJEM DVA PROP-A KOMPONENTE KOJA TREBA DA REPREZENTUJE SCREEN
@@ -98,6 +110,11 @@ type routeOfHomeScreenType = RouteProp<
   homeRecordRouteToScreen,
   homeScreenNameType
 >;
+
+type routeOfInputPreviewScreenType = RouteProp<
+  inputPreviewRecordRouteToScreen,
+  inputPreviewScreenNameType
+>;
 // ==============================================================================================
 // A SADA DEFINISEM KAKO CE nvigate PROP IZGLEDATI (USTVARI PO TYPE SAFTY-JU GDE CU SE MOCI NAVIGATE-OVATI IZ HOME-A)
 // PRVO IDU VREDNOSTI STA CE SE MOCI POSLATI
@@ -106,7 +123,11 @@ type routeOfHomeScreenType = RouteProp<
 // - DRUGI GENERIC SE ODNOSI NA IMENA SCREEN-OVA
 // ALI I DALJE CES MORATI KORISTI Record TYPE
 
-type navigateToColorScreenType = Record<colorScreenNameType, RouteColorScreenI>;
+type navigateToColorScreenType = Record<
+  colorScreenNameType,
+  RouteColorScreenI
+> &
+  Record<inputPreviewScreenNameType, RouteInputPreviewScreenI>;
 
 type HomeNavigationPropType = StackNavigationProp<navigateToColorScreenType>;
 
@@ -141,6 +162,11 @@ export interface HomeScreenProps {
 export interface ColorScreenProps {
   navigation: any; // NEMA NIKAKVE JASNE NAVIGACIJE, MOZE SE RADITI BILO STA IZ COLOR PALETTE SCREEN-A
   route: routeOfColorScreenType;
+}
+
+export interface InputPreviewScreenProps {
+  navigation: any;
+  route: routeOfInputPreviewScreenType;
 }
 
 // !!!!! PODSETNIK DA SE SCREEN NAME MOZE TYPE-OVATI (ANOTATOVATI) I KADA LAY-UJES DOWN Screen KOMPONENTU

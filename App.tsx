@@ -13,6 +13,10 @@ import Stack from './navigators/color-app-stack-navigator';
 import Home from './screens/ColorHome';
 import Palette from './screens/Pallete';
 
+//
+import InputTextPreview from './screens/TextInputReview';
+//
+
 // KOMPOPNENTE VEZANE ZA NAVIGACIJU
 const { Navigator, Screen } = Stack;
 
@@ -92,6 +96,7 @@ const App: FunctionComponent = () => (
           title: imeScreena,
         })}
       />
+      <Screen name="Input Preview" component={InputTextPreview} />
     </Navigator>
   </NavigationContainer>
 );
