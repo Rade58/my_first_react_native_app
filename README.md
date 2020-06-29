@@ -15,13 +15,17 @@ A KAKO KADI KAZE
 
 ***
 
-# KAKO BI BOLJE SHVATIO `TextInput` I NJEGOVE PROPS-E JA CU ODRADITI JEDAN PRIMER PO UZORU NA KADIN
+# `TextInput` KOMPONENTA
+
+KAKO BI BOLJE SHVATIO `TextInput` I NJEGOVE PROPS-E JA CU ODRADITI JEDAN PRIMER PO UZORU NA KADIN
 
 USTVARI DODACU, JOS JEDAN SCREEN U MOJ APP, I U NJEMU CU PREDSTAVITI RAZNE OPCIJE `TextInput` KOMPONENTE
 
 - `touch screens/TextInputReview.tsx`
 
 GLEDACU DA KOMENTARISEM STVARI KOJE SU MI PECULIAR, ILI SLICNO
+
+JA SAM DOSTA URADIO U OVOM PRIMERU I MNOGE STVARI SU SELF EXPLANATORY [ALI TI CITAJ KADINU STRANICU ZA DODADATNI INFO](https://kadikraman.github.io/react-native-v2/forms) (**OVDE SU TI INFORMACIJE VEZANE ZA TO KOJE PROPSE MOZES KORISTITI I KOJI SU TO PROPSI PRIHVACENI BOTH NA iOS-U I Android-U**)
 
 ```tsx
 import React, { useState, FunctionComponent } from 'react';
@@ -122,3 +126,38 @@ KAKO SAM OVO WIRE-OVAO UP KAO SCREEN, MOZES VIDETI U KOMPONENTAMA (**MADA TO NIJ
 
 `screens/ColorHome.tsx`, `App.tsx` , A STO SE TICE TYPE-OVA I NJIH SAM PROSITIO U `navigators/color-app-stack-navigator.ts` 
 
+# `Picker` KOMPONENTA
+
+[____](https://kadikraman.github.io/react-native-v2/forms#picker)
+
+ELEMNT KOJI USTVARI SLUZI ZA SELECT-OVANJE ZELENE VREDNOSTI, KAO STO JE NA WEB-U `select` ELEMENT SA NJEGOVIM `option`-IMA
+
+ONA JE VEOMA INTERESANTNA JER IZGLEDA DRUGACIJE CROSS PLATFORMS
+
+!!!! **MEDJUTIM VIDIM DA JE OVA KOMPONENTA `DEPRECATED`** !!!!
+
+COMUNITY SAVETUJE UPOTREBU
+
+[@react-native-community/picker](https://github.com/react-native-community/react-native-picker)-A
+
+# `Switch` KOMPONENTA
+
+[----](https://kadikraman.github.io/react-native-v2/forms#switch)
+
+[DOCS](https://reactnative.dev/docs/switch)
+
+U SUSTIN IREC JE O PREKIDACU O TOGGLE BUTTON-U
+
+IMA MALO PROPSA, MOZES DA IG POGLEDAS, A VECINOM SE ODNOSE NA BOJE
+
+# I POSTOJI LAODS AND LOADS OF OTHE COMPONENTS KOJE SU OUTTHERE, KOJE MOZES EXPLORE-OVATI U TVOJE SLOBODNO VREME
+
+>> But not everything is built into React Native.
+
+>> So when I build applications, I tend to rely on community and third-party components quite a bit. A lot of them are actually under the React Native community organization. This is basically a community, it's a bunch of open source libraries that are in the React community, like on the React Community care.
+
+<https://github.com/react-native-community>
+
+>> So there's a Slack channel, and there's a bunch of components that sometimes people have built, they don't have time to maintain so they kind of hand them off to the community. So generally, these are all quite reliable things. But a lot of the time, if you need a component, you just Google for it.
+
+>> For example, a date picker, there isn't really a good date picker solutions built in. So you would just search on google for React Native date picker. Any search words, and then you have a bunch of options.
