@@ -270,3 +270,8 @@ SADA CU, IZMEDJU OSTALIH POMENUTIH STVARI I UVESTI GORNJU KOMPONENTU U MODAL, I 
 ```
 
 
+***
+
+Non-serializable values were found in the navigation state, which can break usage such as persisting and restoring state. This might happen if you passed non-serializable values such as function, class instances etc. in params. If you need to use components with callbacks in your options, you can use 'navigation.setOptions' instead.
+
+***

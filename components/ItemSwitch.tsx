@@ -1,5 +1,5 @@
 import React, { useState, FunctionComponent } from 'react';
-import { View, Text, Switch, StyleSheet } from 'react-native';
+import { View, Text, Switch, TouchableOpacity, StyleSheet } from 'react-native';
 
 interface ItemSwitchPropsI {
   colorName: string;
@@ -14,7 +14,14 @@ const ItemSwitch: FunctionComponent<ItemSwitchPropsI> = (props) => {
 
   return (
     <View style={styles.items}>
-      <Text>{colorName}</Text>
+      <TouchableOpacity
+        onPress={() => {
+          setIsTurnedOn((curr) => !curr);
+        }}
+      >
+        <Text>{colorName}</Text>
+      </TouchableOpacity>
+      {/* <Text>{isTurnedOn ? 'true' : 'false'}</Text> */}
       <Switch
         value={isTurnedOn}
         onValueChange={(bool) => {
@@ -23,7 +30,7 @@ const ItemSwitch: FunctionComponent<ItemSwitchPropsI> = (props) => {
               currIndexesArr.concat([index])
             );
 
-            return setIsTurnedOn(false);
+            // setIsTurnedOn(false);
           }
 
           setIndexesOfDataArray((currIndexesArr) => {
@@ -36,8 +43,9 @@ const ItemSwitch: FunctionComponent<ItemSwitchPropsI> = (props) => {
               );
           });
 
-          setIsTurnedOn(true);
+          // setIsTurnedOn(true);
         }}
+        pointerEvents="none"
       />
     </View>
   );
