@@ -465,7 +465,7 @@ export default Home;
 
 ALI JA JOS NISAM POSTAVIO MODAL SCREEN, TAK ODA CU SADA TO DA URADIM
 
-# :seven: STAVLJANJE MODAL SCREEN-A A U ROOT STACK NAVIGATOR-A
+# :seven: STAVLJANJE MODAL SCREEN-A A U ROOT STACK NAVIGATOR-A; I DEFINISANJE `mode="modal"` PROP-A
 
 ALI NISAM NAPRAVIO JOS APPRPRIATE COMPONENT
 
@@ -503,14 +503,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import MainStackScreen from './screens/MainStackScreen';
 import RootStack from './navigators/rootStackAndTypes';
 
-// UVOZIM KOMPONENTU
+// UVOZIM KOMPONENTU KOJU CU KORISTITI KAO MODAL SCREEN
 import AddNewPaletteModal from './components/AddNewPaletteModal';
 
 const { Navigator, Screen } = RootStack;
 
 const App: FunctionComponent = () => (
   <NavigationContainer>
-    <Navigator>
+    {/* I ONO STA SAM MOZDA ZABORAVIO RANIJE, JESTE DA NA SAMOM NAVIGATORU
+    ZADAM        mode="modal"        */}
+    <Navigator mode="modal">
       <Screen<'Main'>
         name="Main"
         component={MainStackScreen}

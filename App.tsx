@@ -11,7 +11,9 @@ const { Navigator, Screen } = RootStack;
 
 const App: FunctionComponent = () => (
   <NavigationContainer>
-    <Navigator>
+    {/* I ONO STA SAM MOZDA ZABORAVIO JESTE DA NA SAMOM NAVIGATORU
+    ZADAM        mode="modal"        */}
+    <Navigator mode="modal">
       <Screen<'Main'>
         name="Main"
         component={MainStackScreen}
