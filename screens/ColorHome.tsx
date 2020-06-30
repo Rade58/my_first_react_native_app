@@ -14,7 +14,8 @@ import {
   Text,
 } from 'react-native';
 
-import { HomeScreenProps } from '../navigators/color-app-stack-navigator';
+import { HomeScreenProps } from '../navigators/color-app-stack-navigator'; // OVO JE DAKLE ONO STO TRENUTNO TYPE-UJE PROPSE
+
 import PalettePreview from '../components/PreviewPalette';
 
 interface ApiDataItem {
@@ -25,8 +26,13 @@ interface ApiDataItem {
 
 type ApiDataType = ApiDataItem[];
 
-const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
+// JEDINO STO SAM MOGAO DA NAPRAVIM JE NESTO OVAKO
+// TYPESCRIPT
+
+const Home: FunctionComponent<HomeScreenProps> = (props) => {
   const colorsURL = 'https://color-palette-api.kadikraman.now.sh/palettes';
+
+  const { navigation, route } = props;
 
   const [colorData, setColorData] = useState<ApiDataType>([]);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
@@ -43,8 +49,6 @@ const Home: FunctionComponent<HomeScreenProps> = ({ navigation, route }) => {
   const handleRefetch = useCallback(async () => {
     setIsRefreshing(true);
     await fetchApiDataCallback();
-
-    // EVO GDE DEFINISEM setTimeout
     setTimeout(() => {
       setIsRefreshing(false);
     }, 3800);

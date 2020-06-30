@@ -17,6 +17,7 @@ import {
 } from '@react-navigation/native';
 
 // / --------------------------------------------------------------------------------------
+import { navigateToModal } from './rootStackAndTypes';
 // / --------------------------------------------------------------------------------------
 
 // MORAS NAPRAVITI INTERFACE-OVE, KOJI CE ODGOVARATI PARAMSIMA, KOJE SMES SLATI U SCREEN
@@ -40,7 +41,7 @@ interface RouteHomeScreenI {
 }
 
 interface RouteInputPreviewScreenI {
-  sonething: any;
+  sonething: any; // BEZVEZE NE ZNACI NISTA I NE KORISTI SE
 }
 
 // ALI SADA JE DOBRO DA DEFINISES TYPE-OVE ZA ROUTE-OVE
@@ -127,7 +128,8 @@ type navigateToColorScreenType = Record<
   colorScreenNameType,
   RouteColorScreenI
 > &
-  Record<inputPreviewScreenNameType, RouteInputPreviewScreenI>;
+  Record<inputPreviewScreenNameType, RouteInputPreviewScreenI> &
+  navigateToModal;
 
 type HomeNavigationPropType = StackNavigationProp<navigateToColorScreenType>;
 

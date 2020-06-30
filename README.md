@@ -1,163 +1,358 @@
-# FORM IN `React Native`
+# MODAL
 
-OSTAVICU OVDE [KADIN INFO KOJI JE OSTAVILA ZA FORMS](https://kadikraman.github.io/react-native-v2/forms)
+[_____](https://kadikraman.github.io/react-native-v2/modals)
 
-A KAKO KADI KAZE
+DA BI SE DISPLAY-OVAO MODAL, POTREBAN JE THINKERING SA NAVIGATIONOM
 
->> If you use web developments, you kind of familiar with having to have a actual HTML form element, where your form lives, and there's a button that has, it's the submit button and kind of things. In React Native, things are sort of simpler and more difficult. Simpler in that, there is no restraints and having to have everything inside the form element.
->> But more difficult is because you have to track everything yourself with the state, when to submit it, and everything else. There are a bunch of inputs that are available for React Native
+IDEJA JE, DAKLE DA JA, ZA MOJ PRIMER, DEFINISEM MODAL, KOJI BI SE OTVARAO I KOJI BI HOLD-OVAO FORM
 
-**JA CU SADA PROCI KROZ NEKE KOJE KADI NAJCESCE KORISTI**
+MORAM REFACTOR-OVATI, NAVIGATION, MOG PROJEKTA DA BI TAKVO NESTO BILO MOGUCE
 
-***
+ALI NAJBOLJEJE KRENUTI OD TOGA, STA JA USTVARI SVE TREBAM ZNATI DA BIH MOGAO DEFINISATI OVAKO NESTO
 
-- [TextInput](https://reactnative.dev/docs/textinput)
+# U SUSTINI TI MORAS ZNATI SLEDECE STVARI
 
-***
+[NESTING NAVIGATORA](https://reactnavigation.org/docs/nesting-navigators)-A (RENDERING NEKOG NAVIGATOR-A, U SCREEN-U DRUGOG NAVIGATOR-A)
 
-# `TextInput` KOMPONENTA
+A KADA NAUCIM TO, ONDA SE MOGU POZABAVITI TIME, KAKO USTVARI DA DEVELOP-UJEM
 
-KAKO BI BOLJE SHVATIO `TextInput` I NJEGOVE PROPS-E JA CU ODRADITI JEDAN PRIMER PO UZORU NA KADIN
+[OPENING FULL-SCREEN MODAL](https://reactnavigation.org/docs/modal/)-A
 
-USTVARI DODACU, JOS JEDAN SCREEN U MOJ APP, I U NJEMU CU PREDSTAVITI RAZNE OPCIJE `TextInput` KOMPONENTE
+I O OVOME MOGU PROCITATI IZ LINKOVA KOJE SAM TI OSTAVIO
 
-- `touch screens/TextInputReview.tsx`
+ILI MOGU PRATITTI KADINO OBJASNJENJE
 
-GLEDACU DA KOMENTARISEM STVARI KOJE SU MI PECULIAR, ILI SLICNO
+HAJDE DA KRENRM OD MOG APP-A, DA OBJASNIM KAKVU TO ON NAVIGACIJU IMA
 
-JA SAM DOSTA URADIO U OVOM PRIMERU I MNOGE STVARI SU SELF EXPLANATORY [ALI TI CITAJ KADINU STRANICU ZA DODADATNI INFO](https://kadikraman.github.io/react-native-v2/forms) (**OVDE SU TI INFORMACIJE VEZANE ZA TO KOJE PROPSE MOZES KORISTITI I KOJI SU TO PROPSI PRIHVACENI BOTH NA iOS-U I Android-U**)
+# TI TRENUTNO U TVOM APP-U IMAS JEDAN NAVIGATION STACK I TO JE ROOT STACK
+
+I TAJ ROOT STACK SE SASTOJI OD DVA SCREEN-A: `HOME` I `COLLOR PALETTE DETAILS` (ILI KAKO SAM GA VEC DRUGACIJE NAZVAO)
+
+MEDJUTIM JA ZELIM NESTO DRUGACIJU SITUACIJU (A KADI JE PREDSTAVILA I SLIKU (**MALI CRNI GRAPH**), O TOME KAKVA JE TO SITUACIJA KOJU TREBAM DA DEFINISEM)
+
+# MORAM REDEFINISATI SITUACIJU, PRI KOJOJ TREBA DA 'UMETNEM' STACK, USTVARI UMETANJE JE POGRESNA REC I ZATO CU BITI DETALJNIJI
+
+TREBALO BI DA IMAM
+
+ROOT STACK --> TREBAO BI DA SLUZI ZA NVIGATING IZMEDJU:
+
+- `MAIM SCREEN-A`
+
+- `MODALA` (KOJI JE POSEBAN I VIDECES ZASTO JE POSEBAN I ZASTO SE KORISTI)
+
+A OVO TREBAM DA REDEFINISEM
+
+MAIN STACK --> MA KAKO SI GA VEC NAZVAO, JESTE ONO STO TRENUTNO IMAS, A TO JE NAVIGATING BETWEEN
+
+- `MAIN SCREEN`
+
+- `COLOR PALETTE SCREEN`
+
+- `IMAM I NOVI SCREEN KOJI SAM DODAO U PREDHODNOM BRANCH-U` (NEKA OSTANE I DALJE TU JER NE SMETA (IPAK JE N KRAJU NISAM KORISTIO))
+
+TI USTVARI TREBA DA, AKO MOGU TAKO DA SE IZRAZIM, LIFT-UJES TVOJ MAIN STACK, DA BI UMETNO U **NOVI STACK** A TO CE BITI ROOT STACK, KOJI IMA MIAN SCREEN I MODAL SCREEN
+
+O MODALU CU GOVORITI NESTO KASNIJE, JER ON IMA POSEBNA SVOJSTVA (ON NECE BITI ITS OWN SCREEN)
+
+# :one: HAJDE DA KRENEM OD TOGA DA CU DA PREMESTIM. MOJ POSTOJECI STACK I DA CU MU DATIT IME MainStack
+
+JA SAM STACK DEFINIAO OVDE I NEMA POTREBE TAMO DA BILO STA MENJAM
+
+`navigators/color-app-stack-navigator.ts`
+
+ps. NISAM KRIV STO SAM, RANIJE, OVAKO GLUPO IME DAO FAJLU, YOU GO WITH IT
+
+TAJ STACK JE DAKLE TRENUTNI ROOT STACK, KOJEG KORISTIM U MOM APP-U
+
+TREBAM OVAJ STACK UKLONITI IZ `App.tsx` I STAVIM GA U MAIN
+
+- `code App.tsx`
 
 ```tsx
-import React, { useState, FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
+//
+import { NavigationContainer } from '@react-navigation/native';
 
-import { Text, TextInput, ScrollView, StyleSheet } from 'react-native';
+// === !== === !== === OVO OVDE VISE NECU KORISTITI !== === !== === !== ===
+// import Stack from './navigators/color-app-stack-navigator';
 
-import { InputPreviewScreenProps } from '../navigators/color-app-stack-navigator';
+// import Home from './screens/ColorHome';  // OVO VISE BNECE BITI OVDE
+//import Palette from './screens/Pallete';   // NI OVO VISE NECE BITI OVDE
 
-const Review: FunctionComponent<InputPreviewScreenProps> = (props) => {
-  const [basicText, setBasicText] = useState<string>('');
-  // VIDECES UBRZO ZASTO SAM OVO TYPE-OVAO KA OSTRING
-  const [someNumber, setSomeNumber] = useState<string>('');
-  //
-  const [password, setPassword] = useState<string>('');
-  //
-  const [multilineValue, setMultilineValue] = useState<string>('');
+// import InputTextPreview from './screens/TextInputReview';
+//
+
+// const { Navigator, Screen } = Stack;  //
+
+//  (OVO I ONAKO NIJE VISE ONO STO SE KORISTI U APP-U JER SE DATA UZIMA IZ NETWORK REQUEST-A)
+/* const SOLARIZED = [
+  { colorName: 'Base03', hexCode: '#002b36' },
+  { colorName: 'Base02', hexCode: '#073642' },
+  { colorName: 'Base01', hexCode: '#586e75' },
+  { colorName: 'Base00', hexCode: '#657b83' },
+  { colorName: 'Base0', hexCode: '#839496' },
+  { colorName: 'Base1', hexCode: '#93a1a1' },
+  { colorName: 'Base2', hexCode: '#eee8d5' },
+  { colorName: 'Base3', hexCode: '#fdf6e3' },
+  { colorName: 'Yellow', hexCode: '#b58900' },
+  { colorName: 'Orange', hexCode: '#cb4b16' },
+  { colorName: 'Red', hexCode: '#dc322f' },
+  { colorName: 'Magenta', hexCode: '#d33682' },
+  { colorName: 'Violet', hexCode: '#6c71c4' },
+  { colorName: 'Blue', hexCode: '#268bd2' },
+  { colorName: 'Cyan', hexCode: '#2aa198' },
+  { colorName: 'Green', hexCode: '#859900' },
+];
+
+const RAINBOW = [
+  { colorName: 'Red', hexCode: '#FF0000' },
+  { colorName: 'Orange', hexCode: '#FF7F00' },
+  { colorName: 'Yellow', hexCode: '#FFFF00' },
+  { colorName: 'Green', hexCode: '#00FF00' },
+  { colorName: 'Violet', hexCode: '#8B00FF' },
+];
+
+const RANDOM_COLORS = [
+  { colorName: 'Red', hexCode: '#c02d28' },
+  { colorName: 'Black', hexCode: '#3e3e3e' },
+  { colorName: 'Grey', hexCode: '#8a8a8a' },
+  { colorName: 'White', hexCode: '#ffffff' },
+  { colorName: 'Orange', hexCode: '#e66225' },
+];
+
+const COLOR_PALETTES = [
+  { imeScreena: 'Solarized', data: SOLARIZED },
+  { imeScreena: 'Rainbow', data: RAINBOW },
+  { imeScreena: 'Random Colors', data: RANDOM_COLORS },
+];
+ */
+//
+
+const App: FunctionComponent = () => (
+  <NavigationContainer>
+    {/* OVO VISE NECE BITI OVDE */}
+    {/* <Navigator>
+      <Screen<'Home'>
+        component={Home}
+        name="Home"
+        initialParams={{ allColorData: COLOR_PALETTES }}
+      />
+      <Screen<'ColorPallete'>
+        name="ColorPallete"
+        component={Palette}
+        options={({
+          route: {
+            params: { imeScreena },
+          },
+        }) => ({
+          title: imeScreena,
+        })}
+      />
+      <Screen name="Input Preview" component={InputTextPreview} />
+    </Navigator> */}
+  </NavigationContainer>
+);
+export default App;
+
+```
+
+# :two: HAJDE SADA DA KREIRAM NOVI SCREEN, KOJI CE SE ZVATI `MainStackScreen.tsx`
+
+- `touch screens/MainStackScreen.tsx`
+
+```tsx
+// U OVAJ SCREEN UVOZIM MainS SCREEN I UVOZIM Palette SCREEN (USTVARI TO JE NAJVAZNIJE STA UVOZIM)
+// TAKODJE UVOZIM NavigatorContainer-A
+
+// UVOZIM MOJ STACK, KOJEM CU NA UVOZU DATI IME     MainStack  (CISTO DA SE ZNA, ODNONO DA SE RAZLUCI, ALI NEMA PRETERANIH, 'CODING' RAZLOGA ZA TO)
+
+import React, { FunctionComponent } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import MainStack from '../navigators/color-app-stack-navigator';
+import Home from './ColorHome';
+import Palette from './Pallete';
+
+//
+const { Navigator, Screen } = MainStack;
+//
+
+const MainStackScreen: FunctionComponent = () => {
+  // CISTO RADI PODSECANJA I MORAS ZNATI DA SU props  USTVARI {navigation, route}
+  //                                                              MADA NE VERUJEM DA CU IH KORISTITI
+
+  let a;
 
   return (
-    <ScrollView style={styles.container}>
-      {/* ----------------- INPUT TEXT-A --------------------- */}
-      <Text>Obicni tekstualni input</Text>
-      <Text>I Njegova vrednost: {basicText}</Text>
-      <TextInput
-        style={styles.input}
-        value={basicText}
-        // OVDE MI JE CUDNO DA SE KAO HANDLER ZADAJE SET STATE FUNKCIJA
-        // ODNOSNO CUDNO MI JE DA SE NIJE CITAO VALUE SA EVENT-OVOG TARGET-A ?
-        // onChangeText={setBasicText}
-        //  MEDJUTI MSAZNA OSAM DA JE U PITANJ UFUNKCIJA KOJOJ SE PROSLEDJUJE JEDAN STRING ARGUMENT, STO ZNACI DA MOZE I OVAKO
-        onChangeText={(value) => setBasicText(value)}
-        //
-        placeholder="Just a plane text input"
-      />
-      {/* ---- INPUT NUMBER-A  (KAO STO VIDIS U PITANJU JE STRING, ALI SAMO JE TASTATURA NUMERICKA) -------- */}
-      <Text>Number input</Text>
-      <Text>Current value: {someNumber}</Text>
-      <TextInput
-        style={styles.input}
-        value={someNumber}
-        // SADA CU SAMO SETT-OVATI SET STATE FUNKCIJU, KAO HANDLERA, JER VAZI ISTO KAO I ZA PREDHONDNI TextInput
-        onChangeText={setSomeNumber}
-        // JEDINA RAZLIKA JE U TASTATURI
-        keyboardType="numeric"
-        //
-        placeholder="Only number goes here"
-      />
-      {/* ----------------- INPUT PASSWORD-A ------------------- */}
-      <Text>Password input</Text>
-      <Text>Current value: 🤫</Text>
-      <TextInput
-        style={styles.input}
-        value={password}
-        onChangeText={setPassword}
-        // SLEDECI PROP JE BITAN ZA SKRIVENO UNOSENJE
-        secureTextEntry={true}
-        //
-        placeholder="Enter secret"
-      />
-      {/*-------------------- MULTILINE INPUT-------------------- */}
-      <Text>Multiline input</Text>
-      <Text>Current value:{multilineValue}</Text>
-      <TextInput
-        style={styles.input}
-        value={multilineValue}
-        onChangeText={setMultilineValue}
-        // SLEDECE JE BITNO ZA MULTILINE
-        multiline={true}
-        numberOfLines={4}
-        // u slucaju multiline-A   TASTATURA DOBIJA I 'ENTER' DUGME NA KEYBOARD-U, SHVATAS ZASTO
-        placeholder="Many lines, many joys" 
-      />
-      
-    </ScrollView>
+    <NavigationContainer>
+      <Navigator>
+        <Screen<'Home'> name="Home" component={Home} />
+        <Screen<'ColorPallete'>
+          name="ColorPallete"
+          component={Palette}
+          //  NE ZABORAVI DA PODESIS TITLE PALETTE SCREEN JER JE ON DINAMICKI, SECAS SE OD RANIJE
+          options={({ navigation, route }) => ({
+            title: route.params.imeScreena,
+          })}
+        />
+      </Navigator>
+    </NavigationContainer>
   );
 };
 
-// da stavim border oko inputa i dodam jos neko stilizovanje
-
-const styles = StyleSheet.create({
-  input: {
-    borderColor: 'gray',
-    borderWidth: 1,
-    padding: 4,
-    margin: 8,
-  },
-  container: {
-    flex: 1,
-    padding: 8,
-  },
-});
-
-export default Review;
+export default MainStackScreen;
 
 ```
-[--](https://snack.expo.io/@radedev/9d1834)
 
-KAKO SAM OVO WIRE-OVAO UP KAO SCREEN, MOZES VIDETI U KOMPONENTAMA (**MADA TO NIJE TEMA TRENUTNE LEKCIJE**)
+# :three: KREIRAM ROOT STACK I SVE STO UZ TO IDE U POGLEDU TYPESCRIPT-A
 
-`screens/ColorHome.tsx`, `App.tsx` , A STO SE TICE TYPE-OVA I NJIH SAM PROSITIO U `navigators/color-app-stack-navigator.ts` 
+- `touch navigators/rootStackAndTypes.ts` (NESTO PRIHVATLJIVIJE IME OD ONOGA STO SAM IMAO ZA DRUGI FAJL U OVOM FOLDERU)
 
-# `Picker` KOMPONENTA
+```ts
+import {
+  createStackNavigator,
+  StackNavigationProp,
+} from '@react-navigation/stack';
+import { RouteProp } from '@react-navigation/native';
 
-[____](https://kadikraman.github.io/react-native-v2/forms#picker)
+interface RouteHomeScreenStackI {
+  // nestoBezvezeZaSada: any;
+}
 
-ELEMNT KOJI USTVARI SLUZI ZA SELECT-OVANJE ZELENE VREDNOSTI, KAO STO JE NA WEB-U `select` ELEMENT SA NJEGOVIM `option`-IMA
+type RouteModalI = RouteHomeScreenStackI;
 
-ONA JE VEOMA INTERESANTNA JER IZGLEDA DRUGACIJE CROSS PLATFORMS
+// SCREEN NAMES
+type mainStackScreenNameType = 'Main';
+type modalNameType = 'AddNewPalette';
 
-!!!! **MEDJUTIM VIDIM DA JE OVA KOMPONENTA `DEPRECATED`** !!!!
+// RECORDS
+type mainStackRecordRouteToScreen = Record<
+  mainStackScreenNameType,
+  RouteHomeScreenStackI
+>;
+type modalRecordRouteToScreen = Record<modalNameType, RouteModalI>;
 
-COMUNITY SAVETUJE UPOTREBU
+// PRAVLJENJE STACK-A
+const RootStack = createStackNavigator<
+  mainStackRecordRouteToScreen & modalRecordRouteToScreen
+>();
 
-[@react-native-community/picker](https://github.com/react-native-community/react-native-picker)-A
+// ROUTE TYPES
+type routeOfMainStackScreen = RouteProp<
+  mainStackRecordRouteToScreen,
+  mainStackScreenNameType
+>;
 
-# `Switch` KOMPONENTA
+type routeOfModal = RouteProp<modalRecordRouteToScreen, modalNameType>;
 
-[----](https://kadikraman.github.io/react-native-v2/forms#switch)
+// navigation TYPES
+// OVO SAM EXPORT-OVAO SA RAZLOGOM (DA PROSIRIM TYPE ZA HOME)
+export type navigateToModal = Record<modalNameType, any>;
+type MainStackScreenNavigationPropType = StackNavigationProp<navigateToModal>;
+// EKSPLICITNOG NAVIGATINGA NEMA IZ MODALA OZIM BACKSPACE NAZAD TO HOME
+//
 
-[DOCS](https://reactnative.dev/docs/switch)
+// STACK JE DEFAULT EXPORT
+/**
+ * @description ROOT STACK
+ */
+export default RootStack;
 
-U SUSTIN IREC JE O PREKIDACU O TOGGLE BUTTON-U
+// TYPE-OVI ZA SCREEN-OVE
 
-IMA MALO PROPSA, MOZES DA IG POGLEDAS, A VECINOM SE ODNOSE NA BOJE
+/**
+ * @description HOME STACK SCREEN PROPSI
+ */
+export interface MainStackScreenPropsI {
+  navigation: MainStackScreenNavigationPropType;
+  route: routeOfMainStackScreen;
+}
 
-# I POSTOJI LAODS AND LOADS OF OTHE COMPONENTS KOJE SU OUTTHERE, KOJE MOZES EXPLORE-OVATI U TVOJE SLOBODNO VREME
+export interface ModalPropsI {
+  navigation: any;
+  route: routeOfModal;
+}
 
->> But not everything is built into React Native.
+```
 
->> So when I build applications, I tend to rely on community and third-party components quite a bit. A lot of them are actually under the React Native community organization. This is basically a community, it's a bunch of open source libraries that are in the React community, like on the React Community care.
+# :four: UVOZIM ROOT STACK, (I OSTALO), U `App.tsx` KAKO BIH TAMO USPOSTAVIO ROOT STACK
 
-<https://github.com/react-native-community>
+**OVDE CU NAUCITI I KAKO DA MOUNT-UJEM MODAL**, ODNONO KOJI SE PROPSI TADA DAJU Screen-U
 
->> So there's a Slack channel, and there's a bunch of components that sometimes people have built, they don't have time to maintain so they kind of hand them off to the community. So generally, these are all quite reliable things. But a lot of the time, if you need a component, you just Google for it.
+```tsx
+// U OVAJ SCREEN UVOZIM MainS SCREEN I UVOZIM Palette SCREEN (USTVARI TO JE NAJVAZNIJE STA UVOZIM)
+// TAKODJE UVOZIM NavigatorContainer-A
 
->> For example, a date picker, there isn't really a good date picker solutions built in. So you would just search on google for React Native date picker. Any search words, and then you have a bunch of options.
+// UVOZIM MOJ STACK, KOJEM CU NA UVOZU DATI IME     MainStack  (CISTO DA SE ZNA, ODNONO DA SE RAZLUCI, ALI NEMA PRETERANIH, 'CODING' RAZLOGA ZA TO)
+
+import React, { FunctionComponent } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import MainStack from '../navigators/color-app-stack-navigator';
+import Home from './ColorHome';
+import Palette from './Pallete';
+
+//
+const { Navigator, Screen } = MainStack;
+//
+
+const MainStackScreen: FunctionComponent = () => {
+  // CISTO RADI PODSECANJA I MORAS ZNATI DA SU props  USTVARI {navigation, route}
+  //                                                              MADA NE VERUJEM DA CU IH KORISTITI
+
+  let a;
+
+  return (
+    <NavigationContainer>
+      <Navigator>
+        <Screen<'Home'> name="Home" component={Home} />
+        <Screen<'ColorPallete'>
+          name="ColorPallete"
+          component={Palette}
+          //  NE ZABORAVI DA PODESIS TITLE PALETTE SCREEN JER JE ON DINAMICKI, SECAS SE OD RANIJE
+          options={({ navigation, route }) => ({
+            title: route.params.imeScreena,
+          })}
+        />
+      </Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default MainStackScreen;
+
+```
+
+# :five: POSTO CE SE IZ HOME SCRENN-A, KOJI JE DEO MAIN STACK-A, USTVARI NAVIGATE-OVATI DO MODALA, TREBAJU MI PROP TYPES U HOME KOMPONENTI, ODNON OSCREEN-U, KONKRETNO ZBOG NAVIGATE-A, JER CU TAMO KORISTITI NAVIGATE TO MODAL
+
+MORAM PROSIRITI TYPE-OVE ZA HOME, SA ONIM TYPE-OVIMA IZ MAIN-A
+
+- `code navigators/color-app-stack-navigator.ts`
+
+
+```ts
+// OSTAVLJAM SAM ODEO CODE-A
+import {navigateToModal} from './rootStackAndTypes'
+
+// ...
+// ...
+
+type navigateToColorScreenType = Record<
+  colorScreenNameType,
+  RouteColorScreenI
+> &
+  Record<inputPreviewScreenNameType, RouteInputPreviewScreenI> &
+  navigateToModal;
+
+
+```
+
+**SADA AK OBUDES U HOME KOMPONENTI ZELEO DA NAVIGATE-UJES DO MODAL SCREEN-A, IMACES TYPESCRIPT COVERAGE**
+
+ALI JA JOS NISAM POSTAVIO MODAL SCREEN, TAK ODA CU SADA TO DA URADIM
+
+# :six: STAVLJANJE MODAL SCREEN-A A U ROOT STACK NAVIGATOR-A
+
+- `code App.tsx`
+
+```tsx
+
+```
