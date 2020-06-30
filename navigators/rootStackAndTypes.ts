@@ -4,9 +4,19 @@ import {
 } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
 
+// === !== === !==
+// === !== === !==
+import { Dispatch, SetStateAction } from 'react';
+import { ApiDataType } from '../screens/ColorHome';
+
+type setStateFunc = Dispatch<SetStateAction<ApiDataType>>; // OVO JE TYPE ZA SET STATE FUNKCIJU
+
 interface RouteHomeScreenStackI {
-  // nestoBezvezeZaSada: any;
+  // DODAO SAM OVAJ PROPERTI
+  setStateFunc: setStateFunc;
 }
+// === !== === !==
+// === !== === !==
 
 type RouteModalI = RouteHomeScreenStackI;
 
@@ -35,7 +45,9 @@ type routeOfMainStackScreen = RouteProp<
 type routeOfModal = RouteProp<modalRecordRouteToScreen, modalNameType>;
 
 // navigation TYPES
-export type navigateToModal = Record<modalNameType, any>;
+// === !== === !== // === !== === !== // === !== === !== // === !== === !==
+export type navigateToModal = Record<modalNameType, RouteHomeScreenStackI>;
+// === !== === !== // === !== === !== // === !== === !== // === !== === !==
 type MainStackScreenNavigationPropType = StackNavigationProp<navigateToModal>;
 // EKSPLICITNOG NAVIGATINGA NEMA IZ MODALA OZIM BACKSPACE NAZAD TO HOME
 //

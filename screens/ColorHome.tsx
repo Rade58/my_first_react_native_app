@@ -18,13 +18,13 @@ import { HomeScreenProps } from '../navigators/color-app-stack-navigator';
 
 import PalettePreview from '../components/PreviewPalette';
 
-interface ApiDataItem {
-  id: number;
+export interface ApiDataItemI {
+  id: string;
   paletteName: string;
   colors: { colorName: string; hexCode: string }[];
 }
 
-type ApiDataType = ApiDataItem[];
+export type ApiDataType = ApiDataItemI[];
 
 const Home: FunctionComponent<HomeScreenProps> = (props) => {
   const colorsURL = 'https://color-palette-api.kadikraman.now.sh/palettes';
@@ -62,7 +62,9 @@ const Home: FunctionComponent<HomeScreenProps> = (props) => {
       <View>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('AddNewPalette');
+            navigation.navigate('AddNewPalette', {
+              setStateFunc: setColorData,
+            });
           }}
         >
           <Text style={styles.inputPreview}>Add a color scheme</Text>

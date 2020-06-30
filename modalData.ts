@@ -1,19 +1,11 @@
-# U PROSLOM BRANCHU TI SI DEFINISAO MODAL, A SADA TREBAS DA NAPRAVIS FORM ELEMENTE U TOM MODALAU
+export interface ModalDataObjectI {
+  colorName: string;
+  hexCode: string;
+}
 
-USTVARI TREBAS DA NAPRAVIS JEDAN `TextInput` U KOJI CE SE UNOSITI IME NOVE COLOR PALETE
+export type modalDataArr = ModalDataObjectI[];
 
-TAKODJE BICE OBEZBEDJENO MNOGO BOJA
-
-E TE BOJE TREBA DA SE PICK-UJU UZ POMOC `Switch` KOMPONENTE
-
-**NA KRAJU, SVE STO UNESES TREBA DA BUDE DODATO U ONAJ ARRAY, U KOJEM SU OSTALE COLOR PALETTE** (GRANA STATE-A U `screens/ColorHome.tsx`)
-
-NARAVNO TREBA BI DA SE DEFINISE I REACT ELEMENT REPRESENTED BY `TouchableOpacity`, I ON BI TREBALO DA PREDSTAVLJA SUBMIT DUGME, KOJIM SE MENJA GRANA STATE-A NA HOME PAGE-U, I UJEDNO NAVIGATE-UJE BACK TO HOME PAGE (MORAS VIDETI KOJU METODU `navigation` PROP-A TREBAS DA KORISTIS DA BI NAVIGAT-OVAO BACK TO HOME PAGE, JER SI TO RANIJE SMO RADIO SA BACKSPACE-OM U LEFOM GORNJEM UGLU)
-
-## EVO GA NIZ, CIJI DATA TREBA DA BUDE DISPLAYED U MODALU
-
-```ts
-const COLORS = [
+const COLORS: modalDataArr = [
   { colorName: 'AliceBlue', hexCode: '#F0F8FF' },
   { colorName: 'AntiqueWhite', hexCode: '#FAEBD7' },
   { colorName: 'Aqua', hexCode: '#00FFFF' },
@@ -162,99 +154,5 @@ const COLORS = [
   { colorName: 'Yellow', hexCode: '#FFFF00' },
   { colorName: 'YellowGreen', hexCode: '#9ACD' },
 ];
-```
 
-## JA SAM ODLUCIO DA OVO ODRADIM SAM, I DA NE GLEDAM RESENJE ZA SADA, JER IMAM IDEJU KAKO BI OVO ODRADIO
-
-MEDJUTIM EVO IH [NEKE PREPORUKE KOJE SAM NASO OVDE](https://kadikraman.github.io/react-native-v2/forms-exercise#hints)
-
-***
-
-- AKO KORISNIK NETACNO UNESE PODATKE (AKO NIJE DAO IME PALETI ILI NIJE IZABRAO NI JEDNU BOJU)
-
-KORISTI [Alert](https://reactnative.dev/docs/alert), DA NOTIFY-UJES KORISNIKA DA NIJE DOBRO UNEO STUFF
-
-***
-
-- OGRANICI DA MINIMALAN BROJ BOJA KOJE KORISNIK MOZE IZBRATI BUDE 4
-
-OVO TI GOVORIM ZATO STO U PREVIEW-U PALETTE, STOJE 4 BOJE
-
-***
-
-- DA BI SE VRATIO NA ZELJENI SCREEN, U OVOM SLUCAJ UDA BI SE VATIO SA MODALA NA HOME, MOGU KORISTITI
-
-**`navigation.goBack()`**
-
-***
-
-DA SADA KRENEM SA DEFINISANJEM
-
-# :one: UBACICU DATA U SEPARATE FILE
-
-- `touch modalData.ts`
-
-DA OVDE NISTA NE POKAZUJEM I SAM MOZES VIDETI DA JE IZ TOG FAJLA IZVEZEN EKSTENZIVNI NISI KOJI SAM, GORE PREDSTAVIO
-
-# :two: POSTO ZNAM DA CU KORISTITI SET STATE FUNKCIJU IZ HOME KOMPONENTE, DEFINISACU DA SE TA FUNKCIJA PROSLEDI DO MODALA
-
-**PRE TOGA MORAM DA PROSIRIM TYPE-OVE ZA MODAL DA BIH MOGAO UZETI OVU FUNKCIJU SA `props.route.params`**
-
-- `code navigators/rootStackAndTypes.ts`
-
-```tsx
-// SAMO PREDSTAVLJAM ONO STA SAM DODAO U CODE-U, NECU PREDSTAVLJATI CEO FAJL JER JE EKSTENZIVAN I PREVISE IZKOMENTARISAN
-
-// === !== === !==
-// === !== === !==
-import { Dispatch, SetStateAction } from 'react';
-import { ApiDataType } from '../screens/ColorHome';
-
-type setStateFunc = Dispatch<SetStateAction<ApiDataType>>; // OVO JE TYPE ZA SET STATE FUNKCIJU
-
-interface RouteHomeScreenStackI {
-  // DODAO SAM OVAJ PROPERTI
-  setStateFunc: setStateFunc;
-}
-// === !== === !==
-// === !== === !==
-
-// ... JOS CODE-A
-// ...
-// ...
-
-// EVO TYPE-UJEM DA SE GORNJA FUNKCIJA MORA PROSLEDITI TOKOM NAVIGATING-A IZ HOMA TO MODAL
-// === !== === !== // === !== === !== // === !== === !== // === !== === !==
-export type navigateToModal = Record<modalNameType, RouteHomeScreenStackI>;
-// === !== === !== // === !== === !== // === !== === !== // === !== === !==
-```
-
-**I SADA ODMAH IDEM I DA PROSLEDIM TU FUNKCIJU IZ HOME-A**
-
-- `code screens/ColorHome.tsx`
-
-```tsx
-// OPET NECU PREDSTAVLJATI SAV CODE VEC CU TI SAMO POKAZATI HANDLER NA TOUCHABLE OPACITY-JU
-// JER SAM TAM OTO URADIO
-<TouchableOpacity
-  onPress={() => {
-    navigation.navigate('AddNewPalette', {
-      // EVO VIDIS OVO SAM DODAO
-      setStateFunc: setColorData,
-      // setColorData JESTE FUNKCIJA U KOJOJ CUVA NIZ SA COLOR OBJEKTIMA KOJI SU FETCHED SA API
-      // ODNOSNO NETWORK REQUEST-A
-    });
-  }}
->
-  <Text style={styles.inputPreview}>Add a color scheme</Text>
-</TouchableOpacity>
-```
-
-
-# :two: NAKON STO SAM OVO URADIO ODLAZIM U MODAL, PRVENSTVENO CISTO DA VIDIM, U POGLEDU TYPING-A DA LI MOGU PRONACI GORNJU FUNKCIJU ZA KOJ USAM DEFINISAO DA SE TAMO PROSLEDJUJE PRI NAVIGATING-U; ALI I DA BIH OTPOCEO SA DEFINISANJEM SVEGA U MODAL KOMPONENTI ; A DODACU DOSTA OBJASNJENJA U VIDU KOMENTARA
-
-- `code components/AddNewPaletteModal.tsx`
-
-```tsx
-
-```
+export default COLORS;

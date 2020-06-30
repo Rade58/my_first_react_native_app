@@ -4,7 +4,7 @@
 // UVOZIM MOJ STACK, KOJEM CU NA UVOZU DATI IME     MainStack  (CISTO DA SE ZNA, ODNONO DA SE RAZLUCI, ALI NEMA PRETERANIH, 'CODING' RAZLOGA ZA TO)
 
 import React, { FunctionComponent } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+// import { NavigationContainer } from '@react-navigation/native';
 import MainStack from '../navigators/color-app-stack-navigator';
 import Home from './ColorHome';
 import Palette from './Pallete';
