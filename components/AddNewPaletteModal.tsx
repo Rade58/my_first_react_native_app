@@ -3,6 +3,7 @@ import React, { useState, FunctionComponent } from 'react';
 import {
   View,
   Text,
+  StyleSheet,
   // UVOZIM TextInput I Switch, ALI I FaltList JER CE FlatList
   // SLUZITI DA RENDER-UJEM MNOSTVO Switch-EVA
   TextInput,
@@ -41,31 +42,52 @@ const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
 
   // MISLIM DA SE PODACI MORAJU CUVATI U VISE GRANA STATE
   //   -- JEDNA ZA IME PALETE
-  //  -- DRUGA ZA TRENUTNO IZABRANE COLOR OBJEKTE
-  //    S TIM STO COLOR OBJEKTI TREBAJU DA BUDU DICTIONARY, ILI RECORD A NE NIZ
-
-  // EVO POGLEDAJ
-
   const [currentPaletteName, setCurrentPaletteName] = useState<string>('');
+  //  -- DRUGA ZA TRENUTNO IZABRANE COLOR OBJEKTE
+  //    ** I NAJBOLJE BI BILO DA TO BUDU REFERENCE INDEKSA ONOG OBJEKTA KOJI SE NALAZI U DATA ARRAY-U**
 
-  type colorsRecord = Record<number, { hexCode: string; colorName: string }>;
+  const [indexesOfDataArray, setIndexesOfDataArray] = useState<number[]>([]);
 
+  // ZATO JE NAJBOLJE DA
+  // === !== === !==
+  /* type colorsRecord = Record<number, { hexCode: string; colorName: string }>;
   const [
     currentPickedColors,
     setCurrentPickedColors,
-  ] = useState<colorsRecord | null>();
+  ] = useState<colorsRecord | null>(); */
+  // === !== === !==
 
   return (
     <View>
       <FlatList
+        // DAKLE ZADAO SAM DA DATA BUDE ONAJ ARRAY, U KOJIMA SU OBJEKTI SA {colorName, hexCode} CLANOVIMA
         data={data}
         renderItem={({ item, index }) => {
+          // INDEX CE MI TAKODJE TREBATI I TO U HANDLERU
           const { hexCode, colorName } = item;
 
           return (
-            <View>
+            <View style={styles.items}>
               <Text>{colorName}</Text>
-              <Switch value={false} onValueChange={(bool) => {}} />
+              <Text>{JSON.stringify(indexesOfDataArray, null, 2)}</Text>
+              {/* NISAM SETT-OVAO  value  ZA SVITCH-EVE JER ZNAM DA JE PO DEFAULT-U false */}
+              <Switch
+                onValueChange={(bool) => {
+                  if (bool) {
+                    return setIndexesOfDataArray((curr) =>
+                      curr.concat([index])
+                    );
+                  }
+
+                  return setIndexesOfDataArray((curr) => {
+                    const indexOfMember = curr.indexOf(index);
+
+                    return curr
+                      .slice(0, indexOfMember)
+                      .concat(curr.slice(indexOfMember + 1, curr.length));
+                  });
+                }}
+              />
             </View>
           );
         }}
@@ -73,5 +95,14 @@ const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  items: {
+    borderColor: 'blanchedalmond',
+    shadowColor: 'crimson',
+    shadowOffset: { height: 1, width: 1 },
+    shadowRadius: 2,
+  },
+});
 
 export default AddNewPaletteModal;
