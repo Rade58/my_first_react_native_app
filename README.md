@@ -301,7 +301,9 @@ const MainStackScreen: FunctionComponent = () => {
   let a;
 
   return (
-    <NavigationContainer>
+    // MOGAO SI OVDE DA NAPRAVIS GRESKU I DA DODAS    NavigationContainer
+    // NE ON TI NE TREBA JER CE OVAJ Navigator BITI NESTED U ROOT NAVIGATOR-U, KOJI JE VEC NESTED U NavigationContainer-U 
+    // <NavigationContainer>
       <Navigator>
         <Screen<'Home'> name="Home" component={Home} />
         <Screen<'ColorPallete'>
@@ -313,7 +315,7 @@ const MainStackScreen: FunctionComponent = () => {
           })}
         />
       </Navigator>
-    </NavigationContainer>
+    // </NavigationContainer>
   );
 };
 
