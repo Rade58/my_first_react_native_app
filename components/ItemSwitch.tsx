@@ -15,7 +15,6 @@ const ItemSwitch: FunctionComponent<ItemSwitchPropsI> = (props) => {
   return (
     <View style={styles.items}>
       <Text>{colorName}</Text>
-      {/* NISAM SETT-OVAO  value  ZA SVITCH-EVE JER ZNAM DA JE PO DEFAULT-U false */}
       <Switch
         value={isTurnedOn}
         onValueChange={(bool) => {

@@ -20,7 +20,7 @@ import data, { ModalDataObjectI } from '../modalData';
 import { ApiDataItemI } from '../screens/ColorHome';
 
 // KOMPONENTA KOJA RENDER-UJE JEDAN SWITCH I NAME OF COLOR (UZ OSTALU LOGIKU)
-import ItemSwitch from '../components/ItemSwitch';
+import ItemSwitch from './ItemSwitch';
 
 const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
   // MOGU DA OTPOCNEM SA RESTRUKTURIRANJEM
