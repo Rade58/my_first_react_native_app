@@ -351,6 +351,33 @@ ALI JA JOS NISAM POSTAVIO MODAL SCREEN, TAK ODA CU SADA TO DA URADIM
 
 # :six: STAVLJANJE MODAL SCREEN-A A U ROOT STACK NAVIGATOR-A
 
+ALI NISAM NAPRAVIO JOS APPRPRIATE COMPONENT
+
+ZA POCETAK NEKA TO BUDE OBICNA HELLO WORLS KOMPONENTA
+
+- `touch components/AddNewPaletteModal.tsx`
+
+```tsx
+import React, { FunctionComponent } from 'react';
+
+import { View, Text } from 'react-native';
+
+import { ModalPropsI } from '../navigators/rootStackAndTypes';
+
+const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
+  let a;
+
+  return (
+    <View>
+      <Text>Hello World!</Text>
+    </View>
+  );
+};
+
+export default AddNewPaletteModal;
+
+```
+
 - `code App.tsx`
 
 ```tsx

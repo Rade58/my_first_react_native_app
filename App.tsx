@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 //
 import { NavigationContainer } from '@react-navigation/native';
-
-// UVEZI SCREEN, KOJI JE UJEDNO I STACK
 import MainStackScreen from './screens/MainStackScreen';
-
 import RootStack from './navigators/rootStackAndTypes';
+
+// UVOZIM KOMPONENTU
+import AddNewPaletteModal from './components/AddNewPaletteModal';
 
 const { Navigator, Screen } = RootStack;
 
@@ -15,13 +15,10 @@ const App: FunctionComponent = () => (
       <Screen<'Main'>
         name="Main"
         component={MainStackScreen}
-        // I NE SMES POKAZATI HEADER JER
-        // TO JE ZATO STO OVAJ STACK IMA SCREEN-OVI I TREBA DA SE POKAZUJU
-        // HEADERI SEPARATE SCREEN-OVA A NE OKVIRNO
-        // STACK-A
         options={{ headerShown: false }}
       />
-      {/* NISAM JOS ZAVRSIO JER MI TREBA MODAL ALI I TO CU UBRZO DEFINISATI */}
+      {/* DA DEFINISEM I MODAL */}
+      <Screen name="AddNewPalette" component={AddNewPaletteModal} />
     </Navigator>
   </NavigationContainer>
 );
