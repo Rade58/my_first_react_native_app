@@ -518,6 +518,7 @@ const App: FunctionComponent = () => (
       <Screen<'Main'>
         name="Main"
         component={MainStackScreen}
+        // NAPOMINJEM TE, OPET DA OVO NE ZABORAVIS
         options={{ headerShown: false }}
       />
       {/* DA DEFINISEM I MODAL */}
