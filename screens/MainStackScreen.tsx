@@ -20,19 +20,17 @@ const MainStackScreen: FunctionComponent = () => {
   let a;
 
   return (
-    <NavigationContainer>
-      <Navigator>
-        <Screen<'Home'> name="Home" component={Home} />
-        <Screen<'ColorPallete'>
-          name="ColorPallete"
-          component={Palette}
-          //  NE ZABORAVI DA PODESIS TITLE PALETTE SCREEN JER JE ON DINAMICKI, SECAS SE OD RANIJE
-          options={({ navigation, route }) => ({
-            title: route.params.imeScreena,
-          })}
-        />
-      </Navigator>
-    </NavigationContainer>
+    <Navigator>
+      <Screen<'Home'> name="Home" component={Home} />
+      <Screen<'ColorPallete'>
+        name="ColorPallete"
+        component={Palette}
+        //  NE ZABORAVI DA PODESIS TITLE PALETTE SCREEN JER JE ON DINAMICKI, SECAS SE OD RANIJE
+        options={({ navigation, route }) => ({
+          title: route.params.imeScreena,
+        })}
+      />
+    </Navigator>
   );
 };
 

@@ -14,7 +14,7 @@ import {
   Text,
 } from 'react-native';
 
-import { HomeScreenProps } from '../navigators/color-app-stack-navigator'; // OVO JE DAKLE ONO STO TRENUTNO TYPE-UJE PROPSE
+import { HomeScreenProps } from '../navigators/color-app-stack-navigator';
 
 import PalettePreview from '../components/PreviewPalette';
 
@@ -25,9 +25,6 @@ interface ApiDataItem {
 }
 
 type ApiDataType = ApiDataItem[];
-
-// JEDINO STO SAM MOGAO DA NAPRAVIM JE NESTO OVAKO
-// TYPESCRIPT
 
 const Home: FunctionComponent<HomeScreenProps> = (props) => {
   const colorsURL = 'https://color-palette-api.kadikraman.now.sh/palettes';
@@ -61,15 +58,17 @@ const Home: FunctionComponent<HomeScreenProps> = (props) => {
 
   return (
     <View>
+      {/* ------------- DODAO SLEDECE --------------------------- */}
       <View>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Input Preview', { sonething: 'blah' });
+            navigation.navigate('AddNewPalette');
           }}
         >
-          <Text style={styles.inputPreview}>Text Inputs Preview</Text>
+          <Text style={styles.inputPreview}>Add a color scheme</Text>
         </TouchableOpacity>
       </View>
+      {/* ------------------------------------------------------- */}
       <FlatList
         refreshControl={
           <RefreshControl

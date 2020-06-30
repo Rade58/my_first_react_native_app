@@ -345,11 +345,127 @@ type navigateToColorScreenType = Record<
 
 ```
 
+# :six: DEFINISAO SAM NAVIGATING DO MODALA
+
+- `code screens/ColorHome.tsx` (HOME SCREEN JE DEO I ROOT STACK-A ALI I MAIN STACK-A, SAM OTI NAPOMINJEM)
+
+```tsx
+import React, {
+  FunctionComponent,
+  useState,
+  useCallback,
+  useEffect,
+} from 'react';
+
+import {
+  View,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet,
+  RefreshControl,
+  Text,
+} from 'react-native';
+
+import { HomeScreenProps } from '../navigators/color-app-stack-navigator';
+
+import PalettePreview from '../components/PreviewPalette';
+
+interface ApiDataItem {
+  id: number;
+  paletteName: string;
+  colors: { colorName: string; hexCode: string }[];
+}
+
+type ApiDataType = ApiDataItem[];
+
+const Home: FunctionComponent<HomeScreenProps> = (props) => {
+  const colorsURL = 'https://color-palette-api.kadikraman.now.sh/palettes';
+
+  const { navigation, route } = props;
+
+  const [colorData, setColorData] = useState<ApiDataType>([]);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+
+  const fetchApiDataCallback = useCallback(async () => {
+    const result = await fetch(colorsURL);
+
+    if (result.ok) {
+      const data: ApiDataType = await result.json();
+      setColorData(data);
+    }
+  }, []);
+
+  const handleRefetch = useCallback(async () => {
+    setIsRefreshing(true);
+    await fetchApiDataCallback();
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 3800);
+    //
+  }, [setIsRefreshing, fetchApiDataCallback]);
+
+  useEffect(() => {
+    fetchApiDataCallback();
+  }, [fetchApiDataCallback]);
+
+  return (
+    <View>
+      {/* ------------- DODAO SLEDECE --------------------------- */}
+      <View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('AddNewPalette');
+          }}
+        >
+          <Text style={styles.inputPreview}>Add a color scheme</Text>
+        </TouchableOpacity>
+      </View>
+      {/* ------------------------------------------------------- */}
+      <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={() => {
+              handleRefetch();
+            }}
+          />
+        }
+        //
+        style={styles.list}
+        data={colorData}
+        renderItem={({ item: { colors, paletteName } }) => (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('ColorPallete', {
+                colors,
+                imeScreena: paletteName,
+              });
+            }}
+          >
+            <PalettePreview colors={colors} paletteName={paletteName} />
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  list: { marginRight: 'auto' },
+  inputPreview: { fontSize: 38 },
+});
+
+export default Home;
+
+```
+
+
 **SADA AK OBUDES U HOME KOMPONENTI ZELEO DA NAVIGATE-UJES DO MODAL SCREEN-A, IMACES TYPESCRIPT COVERAGE**
 
 ALI JA JOS NISAM POSTAVIO MODAL SCREEN, TAK ODA CU SADA TO DA URADIM
 
-# :six: STAVLJANJE MODAL SCREEN-A A U ROOT STACK NAVIGATOR-A
+# :seven: STAVLJANJE MODAL SCREEN-A A U ROOT STACK NAVIGATOR-A
 
 ALI NISAM NAPRAVIO JOS APPRPRIATE COMPONENT
 
@@ -381,5 +497,30 @@ export default AddNewPaletteModal;
 - `code App.tsx`
 
 ```tsx
+import React, { FunctionComponent } from 'react';
+//
+import { NavigationContainer } from '@react-navigation/native';
+import MainStackScreen from './screens/MainStackScreen';
+import RootStack from './navigators/rootStackAndTypes';
+
+// UVOZIM KOMPONENTU
+import AddNewPaletteModal from './components/AddNewPaletteModal';
+
+const { Navigator, Screen } = RootStack;
+
+const App: FunctionComponent = () => (
+  <NavigationContainer>
+    <Navigator>
+      <Screen<'Main'>
+        name="Main"
+        component={MainStackScreen}
+        options={{ headerShown: false }}
+      />
+      {/* DA DEFINISEM I MODAL */}
+      <Screen name="AddNewPalette" component={AddNewPaletteModal} />
+    </Navigator>
+  </NavigationContainer>
+);
+export default App;
 
 ```
