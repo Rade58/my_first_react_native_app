@@ -258,3 +258,11 @@ export type navigateToModal = Record<modalNameType, RouteHomeScreenStackI>;
 ```tsx
 
 ```
+
+# :three: MORAM KREIRATI I KOMPONENTU U KOJOJ CE BITI RENDERED INDIVIDUAL `Switch`, JER MORAM VODITI RACUNA O STATE-U SVAKOG SWITCH-A INDIVIDUALY, ODNONO O TOME DA LI JE TURNED ON ILI TURNED OFF ,AKO SMEME TAK ODA SE IZARAZIM
+
+- `touch components/ItemSwitch.tsx`
+
+```tsx
+
+```

@@ -19,6 +19,9 @@ import data, { ModalDataObjectI } from '../modalData';
 // YPE ZA DATA DISPLAYED NA HOME-U
 import { ApiDataItemI } from '../screens/ColorHome';
 
+// KOMPONENTA KOJA RENDER-UJE JEDAN SWITCH I NAME OF COLOR (UZ OSTALU LOGIKU)
+import ItemSwitch from '../components/ItemSwitch';
+
 const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
   // MOGU DA OTPOCNEM SA RESTRUKTURIRANJEM
   const { route, navigation } = props;
@@ -59,36 +62,21 @@ const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
 
   return (
     <View>
+      <Text>{JSON.stringify(indexesOfDataArray, null, 2)}</Text>
       <FlatList
         // DAKLE ZADAO SAM DA DATA BUDE ONAJ ARRAY, U KOJIMA SU OBJEKTI SA {colorName, hexCode} CLANOVIMA
         data={data}
-        renderItem={({ item, index }) => {
+        keyExtractor={({ colorName }) => colorName}
+        renderItem={({ item, index, separators }) => {
           // INDEX CE MI TAKODJE TREBATI I TO U HANDLERU
           const { hexCode, colorName } = item;
 
           return (
-            <View style={styles.items}>
-              <Text>{colorName}</Text>
-              <Text>{JSON.stringify(indexesOfDataArray, null, 2)}</Text>
-              {/* NISAM SETT-OVAO  value  ZA SVITCH-EVE JER ZNAM DA JE PO DEFAULT-U false */}
-              <Switch
-                onValueChange={(bool) => {
-                  if (bool) {
-                    return setIndexesOfDataArray((curr) =>
-                      curr.concat([index])
-                    );
-                  }
-
-                  return setIndexesOfDataArray((curr) => {
-                    const indexOfMember = curr.indexOf(index);
-
-                    return curr
-                      .slice(0, indexOfMember)
-                      .concat(curr.slice(indexOfMember + 1, curr.length));
-                  });
-                }}
-              />
-            </View>
+            <ItemSwitch
+              colorName={colorName}
+              setIndexesOfDataArray={setIndexesOfDataArray}
+              index={index}
+            />
           );
         }}
       />
