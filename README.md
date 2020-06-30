@@ -413,6 +413,8 @@ const Home: FunctionComponent<HomeScreenProps> = (props) => {
   return (
     <View>
       {/* ------------- DODAO SLEDECE --------------------------- */}
+      {/* KADI JE OVO URADILA PAMETNIJE, ODNONO OVAJ REACT LEMENT JE DEFINISALA KAO
+      VREDNOST        ListHeaderComponent        PROPA NA     FlatList-I   */}
       <View>
         <TouchableOpacity
           onPress={() => {
