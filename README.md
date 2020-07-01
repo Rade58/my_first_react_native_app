@@ -251,13 +251,94 @@ export type navigateToModal = Record<modalNameType, RouteHomeScreenStackI>;
 ```
 
 
-# :two: NAKON STO SAM OVO URADIO ODLAZIM U MODAL, PRVENSTVENO CISTO DA VIDIM, U POGLEDU TYPING-A DA LI MOGU PRONACI GORNJU FUNKCIJU ZA KOJ USAM DEFINISAO DA SE TAMO PROSLEDJUJE PRI NAVIGATING-U; ALI I DA BIH OTPOCEO SA DEFINISANJEM SVEGA U MODAL KOMPONENTI ; A DODACU DOSTA OBJASNJENJA U VIDU KOMENTARA
+# :three: NAKON STO SAM OVO URADIO ODLAZIM U MODAL, PRVENSTVENO CISTO DA VIDIM, U POGLEDU TYPING-A DA LI MOGU PRONACI GORNJU FUNKCIJU ZA KOJ USAM DEFINISAO DA SE TAMO PROSLEDJUJE PRI NAVIGATING-U; ALI I DA BIH OTPOCEO SA DEFINISANJEM SVEGA U MODAL KOMPONENTI ; A DODACU DOSTA OBJASNJENJA U VIDU KOMENTARA
 
 **MORAM, TAKODJE KREIRATI I KOMPONENTU U KOJOJ CE BITI RENDERED INDIVIDUAL `Switch`, JER MORAM VODITI RACUNA O STATE-U SVAKOG SWITCH-A INDIVIDUALY, ODNONO O TOME DA LI JE TURNED ON ILI TURNED OFF ,AKO SMEME TAK ODA SE IZARAZIM** (DAKLE OVO SAM ODVOJIO SAMO ZBOG TOGA STO MI TREBA STATE SVAKE INDIVIDUAL SWITCH KOMPONENTE, DA LI JE TURNED ON ILI TURNED OFF, DAKLE BOOLEAN)
 
 - `touch components/ItemSwitch.tsx`
 
 ```tsx
+import React, { useState, FunctionComponent } from 'react';
+import { View, Text, Switch, TouchableOpacity, StyleSheet } from 'react-native';
+
+interface ItemSwitchPropsI {
+  colorName: string;
+  setIndexesOfDataArray: (value: React.SetStateAction<number[]>) => void;
+  index: number;
+}
+
+const ItemSwitch: FunctionComponent<ItemSwitchPropsI> = (props) => {
+  const { colorName, setIndexesOfDataArray, index } = props;
+
+  const [isTurnedOn, setIsTurnedOn] = useState<boolean>(false);
+
+  return (
+    <View style={styles.items}>
+      <Text>{colorName}</Text>
+      <Switch
+        value={isTurnedOn} // MORAS DEFINISATI DA BOOLEAN
+        onValueChange={(bool) => {
+          // BITNO JE DA OVAJ boolean KOJI SE NADJE U FUNKCIJI BUDE ONO CIME CES PROMENITI STATE
+          //      DAKEL ON TREB DA BUDE PROSLEDJEN U      setIsTurnedOn
+
+          // ZASTO TI OVO GOVORIM, PA NOVI value BIVA PROSLEDJEN KAO ARGUMENT
+
+          console.log({ bool });
+
+          if (bool) {
+            // DAKLE OVDE JE BOOLEAN USTVARI       true
+            setIndexesOfDataArray((currIndexesArr) =>
+              currIndexesArr.concat([index])
+            );
+
+            // ZNAS I SAM ZASTO JE OVDE RETURNED (DA SE NE BI   DALJE IZVSAVALA OVA FUNKCIJA)
+
+            // ALI JA MENJAM STATE OVDE I BOOLEAN CE POSTATI ONO ISTO, I MISLIM DA JA OVDE IMAM PROBLEM SA ENDLESS LOOP-OM KOJI RADI ISTO ILI NE?
+
+            return setIsTurnedOn(bool);
+            // SAMO MI NIJE JASNO ZASTO OVO NE IZAZIVA ENDLESS LOOP
+            // ALI IPAK MOZDA JE OVO ISKLJUCENO IZ TOGA DA TRIGGER-UJE PONOVNO IZVRSAVANJE
+            // onValueChange
+
+            // IAKO ZAR JA, TO UPRAVO NISAM URADIO: PROMENIO    value     STO BI OPET TREBALO DA TRIGGER-UJE
+            // IZVRSENJE ISTE OVE FUNKCIJE
+          }
+
+          // NE NEMA NIKAKVOG ENDLES LOOP-A U SETTINGU ISTIG BOOLEAN
+          // SVE RADI OVAKO A I DALJE MI NIJE JASNO KAKO RADI
+
+          // JEDINA STVAR NA KOJ USAM DOSAO, ODNONO DOSAO SAM DO ZAKLJUCKA DA SAMA INTERAKCIJA
+          // NA Switch-u, PROIZVODI BOOLEAN VREDNOST
+
+          // ------------------------
+
+          setIndexesOfDataArray((currIndexesArr) => {
+            const indexOfMember = currIndexesArr.indexOf(index);
+
+            return currIndexesArr
+              .slice(0, indexOfMember)
+              .concat(
+                currIndexesArr.slice(indexOfMember + 1, currIndexesArr.length)
+              );
+          });
+
+          return setIsTurnedOn(bool);
+        }}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  items: {
+    borderColor: 'blanchedalmond',
+    shadowColor: 'crimson',
+    shadowOffset: { height: 1, width: 1 },
+    shadowRadius: 2,
+  },
+});
+
+export default ItemSwitch;
 
 ```
 
@@ -266,8 +347,98 @@ SADA CU, IZMEDJU OSTALIH POMENUTIH STVARI I UVESTI GORNJU KOMPONENTU U MODAL, I 
 - `code components/AddNewPaletteModal.tsx`
 
 ```tsx
+import React, { useState, FunctionComponent } from 'react';
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  // UVOZIM TextInput I Switch, ALI I FaltList JER CE FlatList
+  // SLUZITI DA RENDER-UJEM MNOSTVO Switch-EVA
+  TextInput,
+  Switch,
+  FlatList,
+} from 'react-native';
+
+import { ModalPropsI } from '../navigators/rootStackAndTypes';
+
+// UVOZIM I PODATKE KOJE CE KORISTITI MODAL KOMPONENTA
+import data, { ModalDataObjectI } from '../modalData';
+
+// YPE ZA DATA DISPLAYED NA HOME-U
+import { ApiDataItemI } from '../screens/ColorHome';
+
+// KOMPONENTA KOJA RENDER-UJE JEDAN SWITCH I NAME OF COLOR (UZ OSTALU LOGIKU)
+import ItemSwitch from './ItemSwitch';
+
+const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
+  // MOGU DA OTPOCNEM SA RESTRUKTURIRANJEM
+  const { route, navigation } = props;
+  const { params } = route;
+
+  // EVO VEC SAM MOGAO UZETI SET STATE FUNKCIJU HOME-A, KOJA JE KAO POSLEDICA NAVIGATINGA TO MODAL NALZI
+  // U MODALU
+  const { setStateFunc } = params;
+
+  // ALI SADA JA TREBAM DA DEFINISEM GRANU STATE-A ZA OVU KOMPONENTU, A TA GRANA TREBA DA
+  // SKLADISTI TRENUTNO FORMIRANI NOVU PALETU
+
+  // DAKLE TO TREBA DA BUDE NIZ U FORMATU:
+  /*
+      {
+          id: string;
+          paletteName: string;
+          colors: { colorName: string; hexCode: string }[];
+      }
+  */
+
+  // MISLIM DA SE PODACI MORAJU CUVATI U VISE GRANA STATE
+  //   -- JEDNA ZA IME PALETE
+  const [currentPaletteName, setCurrentPaletteName] = useState<string>('');
+  //  -- DRUGA ZA TRENUTNO IZABRANE COLOR OBJEKTE
+  //    ** I NAJBOLJE BI BILO DA TO BUDU REFERENCE INDEKSA ONOG OBJEKTA KOJI SE NALAZI U DATA ARRAY-U**
+
+  const [indexesOfDataArray, setIndexesOfDataArray] = useState<number[]>([]);
+
+  return (
+    <View>
+      {/* CISTO ZBOG DEBUGGINGA OVDE RENDER-UJEM VREDNOST
+      I DA OVA VREDNOST SE USPESNO MENJA, ODNONO UVEK VIDIM NOVI NIZ
+      JER IZ SAMOG SWITCH-A, SVAKOG OD NJIH, JA MENJAM OVAJ STATE */}
+      <Text>{JSON.stringify(indexesOfDataArray, null, 2)}</Text>
+      <FlatList
+        // DAKLE ZADAO SAM DA DATA BUDE ONAJ ARRAY, U KOJIMA SU OBJEKTI SA {colorName, hexCode} CLANOVIMA
+        data={data}
+        keyExtractor={({ colorName }) => colorName}
+        renderItem={({ item, index, separators }) => {
+          // INDEX CE MI TAKODJE TREBATI I TO U HANDLERU
+          const { hexCode, colorName } = item; // ZA SADA SAMO KORISTIM colorName
+          // MOZDA U BUDUCNOSTI UPOTREBIM OVU BOJU, ALI NECU (MOZDA JE TO MOGLA BITI BOJA ZA SWITCH, KADA JE UPALJEN)
+
+          return (
+            // EVO RENDER-OVAO SAM SAMO ITEM SWITCH
+            <ItemSwitch
+              colorName={colorName}
+              setIndexesOfDataArray={setIndexesOfDataArray}
+              index={index}
+            />
+          );
+          // I ZA SADA OSTAVLJAM SVE OVAKO, JER ZELIM DA COMMIT-UJEM I POSLE DODADAM JOS PAR OBJASNJENJA
+        }}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  something: {},
+});
+
+export default AddNewPaletteModal;
 
 ```
+
+# :four: ZELIM SADA DA MODALU ZADAM I `TextInput` KOJI CE SLUZITI ZA DODAVANJE IMENA PLAETE, I DA DODAM SUBMIT TOUCHABLE, KOJI CE URADITI DA: SE USTVARI DODADA NOVA PALETA (`setStateFunc` KOJU SAM PROSLEDIO ON NAVIGATIONG IZ HOME-A), ALI ZELIS I KADA KORISNIK PRITISNE SUBMIT DA SE NAVIGATE-UJE BACK TO HOME, A TO MOZES URADITI TAK OSTO CES UPOTREBITI `navigation.goBack`, KAO STO SAM I REKAO
 
 
 ***

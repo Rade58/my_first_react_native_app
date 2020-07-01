@@ -23,12 +23,18 @@ const ItemSwitch: FunctionComponent<ItemSwitchPropsI> = (props) => {
 
           // ZASTO TI OVO GOVORIM, PA NOVI value BIVA PROSLEDJEN KAO ARGUMENT
 
+          console.log({ bool });
+
           if (bool) {
+            // DAKLE OVDE JE BOOLEAN USTVARI       true
             setIndexesOfDataArray((currIndexesArr) =>
               currIndexesArr.concat([index])
             );
 
             // ZNAS I SAM ZASTO JE OVDE RETURNED (DA SE NE BI   DALJE IZVSAVALA OVA FUNKCIJA)
+
+            // ALI JA MENJAM STATE OVDE I BOOLEAN CE POSTATI ONO ISTO, I MISLIM DA JA OVDE IMAM PROBLEM SA ENDLESS LOOP-OM KOJI RADI ISTO ILI NE?
+
             return setIsTurnedOn(bool);
             // SAMO MI NIJE JASNO ZASTO OVO NE IZAZIVA ENDLESS LOOP
             // ALI IPAK MOZDA JE OVO ISKLJUCENO IZ TOGA DA TRIGGER-UJE PONOVNO IZVRSAVANJE
@@ -37,6 +43,14 @@ const ItemSwitch: FunctionComponent<ItemSwitchPropsI> = (props) => {
             // IAKO ZAR JA, TO UPRAVO NISAM URADIO: PROMENIO    value     STO BI OPET TREBALO DA TRIGGER-UJE
             // IZVRSENJE ISTE OVE FUNKCIJE
           }
+
+          // NE NEMA NIKAKVOG ENDLES LOOP-A U SETTINGU ISTIG BOOLEAN
+          // SVE RADI OVAKO A I DALJE MI NIJE JASNO KAKO RADI
+
+          // JEDINA STVAR NA KOJ USAM DOSAO, ODNONO DOSAO SAM DO ZAKLJUCKA DA SAMA INTERAKCIJA
+          // NA Switch-u, PROIZVODI BOOLEAN VREDNOST
+
+          // ------------------------
 
           setIndexesOfDataArray((currIndexesArr) => {
             const indexOfMember = currIndexesArr.indexOf(index);

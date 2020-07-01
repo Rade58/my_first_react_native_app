@@ -51,17 +51,11 @@ const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
 
   const [indexesOfDataArray, setIndexesOfDataArray] = useState<number[]>([]);
 
-  // ZATO JE NAJBOLJE DA
-  // === !== === !==
-  /* type colorsRecord = Record<number, { hexCode: string; colorName: string }>;
-  const [
-    currentPickedColors,
-    setCurrentPickedColors,
-  ] = useState<colorsRecord | null>(); */
-  // === !== === !==
-
   return (
     <View>
+      {/* CISTO ZBOG DEBUGGINGA OVDE RENDER-UJEM VREDNOST
+      I DA OVA VREDNOST SE USPESNO MENJA, ODNONO UVEK VIDIM NOVI NIZ
+      JER IZ SAMOG SWITCH-A, SVAKOG OD NJIH, JA MENJAM OVAJ STATE */}
       <Text>{JSON.stringify(indexesOfDataArray, null, 2)}</Text>
       <FlatList
         // DAKLE ZADAO SAM DA DATA BUDE ONAJ ARRAY, U KOJIMA SU OBJEKTI SA {colorName, hexCode} CLANOVIMA
@@ -69,15 +63,18 @@ const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
         keyExtractor={({ colorName }) => colorName}
         renderItem={({ item, index, separators }) => {
           // INDEX CE MI TAKODJE TREBATI I TO U HANDLERU
-          const { hexCode, colorName } = item;
+          const { hexCode, colorName } = item; // ZA SADA SAMO KORISTIM colorName
+          // MOZDA U BUDUCNOSTI UPOTREBIM OVU BOJU, ALI NECU (MOZDA JE TO MOGLA BITI BOJA ZA SWITCH, KADA JE UPALJEN)
 
           return (
+            // EVO RENDER-OVAO SAM SAMO ITEM SWITCH
             <ItemSwitch
               colorName={colorName}
               setIndexesOfDataArray={setIndexesOfDataArray}
               index={index}
             />
           );
+          // I ZA SADA OSTAVLJAM SVE OVAKO, JER ZELIM DA COMMIT-UJEM I POSLE DODADAM JOS PAR OBJASNJENJA
         }}
       />
     </View>
@@ -85,12 +82,7 @@ const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
 };
 
 const styles = StyleSheet.create({
-  items: {
-    borderColor: 'blanchedalmond',
-    shadowColor: 'crimson',
-    shadowOffset: { height: 1, width: 1 },
-    shadowRadius: 2,
-  },
+  something: {},
 });
 
 export default AddNewPaletteModal;
