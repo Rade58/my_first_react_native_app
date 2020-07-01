@@ -1,4 +1,10 @@
-import React, { useState, FunctionComponent } from 'react';
+import React, {
+  // UVESCU I useCallabck
+  useCallback,
+  //
+  useState,
+  FunctionComponent,
+} from 'react';
 
 import {
   View,
@@ -8,6 +14,8 @@ import {
   FlatList,
   TouchableOpacity,
   SafeAreaView,
+  // UVESCU Alert OBJEKAT
+  Alert,
 } from 'react-native';
 
 import { ModalPropsI } from '../navigators/rootStackAndTypes';
@@ -16,25 +24,51 @@ import ItemSwitch from './ItemSwitch';
 
 const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
   const { route, navigation } = props;
-  const { params } = route;
-  //const { setStateFunc} = params; // OVO VISE NE STIZE IZ PARAMS
+  // const { params } = route;
 
   const [currentPaletteName, setCurrentPaletteName] = useState<string>('');
 
   const [indexesOfDataArray, setIndexesOfDataArray] = useState<number[]>([]);
 
+  // EVO KAKAV SAM CALLBACK NAPRAVIO
+  const handleSubmit = useCallback(() => {
+    if (!currentPaletteName) {
+      return Alert.alert('Please Enter a pallete name.');
+    }
+
+    if (indexesOfDataArray.length < 4) {
+      return Alert.alert('Not enough colors, pick 4 or more.');
+    }
+
+    const colors: modalDataArr = [];
+
+    let counter = 0;
+
+    for (let index of indexesOfDataArray) {
+      colors[counter] = data[index];
+
+      counter++;
+    }
+
+    navigation.navigate('Home', {
+      colors: colors,
+      id: `${Math.random()}-${currentPaletteName}`,
+      paletteName: currentPaletteName,
+    });
+  }, [currentPaletteName, indexesOfDataArray, navigation]);
+
+  // KORISTICU GA (POZVACU GA) U OBIMU onPress HANDLERA
+  // ILI USTVARI ON CE BITI onPress HANDLER
+
   return (
     <SafeAreaView style={styles.safe}>
       <View>
-        {/* <Text>{JSON.stringify(indexesOfDataArray, null, 2)}</Text> */}
-        {/* EVO DEFINISEM TextInput SA SVOM LOGIKOM */}
         <TextInput
           style={styles.tekstIput}
           value={currentPaletteName}
           onChangeText={setCurrentPaletteName}
           placeholder="add a name to your new palette"
         />
-        {/* ----------------------------------------- */}
         <FlatList
           style={styles.flat}
           data={data}
@@ -54,43 +88,9 @@ const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
         />
         <TouchableOpacity
           style={styles.submit}
-          onPress={() => {
-            const colors: modalDataArr = [];
-
-            let counter = 0;
-
-            for (let index of indexesOfDataArray) {
-              colors[counter] = data[index];
-
-              counter++;
-            }
-
-            // OVO IZBACUJEM JER NEMA VISE OVE FUNKCIJE
-
-            /* setStateFunc((curr) => {
-              let arr = curr.concat([]);
-
-              arr.unshift({
-                colors: colors,
-                paletteName: currentPaletteName,
-                id: `${Math.random()}-${currentPaletteName}`,
-              });
-
-              return arr;
-            }); */
-
-            // E SADA NE KORISSTIM VISE goBack
-            // navigation.goBack()
-
-            // VEC KORISTIM navigate SA DATOM
-            navigation.navigate('Home', {
-              colors: colors,
-              id: `${Math.random()}-${currentPaletteName}`,
-              paletteName: currentPaletteName,
-            });
-            // I OVDE SAM ZAVRSIO POSAO, A SADA DA HANDLE-UJEM OVAJ
-            // DATA U HOME SCREEN-U
-          }}
+          // EVO POGLEDAJ
+          onPress={handleSubmit}
+          //
         >
           <Text style={styles.submitText}>Submit</Text>
         </TouchableOpacity>
