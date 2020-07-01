@@ -14,23 +14,28 @@ const ItemSwitch: FunctionComponent<ItemSwitchPropsI> = (props) => {
 
   return (
     <View style={styles.items}>
-      <TouchableOpacity
-        onPress={() => {
-          setIsTurnedOn((curr) => !curr);
-        }}
-      >
-        <Text>{colorName}</Text>
-      </TouchableOpacity>
-      {/* <Text>{isTurnedOn ? 'true' : 'false'}</Text> */}
+      <Text>{colorName}</Text>
       <Switch
-        value={isTurnedOn}
+        value={isTurnedOn} // MORAS DEFINISATI DA BOOLEAN
         onValueChange={(bool) => {
+          // BITNO JE DA OVAJ boolean KOJI SE NADJE U FUNKCIJI BUDE ONO CIME CES PROMENITI STATE
+          //      DAKEL ON TREB DA BUDE PROSLEDJEN U      setIsTurnedOn
+
+          // ZASTO TI OVO GOVORIM, PA NOVI value BIVA PROSLEDJEN KAO ARGUMENT
+
           if (bool) {
             setIndexesOfDataArray((currIndexesArr) =>
               currIndexesArr.concat([index])
             );
 
-            // setIsTurnedOn(false);
+            // ZNAS I SAM ZASTO JE OVDE RETURNED (DA SE NE BI   DALJE IZVSAVALA OVA FUNKCIJA)
+            return setIsTurnedOn(bool);
+            // SAMO MI NIJE JASNO ZASTO OVO NE IZAZIVA ENDLESS LOOP
+            // ALI IPAK MOZDA JE OVO ISKLJUCENO IZ TOGA DA TRIGGER-UJE PONOVNO IZVRSAVANJE
+            // onValueChange
+
+            // IAKO ZAR JA, TO UPRAVO NISAM URADIO: PROMENIO    value     STO BI OPET TREBALO DA TRIGGER-UJE
+            // IZVRSENJE ISTE OVE FUNKCIJE
           }
 
           setIndexesOfDataArray((currIndexesArr) => {
@@ -43,9 +48,8 @@ const ItemSwitch: FunctionComponent<ItemSwitchPropsI> = (props) => {
               );
           });
 
-          // setIsTurnedOn(true);
+          return setIsTurnedOn(bool);
         }}
-        pointerEvents="none"
       />
     </View>
   );
