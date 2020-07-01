@@ -659,7 +659,7 @@ type homeRecordRouteToScreen = Record<homeScreenNameType, ModalRouteDataI>;
 
 **SADA MOGU DA DEFINISEM DA SE DATA PROSLEDJUJE IZ MODALA**
 
-- `code `
+- `code components/AddNewPaletteModal.tsx`
 
 ```tsx
 import React, { useState, FunctionComponent } from 'react';
@@ -801,6 +801,155 @@ const styles = StyleSheet.create({
 export default AddNewPaletteModal;
 ```
 
+**E SADA MOGU HANDLE-OVATI DATA KOJ ISE PROSLEDJUJE IZ MODALA**
+
+- `code screens/ColorHome.tsx`
+
+```tsx
+import React, {
+  FunctionComponent,
+  useState,
+  useCallback,
+  useEffect,
+} from 'react';
+
+import {
+  View,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet,
+  RefreshControl,
+  Text,
+} from 'react-native';
+
+import { HomeScreenProps } from '../navigators/color-app-stack-navigator';
+
+import PalettePreview from '../components/PreviewPalette';
+
+export interface ApiDataItemI {
+  id: string;
+  paletteName: string;
+  colors: { colorName: string; hexCode: string }[];
+}
+
+export type ApiDataType = ApiDataItemI[];
+
+const Home: FunctionComponent<HomeScreenProps> = (props) => {
+  const colorsURL = 'https://color-palette-api.kadikraman.now.sh/palettes';
+
+  const { navigation, route } = props;
+
+  const [colorData, setColorData] = useState<ApiDataType>([]);
+  const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+
+  const fetchApiDataCallback = useCallback(async () => {
+    const result = await fetch(colorsURL);
+
+    if (result.ok) {
+      const data: ApiDataType = await result.json();
+      setColorData(data);
+    }
+  }, []);
+
+  const handleRefetch = useCallback(async () => {
+    setIsRefreshing(true);
+    await fetchApiDataCallback();
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 3800);
+    //
+  }, [setIsRefreshing, fetchApiDataCallback]);
+
+  useEffect(() => {
+    fetchApiDataCallback();
+  }, [fetchApiDataCallback]);
+
+  // ------------- EVO MOGU DA RESTRUKTURIRAM STA MI TREBA
+
+  const { params } = route;
+  // ---------------
+
+  // SADA MOGU DA NAPRAVIM CALLBACK, KOJI SE MENJA SVAKI PUT KADA SE NESTO OD PODATKA IZ PARAMSA PROMENI
+
+  const addNewData = useCallback(() => {
+    if (params && params.paletteName && params.colors) {
+      const { paletteName: palette, colors: colorsArr } = params;
+      if (colorsArr && colorsArr.length) {
+        setColorData((curr) => {
+          let arr = curr.concat([]);
+
+          arr.unshift({
+            colors: colorsArr,
+            paletteName: palette,
+            id: `${Math.random()}-${palette}`,
+          });
+
+          return arr;
+        });
+      }
+    }
+  }, [params]);
+
+  // A OVAJ EFFECT CE SE IZVRSITI SVASKI PUT KADA KADA SE GORNJI CALLBACK REEVALUTE-UJE
+  // A RE EVALUATE-OVACE SE SVAKI PUT KADA SE PARAMS PROMENI
+  // A PARAMS CE SE PROMENITI KADA SE NAVIGATE-UJE IZ MODALA DO OVE KOMPONENTE
+
+  useEffect(() => {
+    addNewData();
+  }, [addNewData]);
+
+  return (
+    <View>
+      {/* ------------- NE ZELIM VISE DA PROSLEDJUJEM    setColorData  --------------------------- */}
+      <View>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('AddNewPalette', {
+              // setStateFunc: setColorData,  // EVO NE PROSLEDJUJEM VISE
+            });
+          }}
+        >
+          <Text style={styles.inputPreview}>Add a color scheme</Text>
+        </TouchableOpacity>
+      </View>
+      {/* ------------------------------------------------------- */}
+      <FlatList
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={() => {
+              handleRefetch();
+            }}
+          />
+        }
+        //
+        style={styles.list}
+        data={colorData}
+        renderItem={({ item: { colors, paletteName } }) => (
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('ColorPallete', {
+                colors,
+                imeScreena: paletteName,
+              });
+            }}
+          >
+            <PalettePreview colors={colors} paletteName={paletteName} />
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  list: { marginRight: 'auto' },
+  inputPreview: { fontSize: 38 },
+});
+
+export default Home;
+```
 
 
 

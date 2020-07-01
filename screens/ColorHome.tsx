@@ -59,26 +59,32 @@ const Home: FunctionComponent<HomeScreenProps> = (props) => {
   // ------------- EVO MOGU DA RESTRUKTURIRAM STA MI TREBA
 
   const { params } = route;
-  const { paletteName, id, colors } = params;
   // ---------------
 
-  // SADA MOGU DA NAPRAVIM CALLBACK, KOJ ISE MENJA SVAKI PUT KADA SE NESTO OD PODATKA IZ PARAMSA PROMENI
+  // SADA MOGU DA NAPRAVIM CALLBACK, KOJI SE MENJA SVAKI PUT KADA SE NESTO OD PODATKA IZ PARAMSA PROMENI
 
   const addNewData = useCallback(() => {
-    if (colors.length) {
-      setColorData((curr) => {
-        let arr = curr.concat([]);
+    if (params && params.paletteName && params.colors) {
+      const { paletteName: palette, colors: colorsArr } = params;
+      if (colorsArr && colorsArr.length) {
+        setColorData((curr) => {
+          let arr = curr.concat([]);
 
-        arr.unshift({
-          colors,
-          paletteName,
-          id: `${Math.random()}-${paletteName}`,
+          arr.unshift({
+            colors: colorsArr,
+            paletteName: palette,
+            id: `${Math.random()}-${palette}`,
+          });
+
+          return arr;
         });
-
-        return arr;
-      });
+      }
     }
-  }, [colors, paletteName]);
+  }, [params]);
+
+  // A OVAJ EFFECT CE SE IZVRSITI SVASKI PUT KADA KADA SE GORNJI CALLBACK REEVALUTE-UJE
+  // A RE EVALUATE-OVACE SE SVAKI PUT KADA SE PARAMS PROMENI
+  // A PARAMS CE SE PROMENITI KADA SE NAVIGATE-UJE IZ MODALA DO OVE KOMPONENTE
 
   useEffect(() => {
     addNewData();
