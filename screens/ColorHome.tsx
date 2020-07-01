@@ -56,14 +56,42 @@ const Home: FunctionComponent<HomeScreenProps> = (props) => {
     fetchApiDataCallback();
   }, [fetchApiDataCallback]);
 
+  // ------------- EVO MOGU DA RESTRUKTURIRAM STA MI TREBA
+
+  const { params } = route;
+  const { paletteName, id, colors } = params;
+  // ---------------
+
+  // SADA MOGU DA NAPRAVIM CALLBACK, KOJ ISE MENJA SVAKI PUT KADA SE NESTO OD PODATKA IZ PARAMSA PROMENI
+
+  const addNewData = useCallback(() => {
+    if (colors.length) {
+      setColorData((curr) => {
+        let arr = curr.concat([]);
+
+        arr.unshift({
+          colors,
+          paletteName,
+          id: `${Math.random()}-${paletteName}`,
+        });
+
+        return arr;
+      });
+    }
+  }, [colors, paletteName]);
+
+  useEffect(() => {
+    addNewData();
+  }, [addNewData]);
+
   return (
     <View>
-      {/* ------------- DODAO SLEDECE --------------------------- */}
+      {/* ------------- NE ZELIM VISE DA PROSLEDJUJEM    setColorData  --------------------------- */}
       <View>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('AddNewPalette', {
-              setStateFunc: setColorData,
+              // setStateFunc: setColorData,  // EVO NE PROSLEDJUJEM VISE
             });
           }}
         >

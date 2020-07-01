@@ -578,9 +578,229 @@ export default AddNewPaletteModal;
 
 ```
 
+# ⚠️⚠️⚠️⚠️ ALI ZBOG JEDNE STVARI KOJU SAM URADIO, JA IMAM WARNING, A TICE SE PROSLEDJIVANJA FUNKCIJA U NAVIFATION SCREEN ⚠️⚠️⚠️⚠️
+
+WARNING JE ISAO OD PRILIKE OVAKO:
 
 ***
 
-Non-serializable values were found in the navigation state, which can break usage such as persisting and restoring state. This might happen if you passed non-serializable values such as function, class instances etc. in params. If you need to use components with callbacks in your options, you can use 'navigation.setOptions' instead.
+> Non-serializable values were found in the navigation state, which can break usage such as persisting and restoring state. This might happen if you passed non-serializable values such as function, class instances etc. in params. If you need to use components with callbacks in your options, you can use 'navigation.setOptions' instead.
 
 ***
+
+U SUSTINI OVO SE DOGODILO JER SAM PRILIKOM POZIVANJA navigation.navigate U HOME SCREEN-U (DA BI NAVIGATE-OVAO DO MODAL-A), PRILIKOM TOG PROCESA USTVARI PROSLEDIO SET STATE FUNKCIJU, KOJA JE FUNKCIJA HOME SCREEN-A
+
+WARNING SE ZBOG TOGA DESIO
+
+# DA RESIM OVAJ PROBLEM MOGAO SAM PRIMENITI DRUGI PRINCIP, KOJI BI SE SASTOJAO OD SLEDECEG
+
+- SLANJE DATA-E, PRILIKOM NAVIGATING-A IZ MODALA U HOME SCREEN-A
+
+- SETTING STATE-A, ON MOUNTING U HOME SCREEN-U (**USTVARI NE ON MOUNTING VEC KADA SE PROMENI JEDAN DEPENDANCY**)
+
+TO CU I DA URADIM ALI CU MALO DA KORIGUJEM TYPE-OVE, TAK ODA CU TYPE-OVATI DA SE PRILIKOM NAVIGATING-A IZ MODALA U HOME, MORA PROSLEDITI DATA U POTREBNOM FORMAT-U
+
+- `code navigators/rootStackAndTypes.ts`
+
+```ts
+import { modalDataArr } from '../modalData';
+
+// ...
+// ..
+
+type setStateFunc = Dispatch<SetStateAction<ApiDataType>>; // OVO JE TYPE ZA SET STATE FUNKCIJU, KOJI VISE NECU KORISTITI
+
+interface RouteHomeScreenStackI {
+  // --------- OVO VISE NE ZELIM OVDE  ----------------
+  // setStateFunc: setStateFunc;
+}
+
+// ...
+// ...
+// ...
+// ...
+
+export interface ModalRouteDataI {
+  colors: modalDataArr;
+  paletteName: string;
+  id: string;
+}
+
+export type navigateToHome = Record<'Home', ModalRouteDataI>;
+// === !== === !==
+// === !== === !==
+// ...  // OSTAL OSVE SE OVERRIDE-UJE OVIM VREDNOSTIMA TAK ODA NECU 
+
+type ModalNavigation = StackNavigationProp<navigateToHome>;  // OVO CE NA KRAJU BITI navigation PROP
+
+// DALJI CODE NE CU OSTAVLJATI OVDE (IZVOZI ZA PROPSE ZA MODAL SCREEN)
+
+
+```
+
+JOS MALO TYPING-A; TACNIJE TYPING ZA ROUTE ZA HOME SCREEN
+
+- `code navigators/color-app-stack-navigator.ts`
+
+```ts
+// ...
+import { ModalRouteDataI } from './rootStackAndTypes';
+// ...
+// ...
+// ...
+
+// OVAJ TYPE UBACUJEM OVDE
+
+type homeRecordRouteToScreen = Record<homeScreenNameType, ModalRouteDataI>;
+
+// I DALJE SE SA TIM TYPE-UJE route PROP, STO NECU POKAZIVATI
+
+```
+
+**SADA MOGU DA DEFINISEM DA SE DATA PROSLEDJUJE IZ MODALA**
+
+- `code `
+
+```tsx
+import React, { useState, FunctionComponent } from 'react';
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  FlatList,
+  TouchableOpacity,
+  SafeAreaView,
+} from 'react-native';
+
+import { ModalPropsI } from '../navigators/rootStackAndTypes';
+import data, { modalDataArr } from '../modalData';
+import ItemSwitch from './ItemSwitch';
+
+const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
+  const { route, navigation } = props;
+  const { params } = route;
+  //const { setStateFunc} = params; // OVO VISE NE STIZE IZ PARAMS
+
+  const [currentPaletteName, setCurrentPaletteName] = useState<string>('');
+
+  const [indexesOfDataArray, setIndexesOfDataArray] = useState<number[]>([]);
+
+  return (
+    <SafeAreaView style={styles.safe}>
+      <View>
+        {/* <Text>{JSON.stringify(indexesOfDataArray, null, 2)}</Text> */}
+        {/* EVO DEFINISEM TextInput SA SVOM LOGIKOM */}
+        <TextInput
+          style={styles.tekstIput}
+          value={currentPaletteName}
+          onChangeText={setCurrentPaletteName}
+          placeholder="add a name to your new palette"
+        />
+        {/* ----------------------------------------- */}
+        <FlatList
+          style={styles.flat}
+          data={data}
+          keyExtractor={({ colorName }) => colorName}
+          renderItem={({ item, index, separators }) => {
+            const { hexCode, colorName } = item;
+
+            return (
+              <ItemSwitch
+                colorName={colorName}
+                setIndexesOfDataArray={setIndexesOfDataArray}
+                index={index}
+              />
+            );
+          }}
+          ItemSeparatorComponent={() => <View style={styles.separator} />}
+        />
+        <TouchableOpacity
+          style={styles.submit}
+          onPress={() => {
+            const colors: modalDataArr = [];
+
+            let counter = 0;
+
+            for (let index of indexesOfDataArray) {
+              colors[counter] = data[index];
+
+              counter++;
+            }
+
+            // OVO IZBACUJEM JER NEMA VISE OVE FUNKCIJE
+
+            /* setStateFunc((curr) => {
+              let arr = curr.concat([]);
+
+              arr.unshift({
+                colors: colors,
+                paletteName: currentPaletteName,
+                id: `${Math.random()}-${currentPaletteName}`,
+              });
+
+              return arr;
+            }); */
+
+            // E SADA NE KORISSTIM VISE goBack
+            // navigation.goBack()
+
+            // VEC KORISTIM navigate SA DATOM
+            navigation.navigate('Home', {
+              colors: colors,
+              id: `${Math.random()}-${currentPaletteName}`,
+              paletteName: currentPaletteName,
+            });
+            // I OVDE SAM ZAVRSIO POSAO, A SADA DA HANDLE-UJEM OVAJ
+            // DATA U HOME SCREEN-U
+          }}
+        >
+          <Text style={styles.submitText}>Submit</Text>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  separator: {
+    borderWidth: 1,
+    borderColor: 'blanchedalmond',
+  },
+
+  tekstIput: {
+    padding: 8,
+    borderWidth: 1,
+    borderColor: 'gray',
+    margin: 14,
+  },
+  safe: {
+    paddingBottom: 260,
+  },
+  something: {},
+  submit: {
+    borderColor: 'crimson',
+    borderWidth: 1,
+    padding: 4,
+    margin: 8,
+    width: 'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  submitText: {
+    fontSize: 18,
+  },
+  flat: {
+    borderWidth: 2,
+    borderTopColor: 'olive',
+    borderBottomColor: 'tomato',
+  },
+});
+
+export default AddNewPaletteModal;
+```
+
+
+
+

@@ -4,23 +4,20 @@ import {
   View,
   Text,
   StyleSheet,
-  //
   TextInput,
   FlatList,
   TouchableOpacity,
-  // MORAO SAM KORISTITI SAFE AREA VIEW I ZADATI DONJI APDDING ZBOG ANDROIDOVA TRI DUGMETA
   SafeAreaView,
 } from 'react-native';
 
 import { ModalPropsI } from '../navigators/rootStackAndTypes';
 import data, { modalDataArr } from '../modalData';
-// import { ApiDataItemI, ApiDataType } from '../screens/ColorHome';
 import ItemSwitch from './ItemSwitch';
 
 const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
   const { route, navigation } = props;
   const { params } = route;
-  const { setStateFunc } = params;
+  //const { setStateFunc} = params; // OVO VISE NE STIZE IZ PARAMS
 
   const [currentPaletteName, setCurrentPaletteName] = useState<string>('');
 
@@ -55,7 +52,6 @@ const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
           }}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
         />
-        {/* ZADAJEM I SUBMIT TOUCHABLE */}
         <TouchableOpacity
           style={styles.submit}
           onPress={() => {
@@ -69,7 +65,9 @@ const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
               counter++;
             }
 
-            setStateFunc((curr) => {
+            // OVO IZBACUJEM JER NEMA VISE OVE FUNKCIJE
+
+            /* setStateFunc((curr) => {
               let arr = curr.concat([]);
 
               arr.unshift({
@@ -79,20 +77,27 @@ const AddNewPaletteModal: FunctionComponent<ModalPropsI> = (props) => {
               });
 
               return arr;
-            });
+            }); */
 
-            navigation.goBack();
+            // E SADA NE KORISSTIM VISE goBack
+            // navigation.goBack()
+
+            // VEC KORISTIM navigate SA DATOM
+            navigation.navigate('Home', {
+              colors: colors,
+              id: `${Math.random()}-${currentPaletteName}`,
+              paletteName: currentPaletteName,
+            });
+            // I OVDE SAM ZAVRSIO POSAO, A SADA DA HANDLE-UJEM OVAJ
+            // DATA U HOME SCREEN-U
           }}
         >
           <Text style={styles.submitText}>Submit</Text>
         </TouchableOpacity>
-        {/* ----------------------------------------- */}
       </View>
     </SafeAreaView>
   );
 };
-
-// NEKI OD STILOVA
 
 const styles = StyleSheet.create({
   separator: {

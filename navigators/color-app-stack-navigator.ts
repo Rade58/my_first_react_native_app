@@ -10,6 +10,8 @@ import {
   StackNavigationProp,
 } from '@react-navigation/stack';
 
+import { ModalRouteDataI } from './rootStackAndTypes';
+
 // TREBACE MI I NESTO S CIM MOGU DA TYPE-UJEM ROUTE, ALI TO SE UVIZI IZ DRUGOG PAKETA
 import {
   RouteProp,
@@ -70,7 +72,7 @@ type inputPreviewScreenNameType = 'Input Preview';
 
 // === !== === A SADA DA DEFINISEM TE RECORD-E !== === !==
 type colorRecordRouteToScreen = Record<colorScreenNameType, RouteColorScreenI>;
-type homeRecordRouteToScreen = Record<homeScreenNameType, RouteHomeScreenI>;
+type homeRecordRouteToScreen = Record<homeScreenNameType, ModalRouteDataI>;
 type inputPreviewRecordRouteToScreen = Record<
   inputPreviewScreenNameType,
   RouteInputPreviewScreenI

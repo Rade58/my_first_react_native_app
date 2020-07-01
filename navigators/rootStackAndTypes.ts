@@ -9,11 +9,13 @@ import { RouteProp } from '@react-navigation/native';
 import { Dispatch, SetStateAction } from 'react';
 import { ApiDataType } from '../screens/ColorHome';
 
+import { modalDataArr } from '../modalData';
+
 type setStateFunc = Dispatch<SetStateAction<ApiDataType>>; // OVO JE TYPE ZA SET STATE FUNKCIJU
 
 interface RouteHomeScreenStackI {
-  // DODAO SAM OVAJ PROPERTI
-  setStateFunc: setStateFunc;
+  // --------- OVO VISE NE ZELIM OVDE  ----------------
+  // setStateFunc: setStateFunc;
 }
 // === !== === !==
 // === !== === !==
@@ -42,12 +44,22 @@ type routeOfMainStackScreen = RouteProp<
   mainStackScreenNameType
 >;
 
+// === !== === !==
+// === !== === !==
+export interface ModalRouteDataI {
+  colors: modalDataArr;
+  paletteName: string;
+  id: string;
+}
+export type navigateToHome = Record<'Home', ModalRouteDataI>;
+// === !== === !==
+// === !== === !==
+
 type routeOfModal = RouteProp<modalRecordRouteToScreen, modalNameType>;
 
 // navigation TYPES
 // === !== === !== // === !== === !== // === !== === !== // === !== === !==
 export type navigateToModal = Record<modalNameType, RouteHomeScreenStackI>;
-export type navigateToHome = Record<'Home', any>;
 // === !== === !== // === !== === !== // === !== === !== // === !== === !==
 type MainStackScreenNavigationPropType = StackNavigationProp<navigateToModal>;
 type ModalNavigation = StackNavigationProp<navigateToHome>;
