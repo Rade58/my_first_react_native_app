@@ -47,8 +47,11 @@ type routeOfModal = RouteProp<modalRecordRouteToScreen, modalNameType>;
 // navigation TYPES
 // === !== === !== // === !== === !== // === !== === !== // === !== === !==
 export type navigateToModal = Record<modalNameType, RouteHomeScreenStackI>;
+export type navigateToHome = Record<'Home', any>;
 // === !== === !== // === !== === !== // === !== === !== // === !== === !==
 type MainStackScreenNavigationPropType = StackNavigationProp<navigateToModal>;
+type ModalNavigation = StackNavigationProp<navigateToHome>;
+
 // EKSPLICITNOG NAVIGATINGA NEMA IZ MODALA OZIM BACKSPACE NAZAD TO HOME
 //
 
@@ -69,6 +72,6 @@ export interface MainStackScreenPropsI {
 }
 
 export interface ModalPropsI {
-  navigation: any;
+  navigation: ModalNavigation;
   route: routeOfModal;
 }
