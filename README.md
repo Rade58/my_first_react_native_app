@@ -951,5 +951,5 @@ const styles = StyleSheet.create({
 export default Home;
 ```
 
-
+**POKRENUO SAM APP I VISE NEMAM POMENUTI WARNING**
 
