@@ -43,3 +43,39 @@ UNIT TESTING LIBRARY
 [DOCS](https://docs.fastlane.tools/)
 
 a tool for automating building and releasing your apps
+
+# TREBALO BI I DA NAUCIS KAKO SE EJECT-UJE FROM EXPO
+
+A ZASTO?
+
+not being able to use any native libraries that are not already built into Expo.
+
+OVDE TI JE [OBJASNJANJE](https://kadikraman.github.io/react-native-v2/ejecting-from-expo)
+
+TAMO SU I SVI DODATNI LINKOVI
+
+`DAKLE TADA BI ONDA MORAO KORISTITI ANDROID EMULATOR ILI xCode`
+
+NEMAM DOVOLJNO RAM-A ZA ANDROID EMULATOR, A ZA xCode NEMAM MAC MASINU
+
+# PLATFORM SPECIFIC CODE
+
+OVO SAM SLUCAJNO VEC PROBAO
+
+```tsx
+import {Platform} from 'react-native'
+```
+
+EVO TI [OVDE](screens/_ColorPalette.tsx) SAM TO UPOTREBIO
+
+A EVO TI I [KADINE INFORMACIJE O OVOME](https://kadikraman.github.io/react-native-v2/platform-specific-code)
+
+A ONO STO JE TAMO OBJASNJENO JESU I PLATFORM SPECIDIC EKSTENZIJE NA FAJLOVIMA, ALI TO NIJE BAS POVOLJNO (PROCITAJ TEKST ZASTO JE TAKO)
+
+# KADI JE NAPISALA DOKUMENTACIJU VEZANU ZA SECURITY I SADA JE ONA DEO OFICEJLNOG SITE REACT NATIVE DOKUMENTACIJE
+
+[----](https://kadikraman.github.io/react-native-v2/security)
+
+[DOCS](https://reactnative.dev/docs/security)
+
+TAK ODA TO TAMO MOZES DA PROCITAS
