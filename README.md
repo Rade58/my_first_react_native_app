@@ -24,6 +24,13 @@ JA SAM SE UPOZNAO SAMO SA STACK NAVIGATION-OM, A [U DOKUMENTACIJI MOZES VIDETI K
 
 - :four: ISTO TAKO MOZES DA POGLEDAS HOOK **`useMemo`**; KADI GA CESTO KORISTI [--------](https://reactjs.org/docs/hooks-reference.html#usememo)
 
+OVO SU NEKE STVARI ZA KOJE JA MISLI MDA TREBA DA NAUCIM
+
+:one: **APOLLO CLIENT INTEGRATING WITH REACT NATIVE**
+
+<https://www.apollographql.com/docs/react/integrations/react-native/>
+
+
 # ADVANCED TOPICS
 
 - :one: [code-push](https://github.com/microsoft/code-push)
@@ -79,3 +86,4 @@ A ONO STO JE TAMO OBJASNJENO JESU I PLATFORM SPECIDIC EKSTENZIJE NA FAJLOVIMA, A
 [DOCS](https://reactnative.dev/docs/security)
 
 TAK ODA TO TAMO MOZES DA PROCITAS
+
